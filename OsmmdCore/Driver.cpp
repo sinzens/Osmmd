@@ -4,9 +4,7 @@
 
 #include "Driver.h"
 #include "DriverConfiguration.h"
-
-static constexpr const char* CONFIG_FILE_NAME = "osmmd.config";
-static constexpr const char* DRIVER_NAME = "Osmmd Driver";
+#include "StringConstants.h"
 
 Osmmd::Driver::Driver()
 {
@@ -77,11 +75,8 @@ bool Osmmd::Driver::InitConfiguration()
         writer.open(fileName, std::ios::out | std::ios::binary);
 
         DriverConfiguration configTest;
-        /*configTest.driver = "Osmmd Driver";
-        configTest.databases.emplace_back(std::tuple<std::string, std::string>("test_db", "Test"));
-        configTest.databases.emplace_back(std::tuple<std::string, std::string>("test_db2", "Test2"));*/
 
-        configTest.NAME = DRIVER_NAME;
+        configTest.NAME = StringConstants::Driver.DRIVER_NAME;
         configTest.DATABASES.insert({ "test_db", "Test" });
         configTest.DATABASES.insert({ "test_db2", "Test2" });
 
@@ -99,7 +94,7 @@ std::string Osmmd::Driver::GetWorkingDirectory() const
 
 std::string Osmmd::Driver::GetConfigurationPath() const
 {
-    return std::filesystem::path(m_workingDirectory).append(CONFIG_FILE_NAME).u8string();
+    return std::filesystem::path(m_workingDirectory).append(StringConstants::Driver.CONFIG_FILE_NAME).u8string();
 }
 
 const Osmmd::DriverConfiguration& Osmmd::Driver::GetConfiguration() const

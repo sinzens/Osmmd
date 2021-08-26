@@ -17,27 +17,12 @@ static rapidjson::Value JsonString(const std::string& str, rapidjson::MemoryPool
 
 std::string Osmmd::DriverConfiguration::ToBytes() const
 {
-    /*std::stringstream stream;
-
-    stream << this->driver.size() << this->driver;
-
-    for (auto& database : this->databases)
-    {
-        std::string databaseName = std::get<0>(database);
-        std::string databasePath = std::get<1>(database);
-
-        stream << databaseName.size() << databaseName;
-        stream << databasePath.size() << databasePath;
-    }
-
-    return stream.str();*/
-
     rapidjson::Document document;
     document.SetObject();
 
     rapidjson::Document::AllocatorType& allocator = document.GetAllocator();
 
-    document.AddMember("NAME", JsonString(this->NAME, allocator), allocator);
+    document.AddMember(StringConstants::DriverConfiguration.NAME, JsonString(this->NAME, allocator), allocator);
 
     rapidjson::Value databases(rapidjson::kArrayType);
 
@@ -47,13 +32,13 @@ std::string Osmmd::DriverConfiguration::ToBytes() const
         std::string databasePath = database.second;
 
         rapidjson::Value databaseObject(rapidjson::kObjectType);
-        databaseObject.AddMember("NAME", JsonString(databaseName, allocator), allocator);
-        databaseObject.AddMember("PATH", JsonString(databasePath, allocator), allocator);
+        databaseObject.AddMember(StringConstants::DriverConfiguration.NAME, JsonString(databaseName, allocator), allocator);
+        databaseObject.AddMember(StringConstants::DriverConfiguration.PATH, JsonString(databasePath, allocator), allocator);
 
         databases.PushBack(databaseObject, allocator);
     }
 
-    document.AddMember("DATABASES", databases, allocator);
+    document.AddMember(StringConstants::DriverConfiguration.DATABASES, databases, allocator);
 
     rapidjson::StringBuffer buffer;
     rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
@@ -64,47 +49,17 @@ std::string Osmmd::DriverConfiguration::ToBytes() const
 
 Osmmd::DriverConfiguration Osmmd::DriverConfiguration::FromBytes(const std::string& bytes)
 {
-    /*DriverConfiguration config;
-
-    std::stringstream stream(bytes);
-
-    int driverNameSize = 0;
-    stream >> driverNameSize;
-
-    char driverNameBuffer[100]{};
-
-    stream.read(driverNameBuffer, driverNameSize);
-    config.driver = driverNameBuffer;
-
-    while (!stream.eof())
-    {
-        int databaseNameSize = 0, databasePathSize = 0;
-        char databaseNameBuffer[100]{}, databasePathBuffer[256]{};
-
-        stream >> databaseNameSize;
-        if (databaseNameSize == 0) { break; }
-        stream.read(databaseNameBuffer, databaseNameSize);
-
-        stream >> databasePathSize;
-        if (databasePathSize == 0) { break; }
-        stream.read(databasePathBuffer, databasePathSize);
-
-        config.databases.emplace_back(std::tuple(databaseNameBuffer, databasePathBuffer));
-    }
-
-    return config;*/
-
     DriverConfiguration config;
 
     rapidjson::Document document;
     document.Parse(bytes.c_str());
 
-    config.NAME = document["NAME"].GetString();
+    config.NAME = document[StringConstants::DriverConfiguration.NAME].GetString();
 
-    for (auto& element : document["DATABASES"].GetArray())
+    for (auto& element : document[StringConstants::DriverConfiguration.DATABASES].GetArray())
     {
-        std::string databaseName = element["NAME"].GetString();
-        std::string databasePath = element["PATH"].GetString();
+        std::string databaseName = element[StringConstants::DriverConfiguration.NAME].GetString();
+        std::string databasePath = element[StringConstants::DriverConfiguration.PATH].GetString();
         
         config.DATABASES.insert({ databaseName, databasePath });
     }
@@ -114,9 +69,6 @@ Osmmd::DriverConfiguration Osmmd::DriverConfiguration::FromBytes(const std::stri
 
 Osmmd::DriverConfiguration& Osmmd::DriverConfiguration::operator=(const DriverConfiguration& other)
 {
-    /*this->driver = other.driver;
-    this->databases = other.databases;*/
-
     this->NAME = other.NAME;
     this->DATABASES = other.DATABASES;
 

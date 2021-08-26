@@ -8,17 +8,6 @@
 
 namespace Osmmd
 {
-    /*struct OSMMD_CORE_API DriverConfiguration : public ISerializable
-    {
-        std::string driver;
-        std::vector<std::tuple<std::string, std::string>> databases;
-
-        std::string ToBytes() const override;
-        static DriverConfiguration FromBytes(const std::string& bytes);
-
-        DriverConfiguration& operator=(const DriverConfiguration& other);
-    };*/
-
     struct OSMMD_CORE_API DriverConfiguration : public ISerializable
     {
         std::string NAME;
