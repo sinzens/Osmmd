@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Base">
+      <UniqueIdentifier>{10590e43-df4e-474a-86aa-50399cc57e00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileSystem">
+      <UniqueIdentifier>{b63ad6b3-b5e5-420d-ab04-96c8f06bdb18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sql">
+      <UniqueIdentifier>{5655bf53-995c-4e35-bdd4-bbd8639798ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Storage">
+      <UniqueIdentifier>{64cc86c7-da38-4658-a055-3df7b528cf87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Type">
+      <UniqueIdentifier>{1a2bece9-39a1-4a7a-b61b-e7dbcc3f3892}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Security">
+      <UniqueIdentifier>{4627ee58-6ff8-42bb-8cc6-c30e3f22a85e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Driver">
+      <UniqueIdentifier>{85657392-33b7-4cc4-8ac8-2e1bbecf469d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Global.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Math.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Memory.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="IExecutable.h">
+      <Filter>Storage</Filter>
+    </ClInclude>
+    <ClInclude Include="AtomicCommand.h">
+      <Filter>Storage</Filter>
+    </ClInclude>
+    <ClInclude Include="StringHelper.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Driver.h">
+      <Filter>Storage</Filter>
+    </ClInclude>
+    <ClInclude Include="DriverConfiguration.h">
+      <Filter>Storage</Filter>
+    </ClInclude>
+    <ClInclude Include="ISerializable.h">
+      <Filter>Storage</Filter>
+    </ClInclude>
+    <ClInclude Include="CreateDatabaseCommand.h">
+      <Filter>Storage</Filter>
+    </ClInclude>
+    <ClInclude Include="Database.h">
+      <Filter>Storage</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandResult.h">
+      <Filter>Storage</Filter>
+    </ClInclude>
+    <ClInclude Include="Formatter.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Type.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Encryptor.h">
+      <Filter>Security</Filter>
+    </ClInclude>
+    <ClInclude Include="ISymmetricEncryption.h">
+      <Filter>Security</Filter>
+    </ClInclude>
+    <ClInclude Include="IAsymmetricEncryption.h">
+      <Filter>Security</Filter>
+    </ClInclude>
+    <ClInclude Include="DesEncryption.h">
+      <Filter>Security</Filter>
+    </ClInclude>
+    <ClInclude Include="Md5Encryption.h">
+      <Filter>Security</Filter>
+    </ClInclude>
+    <ClInclude Include="PerformanceConfiguration.h">
+      <Filter>Storage</Filter>
+    </ClInclude>
+    <ClInclude Include="StringConstants.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Math.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Memory.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="IExecutable.cpp">
+      <Filter>Storage</Filter>
+    </ClCompile>
+    <ClCompile Include="AtomicCommand.cpp">
+      <Filter>Storage</Filter>
+    </ClCompile>
+    <ClCompile Include="StringHelper.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Driver.cpp">
+      <Filter>Storage</Filter>
+    </ClCompile>
+    <ClCompile Include="DriverConfiguration.cpp">
+      <Filter>Storage</Filter>
+    </ClCompile>
+    <ClCompile Include="ISerializable.cpp">
+      <Filter>Storage</Filter>
+    </ClCompile>
+    <ClCompile Include="CreateDatabaseCommand.cpp">
+      <Filter>Storage</Filter>
+    </ClCompile>
+    <ClCompile Include="Database.cpp">
+      <Filter>Storage</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandResult.cpp">
+      <Filter>Storage</Filter>
+    </ClCompile>
+    <ClCompile Include="Formatter.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Type.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Encryptor.cpp">
+      <Filter>Security</Filter>
+    </ClCompile>
+    <ClCompile Include="ISymmetricEncryption.cpp">
+      <Filter>Security</Filter>
+    </ClCompile>
+    <ClCompile Include="IAsymmetricEncryption.cpp">
+      <Filter>Security</Filter>
+    </ClCompile>
+    <ClCompile Include="DesEncryption.cpp">
+      <Filter>Security</Filter>
+    </ClCompile>
+    <ClCompile Include="Md5Encryption.cpp">
+      <Filter>Security</Filter>
+    </ClCompile>
+    <ClCompile Include="PerformanceConfiguration.cpp">
+      <Filter>Storage</Filter>
+    </ClCompile>
+    <ClCompile Include="StringConstants.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>
