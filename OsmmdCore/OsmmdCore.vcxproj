@@ -144,6 +144,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AtomicCommand.h" />
+    <ClInclude Include="Column.h" />
+    <ClInclude Include="ColumnValue.h" />
     <ClInclude Include="CommandResult.h" />
     <ClInclude Include="CreateDatabaseCommand.h" />
     <ClInclude Include="Database.h" />
@@ -161,12 +163,15 @@
     <ClInclude Include="Md5Encryption.h" />
     <ClInclude Include="Memory.h" />
     <ClInclude Include="PerformanceConfiguration.h" />
+    <ClInclude Include="Row.h" />
     <ClInclude Include="StringConstants.h" />
     <ClInclude Include="StringHelper.h" />
     <ClInclude Include="Type.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AtomicCommand.cpp" />
+    <ClCompile Include="Column.cpp" />
+    <ClCompile Include="ColumnValue.cpp" />
     <ClCompile Include="CommandResult.cpp" />
     <ClCompile Include="CreateDatabaseCommand.cpp" />
     <ClCompile Include="Database.cpp" />
@@ -183,6 +188,7 @@
     <ClCompile Include="Md5Encryption.cpp" />
     <ClCompile Include="Memory.cpp" />
     <ClCompile Include="PerformanceConfiguration.cpp" />
+    <ClCompile Include="Row.cpp" />
     <ClCompile Include="StringConstants.cpp" />
     <ClCompile Include="StringHelper.cpp" />
     <ClCompile Include="Type.cpp" />

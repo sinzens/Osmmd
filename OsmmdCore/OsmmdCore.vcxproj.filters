@@ -22,6 +22,9 @@
     <Filter Include="Driver">
       <UniqueIdentifier>{85657392-33b7-4cc4-8ac8-2e1bbecf469d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Command">
+      <UniqueIdentifier>{19817bac-b83f-41cc-a990-b11a9e616a38}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Global.h">
@@ -33,31 +36,10 @@
     <ClInclude Include="Memory.h">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="IExecutable.h">
-      <Filter>Storage</Filter>
-    </ClInclude>
-    <ClInclude Include="AtomicCommand.h">
-      <Filter>Storage</Filter>
-    </ClInclude>
     <ClInclude Include="StringHelper.h">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="Driver.h">
-      <Filter>Storage</Filter>
-    </ClInclude>
-    <ClInclude Include="DriverConfiguration.h">
-      <Filter>Storage</Filter>
-    </ClInclude>
-    <ClInclude Include="ISerializable.h">
-      <Filter>Storage</Filter>
-    </ClInclude>
-    <ClInclude Include="CreateDatabaseCommand.h">
-      <Filter>Storage</Filter>
-    </ClInclude>
     <ClInclude Include="Database.h">
-      <Filter>Storage</Filter>
-    </ClInclude>
-    <ClInclude Include="CommandResult.h">
       <Filter>Storage</Filter>
     </ClInclude>
     <ClInclude Include="Formatter.h">
@@ -81,11 +63,41 @@
     <ClInclude Include="Md5Encryption.h">
       <Filter>Security</Filter>
     </ClInclude>
-    <ClInclude Include="PerformanceConfiguration.h">
-      <Filter>Storage</Filter>
-    </ClInclude>
     <ClInclude Include="StringConstants.h">
       <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Row.h">
+      <Filter>Storage</Filter>
+    </ClInclude>
+    <ClInclude Include="PerformanceConfiguration.h">
+      <Filter>Driver</Filter>
+    </ClInclude>
+    <ClInclude Include="DriverConfiguration.h">
+      <Filter>Driver</Filter>
+    </ClInclude>
+    <ClInclude Include="Column.h">
+      <Filter>Storage</Filter>
+    </ClInclude>
+    <ClInclude Include="ColumnValue.h">
+      <Filter>Storage</Filter>
+    </ClInclude>
+    <ClInclude Include="AtomicCommand.h">
+      <Filter>Command</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandResult.h">
+      <Filter>Command</Filter>
+    </ClInclude>
+    <ClInclude Include="CreateDatabaseCommand.h">
+      <Filter>Command</Filter>
+    </ClInclude>
+    <ClInclude Include="IExecutable.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="ISerializable.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Driver.h">
+      <Filter>Driver</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -95,31 +107,10 @@
     <ClCompile Include="Memory.cpp">
       <Filter>Base</Filter>
     </ClCompile>
-    <ClCompile Include="IExecutable.cpp">
-      <Filter>Storage</Filter>
-    </ClCompile>
-    <ClCompile Include="AtomicCommand.cpp">
-      <Filter>Storage</Filter>
-    </ClCompile>
     <ClCompile Include="StringHelper.cpp">
       <Filter>Base</Filter>
     </ClCompile>
-    <ClCompile Include="Driver.cpp">
-      <Filter>Storage</Filter>
-    </ClCompile>
-    <ClCompile Include="DriverConfiguration.cpp">
-      <Filter>Storage</Filter>
-    </ClCompile>
-    <ClCompile Include="ISerializable.cpp">
-      <Filter>Storage</Filter>
-    </ClCompile>
-    <ClCompile Include="CreateDatabaseCommand.cpp">
-      <Filter>Storage</Filter>
-    </ClCompile>
     <ClCompile Include="Database.cpp">
-      <Filter>Storage</Filter>
-    </ClCompile>
-    <ClCompile Include="CommandResult.cpp">
       <Filter>Storage</Filter>
     </ClCompile>
     <ClCompile Include="Formatter.cpp">
@@ -143,11 +134,41 @@
     <ClCompile Include="Md5Encryption.cpp">
       <Filter>Security</Filter>
     </ClCompile>
-    <ClCompile Include="PerformanceConfiguration.cpp">
-      <Filter>Storage</Filter>
-    </ClCompile>
     <ClCompile Include="StringConstants.cpp">
       <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Row.cpp">
+      <Filter>Storage</Filter>
+    </ClCompile>
+    <ClCompile Include="PerformanceConfiguration.cpp">
+      <Filter>Driver</Filter>
+    </ClCompile>
+    <ClCompile Include="DriverConfiguration.cpp">
+      <Filter>Driver</Filter>
+    </ClCompile>
+    <ClCompile Include="Column.cpp">
+      <Filter>Storage</Filter>
+    </ClCompile>
+    <ClCompile Include="ColumnValue.cpp">
+      <Filter>Storage</Filter>
+    </ClCompile>
+    <ClCompile Include="AtomicCommand.cpp">
+      <Filter>Command</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandResult.cpp">
+      <Filter>Command</Filter>
+    </ClCompile>
+    <ClCompile Include="CreateDatabaseCommand.cpp">
+      <Filter>Command</Filter>
+    </ClCompile>
+    <ClCompile Include="IExecutable.cpp">
+      <Filter>Command</Filter>
+    </ClCompile>
+    <ClCompile Include="ISerializable.cpp">
+      <Filter>Driver</Filter>
+    </ClCompile>
+    <ClCompile Include="Driver.cpp">
+      <Filter>Driver</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
