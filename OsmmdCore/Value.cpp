@@ -2,6 +2,7 @@
 * Created by Zeng Yinuo, 2021.09.04
 */
 
+#include "Enum.h"
 #include "Value.h"
 #include "StringConstants.h"
 
@@ -33,6 +34,19 @@ bool Osmmd::Value::IsEmpty() const
     return m_bytes.size() == 0;
 }
 
+int Osmmd::Value::GetLength() const
+{
+    switch (m_type)
+    {
+    case DataType::Integer:
+        return sizeof(int32_t);
+    case DataType::Char:
+        return this->ToChar().size();
+    }
+
+    return 0;
+}
+
 int32_t Osmmd::Value::ToInteger() const noexcept
 {
     assert(m_type == DataType::Integer, StringConstants::Error.VALUE_NOT_INTEGER);
@@ -55,19 +69,20 @@ std::string Osmmd::Value::ToChar() const noexcept
 
 std::string Osmmd::Value::ToString() const
 {
-    char buffer[255]{};
-
     switch (m_type)
     {
     case DataType::Integer:
+    {
+        char buffer[255]{};
         sprintf_s(buffer, "%d", this->ToInteger());
-        break;
+        return buffer;
+    }
     case DataType::Char:
-        sprintf_s(buffer, "%s", this->ToChar().c_str());
+        return this->ToChar();
         break;
     }
 
-    return buffer;
+    return GetDataTypeName(m_type);
 }
 
 Bytes Osmmd::Value::ToBytes() const
@@ -92,7 +107,12 @@ int Osmmd::Value::Compare(const Value& other) const
     return 0;
 }
 
-const Bytes& Osmmd::Value::Data() const
+Osmmd::DataType Osmmd::Value::GetType() const
+{
+    return m_type;
+}
+
+const Bytes& Osmmd::Value::GetBytes() const
 {
     return m_bytes;
 }
@@ -121,13 +141,7 @@ Osmmd::Value Osmmd::Value::FromChar(const char* str)
     Value result;
 
     result.m_type = DataType::Char;
-    result.m_bytes = std::vector<unsigned char>
-    (
-        /*reinterpret_cast<const unsigned char*>(data.c_str()),
-        reinterpret_cast<const unsigned char*>(data.c_str()) + data.size()*/
-        data.c_str(),
-        data.c_str() + data.size()
-    );
+    result.m_bytes = std::vector<unsigned char>(data.c_str(), data.c_str() + data.size());
 
     return result;
 }
@@ -137,13 +151,7 @@ Osmmd::Value Osmmd::Value::FromChar(const std::string& str)
     Value result;
 
     result.m_type = DataType::Char;
-    result.m_bytes = std::vector<unsigned char>
-    (
-        /*reinterpret_cast<const unsigned char*>(str.c_str()),
-        reinterpret_cast<const unsigned char*>(str.c_str()) + str.size()*/
-        str.c_str(),
-        str.c_str() + str.size()
-    );
+    result.m_bytes = std::vector<unsigned char>(str.c_str(), str.c_str() + str.size());
 
     return result;
 }

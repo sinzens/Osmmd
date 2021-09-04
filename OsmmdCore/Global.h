@@ -13,6 +13,7 @@
 #include <algorithm>
 #include <cmath>
 #include <functional>
+#include <random>
 
 #include <array>
 #include <vector>
@@ -26,6 +27,8 @@
 #include <stack>
 
 #include <mutex>
+#include <thread>
+#include <future>
 
 #include <filesystem>
 

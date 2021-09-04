@@ -30,9 +30,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Global.h">
-      <Filter>Base</Filter>
-    </ClInclude>
     <ClInclude Include="Math.h">
       <Filter>Base</Filter>
     </ClInclude>
@@ -122,6 +119,15 @@
     </ClInclude>
     <ClInclude Include="TimeAccuracy.h">
       <Filter>Performance</Filter>
+    </ClInclude>
+    <ClInclude Include="RowValue.h">
+      <Filter>Storage</Filter>
+    </ClInclude>
+    <ClInclude Include="Global.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Random.h">
+      <Filter>Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -214,6 +220,12 @@
     </ClCompile>
     <ClCompile Include="TimeAccuracy.cpp">
       <Filter>Performance</Filter>
+    </ClCompile>
+    <ClCompile Include="RowValue.cpp">
+      <Filter>Storage</Filter>
+    </ClCompile>
+    <ClCompile Include="Random.cpp">
+      <Filter>Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -143,12 +143,29 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ColumnByteConvertionTest.cpp" />
+    <ClCompile Include="ColumnValueByteConvertionTest.cpp" />
+    <ClCompile Include="GlobalVariables.cpp" />
+    <ClCompile Include="ITest.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MockDataGenerator.cpp" />
+    <ClCompile Include="RowByteConvertionTest.cpp" />
+    <ClCompile Include="RowValueByteConvertionTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OsmmdCore\OsmmdCore.vcxproj">
       <Project>{f810378c-4ab6-4ac2-aa53-b339eba10639}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ColumnByteConvertionTest.h" />
+    <ClInclude Include="ColumnValueByteConvertionTest.h" />
+    <ClInclude Include="Global.h" />
+    <ClInclude Include="GlobalVariables.h" />
+    <ClInclude Include="ITest.h" />
+    <ClInclude Include="MockDataGenerator.h" />
+    <ClInclude Include="RowByteConvertionTest.h" />
+    <ClInclude Include="RowValueByteConvertionTest.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

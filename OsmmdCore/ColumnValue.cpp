@@ -7,10 +7,17 @@
 
 std::string Osmmd::ColumnValue::ToString() const
 {
-    return this->Value.ToString();
+    return this->Data.ToString();
 }
 
 Bytes Osmmd::ColumnValue::ToBytes() const
 {
-    return this->Value.ToBytes();
+    return this->Data.ToBytes();
+}
+
+Osmmd::ColumnValue Osmmd::ColumnValue::FromBytes(DataType type, const Bytes& bytes)
+{
+    ColumnValue value;
+    value.Data = Value(type, bytes);
+    return value;
 }

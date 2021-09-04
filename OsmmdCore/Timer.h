@@ -12,9 +12,27 @@ namespace Osmmd
     class OSMMD_CORE_API Timer
     {
     public:
-        static void Start();
-        static void End();
+        Timer();
 
-        static double Duration(TimeAccuracy accuracy = TimeAccuracy::Millisecond);
+        void Start();
+        void End();
+        
+        double Duration(TimeAccuracy accuracy = TimeAccuracy::Millisecond) const;
+
+        static void GlobalStart();
+        static void GlobalEnd();
+
+        static double GlobalDuration(TimeAccuracy accuracy = TimeAccuracy::Millisecond);
+
+    private:
+        static double GetDuration
+        (
+            std::chrono::time_point<std::chrono::steady_clock> start,
+            std::chrono::time_point<std::chrono::steady_clock> end,
+            TimeAccuracy accuracy
+        );
+
+        std::chrono::time_point<std::chrono::steady_clock> m_start;
+        std::chrono::time_point<std::chrono::steady_clock> m_end;
     };
 }

@@ -15,5 +15,7 @@ namespace Osmmd
 
         std::string ToString() const override;
         Bytes ToBytes() const override;
+
+        static Row FromBytes(const Bytes& bytes);
     };
 }

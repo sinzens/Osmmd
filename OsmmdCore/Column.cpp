@@ -32,23 +32,23 @@ Bytes Osmmd::Column::ToBytes() const
     Value nameLengthData = Value::FromInteger(this->Name.length());
     Value lengthData = Value::FromInteger(this->Length);
 
-    Bytes data(dataLength, 0);
+    Bytes bytes(dataLength, 0);
 
-    auto dataLengthBegin = data.begin();
+    auto dataLengthBegin = bytes.begin();
     auto nameLengthBegin = dataLengthBegin + sizeof(int32_t);
     auto nameBegin = nameLengthBegin + sizeof(int32_t);
     auto lengthBegin = nameBegin + this->Name.length();
     auto typeBegin = lengthBegin + sizeof(int32_t);
 
-    std::copy(dataLengthData.Data().begin(), dataLengthData.Data().end(), dataLengthBegin);
-    std::copy(nameLengthData.Data().begin(), nameLengthData.Data().end(), nameLengthBegin);
+    std::copy(dataLengthData.GetBytes().begin(), dataLengthData.GetBytes().end(), dataLengthBegin);
+    std::copy(nameLengthData.GetBytes().begin(), nameLengthData.GetBytes().end(), nameLengthBegin);
 
     std::copy(this->Name.begin(), this->Name.end(), nameBegin);
-    std::copy(lengthData.Data().begin(), lengthData.Data().end(), lengthBegin);
+    std::copy(lengthData.GetBytes().begin(), lengthData.GetBytes().end(), lengthBegin);
     
-    data.at(typeBegin - data.begin()) = static_cast<unsigned char>(this->Type);
+    bytes.at(typeBegin - bytes.begin()) = static_cast<unsigned char>(this->Type);
 
-    return data;
+    return bytes;
 }
 
 Osmmd::Column Osmmd::Column::FromBytes(const Bytes& bytes)

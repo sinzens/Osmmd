@@ -13,4 +13,6 @@ std::string Osmmd::GetDataTypeName(DataType type)
     case DataType::Char:
         return "char";
     }
+
+    return "unknown";
 }

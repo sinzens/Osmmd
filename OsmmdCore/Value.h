@@ -19,6 +19,7 @@ namespace Osmmd
         Value(DataType type, const Bytes& bytes);
 
         bool IsEmpty() const;
+        int GetLength() const;
 
         int32_t ToInteger() const noexcept;
         std::string ToChar() const noexcept;
@@ -28,7 +29,8 @@ namespace Osmmd
 
         int Compare(const Value& other) const override;
 
-        const Bytes& Data() const;
+        DataType GetType() const;
+        const Bytes& GetBytes() const;
 
         static Value FromInteger(int32_t value);
         static Value FromChar(const char* str);

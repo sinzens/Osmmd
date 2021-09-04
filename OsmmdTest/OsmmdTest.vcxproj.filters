@@ -18,5 +18,52 @@
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="MockDataGenerator.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ColumnByteConvertionTest.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ITest.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalVariables.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="RowByteConvertionTest.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ColumnValueByteConvertionTest.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="RowValueByteConvertionTest.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MockDataGenerator.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ColumnByteConvertionTest.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ITest.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Global.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalVariables.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="RowByteConvertionTest.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ColumnValueByteConvertionTest.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="RowValueByteConvertionTest.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

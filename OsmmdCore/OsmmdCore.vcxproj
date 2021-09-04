@@ -167,7 +167,9 @@
     <ClInclude Include="Md5Encryption.h" />
     <ClInclude Include="Memory.h" />
     <ClInclude Include="PerformanceConfiguration.h" />
+    <ClInclude Include="Random.h" />
     <ClInclude Include="Row.h" />
+    <ClInclude Include="RowValue.h" />
     <ClInclude Include="StringConstants.h" />
     <ClInclude Include="StringHelper.h" />
     <ClInclude Include="TimeAccuracy.h" />
@@ -199,7 +201,9 @@
     <ClCompile Include="Md5Encryption.cpp" />
     <ClCompile Include="Memory.cpp" />
     <ClCompile Include="PerformanceConfiguration.cpp" />
+    <ClCompile Include="Random.cpp" />
     <ClCompile Include="Row.cpp" />
+    <ClCompile Include="RowValue.cpp" />
     <ClCompile Include="StringConstants.cpp" />
     <ClCompile Include="StringHelper.cpp" />
     <ClCompile Include="TimeAccuracy.cpp" />
