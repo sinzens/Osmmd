@@ -16,7 +16,7 @@ Osmmd::Value::Value(const Value& other)
 {
 }
 
-Osmmd::Value::Value(DataType type, const std::vector<unsigned char>& bytes)
+Osmmd::Value::Value(DataType type, const Bytes& bytes)
     : m_type(type)
     , m_bytes(bytes)
 {
@@ -47,9 +47,19 @@ std::string Osmmd::Value::ToChar() const noexcept
     return std::string(m_bytes.begin(), m_bytes.end());
 }
 
-std::string Osmmd::Value::ToBytes() const
+std::string Osmmd::Value::ToString() const
 {
     return std::string();
+}
+
+Bytes Osmmd::Value::ToBytes() const
+{
+    return Bytes();
+}
+
+const Bytes& Osmmd::Value::Data() const
+{
+    return m_bytes;
 }
 
 Osmmd::Value Osmmd::Value::FromInteger(int32_t value)
@@ -78,8 +88,10 @@ Osmmd::Value Osmmd::Value::FromChar(const char* str)
     result.m_type = DataType::Char;
     result.m_bytes = std::vector<unsigned char>
     (
-        reinterpret_cast<const unsigned char*>(data.c_str()),
-        reinterpret_cast<const unsigned char*>(data.c_str()) + data.size()
+        /*reinterpret_cast<const unsigned char*>(data.c_str()),
+        reinterpret_cast<const unsigned char*>(data.c_str()) + data.size()*/
+        data.c_str(),
+        data.c_str() + data.size()
     );
 
     return result;
@@ -92,8 +104,10 @@ Osmmd::Value Osmmd::Value::FromChar(const std::string& str)
     result.m_type = DataType::Char;
     result.m_bytes = std::vector<unsigned char>
     (
-        reinterpret_cast<const unsigned char*>(str.c_str()),
-        reinterpret_cast<const unsigned char*>(str.c_str()) + str.size()
+        /*reinterpret_cast<const unsigned char*>(str.c_str()),
+        reinterpret_cast<const unsigned char*>(str.c_str()) + str.size()*/
+        str.c_str(),
+        str.c_str() + str.size()
     );
 
     return result;

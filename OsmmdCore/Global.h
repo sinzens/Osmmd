@@ -1,6 +1,7 @@
 /*
 * Created by Zeng Yinuo, 2021.08.23
 * Edited by Zeng Yinuo, 2021.08.26
+* Edited by Zeng Yinuo, 2021.09.04
 */
 
 #pragma once
@@ -40,3 +41,5 @@
 
 #undef min
 #undef max
+
+using Bytes = std::vector<unsigned char>;

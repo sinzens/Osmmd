@@ -1,5 +1,6 @@
 /*
 * Created by Zeng Yinuo, 2021.08.26
+* Edited by Zeng Yinuo, 2021.09.04
 */
 
 #pragma once
@@ -13,8 +14,10 @@ namespace Osmmd
         std::string NAME;
         std::map<std::string, std::string> DATABASES;
 
-        std::string ToBytes() const override;
-        static DriverConfiguration FromBytes(const std::string& bytes);
+        std::string ToString() const override;
+        Bytes ToBytes() const override;
+
+        static DriverConfiguration FromBytes(const Bytes& bytes);
 
         DriverConfiguration& operator=(const DriverConfiguration& other);
     };

@@ -1,5 +1,6 @@
 /*
 * Created by Zeng Yinuo, 2021.08.26
+* Edited by Zeng Yinuo, 2021.09.04
 */
 
 #include "DriverConfiguration.h"
@@ -15,7 +16,13 @@ static rapidjson::Value JsonString(const std::string& str, rapidjson::MemoryPool
     return value;
 }
 
-std::string Osmmd::DriverConfiguration::ToBytes() const
+std::string Osmmd::DriverConfiguration::ToString() const
+{
+    Bytes bytes = this->ToBytes();
+    return std::string(bytes.begin(), bytes.end());
+}
+
+Bytes Osmmd::DriverConfiguration::ToBytes() const
 {
     rapidjson::Document document;
     document.SetObject();
@@ -44,15 +51,18 @@ std::string Osmmd::DriverConfiguration::ToBytes() const
     rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
     document.Accept(writer);
 
-    return buffer.GetString();
+    const char* result = buffer.GetString();
+    return Bytes(result, result + buffer.GetSize());
 }
 
-Osmmd::DriverConfiguration Osmmd::DriverConfiguration::FromBytes(const std::string& bytes)
+Osmmd::DriverConfiguration Osmmd::DriverConfiguration::FromBytes(const Bytes& bytes)
 {
     DriverConfiguration config;
 
     rapidjson::Document document;
-    document.Parse(bytes.c_str());
+    std::string data(bytes.begin(), bytes.end());
+
+    document.Parse(data.c_str());
 
     config.NAME = document[StringConstants::DriverConfiguration.NAME].GetString();
 

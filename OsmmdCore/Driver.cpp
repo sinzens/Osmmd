@@ -1,5 +1,6 @@
 /*
 * Created by Zeng Yinuo, 2021.08.26
+* Edited by Zeng Yinuo, 2021.09.04
 */
 
 #include "Driver.h"
@@ -15,7 +16,9 @@ void Osmmd::Driver::WriteConfiguration() const
     std::ofstream writer;
     writer.open(this->GetConfigurationPath(), std::ios::out | std::ios::binary);
 
-    writer << m_config.ToBytes() << std::endl;
+    Bytes data = m_config.ToBytes();
+
+    writer << std::string(data.begin(), data.end()) << std::endl;
     writer.close();
 }
 
@@ -26,7 +29,7 @@ void Osmmd::Driver::ReadConfiguration()
     if (reader.is_open())
     {
         std::string buffer = std::string(std::istreambuf_iterator<char>(reader), std::istreambuf_iterator<char>());
-        m_config = DriverConfiguration::FromBytes(buffer);
+        m_config = DriverConfiguration::FromBytes(Bytes(buffer.begin(), buffer.end()));
 
         reader.close();
     }
@@ -64,7 +67,7 @@ bool Osmmd::Driver::InitConfiguration()
     if (reader.is_open())
     {
         std::string buffer = std::string(std::istreambuf_iterator<char>(reader), std::istreambuf_iterator<char>());
-        m_config = DriverConfiguration::FromBytes(buffer);
+        m_config = DriverConfiguration::FromBytes(Bytes(buffer.begin(), buffer.end()));
         reader.close();
 
         return true;
@@ -80,7 +83,9 @@ bool Osmmd::Driver::InitConfiguration()
         configTest.DATABASES.insert({ "test_db", "Test" });
         configTest.DATABASES.insert({ "test_db2", "Test2" });
 
-        writer << configTest.ToBytes() << std::endl;
+        Bytes data = configTest.ToBytes();
+
+        writer << std::string(data.begin(), data.end()) << std::endl;
         writer.close();
 
         return false;

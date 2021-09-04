@@ -90,9 +90,6 @@
     <ClInclude Include="CreateDatabaseCommand.h">
       <Filter>Command</Filter>
     </ClInclude>
-    <ClInclude Include="IExecutable.h">
-      <Filter>Base</Filter>
-    </ClInclude>
     <ClInclude Include="ISerializable.h">
       <Filter>Base</Filter>
     </ClInclude>
@@ -104,6 +101,9 @@
     </ClInclude>
     <ClInclude Include="DataType.h">
       <Filter>Type</Filter>
+    </ClInclude>
+    <ClInclude Include="IExecutable.h">
+      <Filter>Command</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -170,9 +170,6 @@
     <ClCompile Include="IExecutable.cpp">
       <Filter>Command</Filter>
     </ClCompile>
-    <ClCompile Include="ISerializable.cpp">
-      <Filter>Driver</Filter>
-    </ClCompile>
     <ClCompile Include="Driver.cpp">
       <Filter>Driver</Filter>
     </ClCompile>
@@ -181,6 +178,9 @@
     </ClCompile>
     <ClCompile Include="DataType.cpp">
       <Filter>Type</Filter>
+    </ClCompile>
+    <ClCompile Include="ISerializable.cpp">
+      <Filter>Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,6 @@
 /*
 * Created by Zeng Yinuo, 2021.08.26
+* Edited by Zeng Yinuo, 2021.09.04
 */
 
 #pragma once
@@ -16,6 +17,7 @@ namespace Osmmd
         std::string message;
         float timeElapse;
 
-        std::string ToBytes() const override;
+        std::string ToString() const override;
+        Bytes ToBytes() const override;
     };
 }

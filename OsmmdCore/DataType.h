@@ -6,7 +6,7 @@
 
 namespace Osmmd
 {
-    enum class DataType
+    enum class DataType : unsigned char
     {
         Integer, Char
     };

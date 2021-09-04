@@ -14,14 +14,17 @@ namespace Osmmd
     public:
         Value();
         Value(const Value& other);
-        Value(DataType type, const std::vector<unsigned char>& bytes);
+        Value(DataType type, const Bytes& bytes);
 
         bool IsEmpty() const;
 
         int32_t ToInteger() const noexcept;
         std::string ToChar() const noexcept;
 
-        std::string ToBytes() const override;
+        std::string ToString() const override;
+        Bytes ToBytes() const override;
+
+        const Bytes& Data() const;
 
         static Value FromInteger(int32_t value);
         static Value FromChar(const char* str);
@@ -30,6 +33,6 @@ namespace Osmmd
     private:
         DataType m_type;
 
-        std::vector<unsigned char> m_bytes;
+        Bytes m_bytes;
     };
 }
