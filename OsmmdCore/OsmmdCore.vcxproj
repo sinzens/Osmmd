@@ -144,6 +144,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AtomicCommand.h" />
+    <ClInclude Include="BpTreeIndexer.h" />
     <ClInclude Include="Column.h" />
     <ClInclude Include="ColumnValue.h" />
     <ClInclude Include="CommandResult.h" />
@@ -158,9 +159,11 @@
     <ClInclude Include="Enum.h" />
     <ClInclude Include="Formatter.h" />
     <ClInclude Include="Global.h" />
+    <ClInclude Include="HashIndexer.h" />
     <ClInclude Include="IAsymmetricEncryption.h" />
     <ClInclude Include="IComparable.h" />
     <ClInclude Include="IExecutable.h" />
+    <ClInclude Include="Indexer.h" />
     <ClInclude Include="ISerializable.h" />
     <ClInclude Include="ISymmetricEncryption.h" />
     <ClInclude Include="Math.h" />
@@ -179,6 +182,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AtomicCommand.cpp" />
+    <ClCompile Include="BpTreeIndexer.cpp" />
     <ClCompile Include="Column.cpp" />
     <ClCompile Include="ColumnValue.cpp" />
     <ClCompile Include="CommandResult.cpp" />
@@ -192,9 +196,11 @@
     <ClCompile Include="DriverConfiguration.cpp" />
     <ClCompile Include="Enum.cpp" />
     <ClCompile Include="Formatter.cpp" />
+    <ClCompile Include="HashIndexer.cpp" />
     <ClCompile Include="IAsymmetricEncryption.cpp" />
     <ClCompile Include="IComparable.cpp" />
     <ClCompile Include="IExecutable.cpp" />
+    <ClCompile Include="Indexer.cpp" />
     <ClCompile Include="ISerializable.cpp" />
     <ClCompile Include="ISymmetricEncryption.cpp" />
     <ClCompile Include="Math.cpp" />

@@ -28,6 +28,9 @@
     <Filter Include="Performance">
       <UniqueIdentifier>{1b366b16-c7d1-4d77-9758-a52f3a19f148}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Index">
+      <UniqueIdentifier>{93782dc0-3642-4cef-9213-08c274584018}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Math.h">
@@ -129,6 +132,15 @@
     <ClInclude Include="Random.h">
       <Filter>Base</Filter>
     </ClInclude>
+    <ClInclude Include="Indexer.h">
+      <Filter>Index</Filter>
+    </ClInclude>
+    <ClInclude Include="BpTreeIndexer.h">
+      <Filter>Index</Filter>
+    </ClInclude>
+    <ClInclude Include="HashIndexer.h">
+      <Filter>Index</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Math.cpp">
@@ -226,6 +238,15 @@
     </ClCompile>
     <ClCompile Include="Random.cpp">
       <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Indexer.cpp">
+      <Filter>Index</Filter>
+    </ClCompile>
+    <ClCompile Include="BpTreeIndexer.cpp">
+      <Filter>Index</Filter>
+    </ClCompile>
+    <ClCompile Include="HashIndexer.cpp">
+      <Filter>Index</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

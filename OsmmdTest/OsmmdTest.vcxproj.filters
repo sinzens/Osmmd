@@ -24,9 +24,6 @@
     <ClCompile Include="ColumnByteConvertionTest.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="ITest.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="GlobalVariables.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -39,15 +36,18 @@
     <ClCompile Include="RowValueByteConvertionTest.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="BpTreeIndexerTest.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="HashIndexerTest.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MockDataGenerator.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="ColumnByteConvertionTest.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="ITest.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Global.h">
@@ -63,6 +63,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="RowValueByteConvertionTest.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="BpTreeIndexerTest.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="HashIndexerTest.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

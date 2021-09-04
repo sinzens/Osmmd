@@ -143,10 +143,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BpTreeIndexerTest.cpp" />
     <ClCompile Include="ColumnByteConvertionTest.cpp" />
     <ClCompile Include="ColumnValueByteConvertionTest.cpp" />
     <ClCompile Include="GlobalVariables.cpp" />
-    <ClCompile Include="ITest.cpp" />
+    <ClCompile Include="HashIndexerTest.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MockDataGenerator.cpp" />
     <ClCompile Include="RowByteConvertionTest.cpp" />
@@ -158,11 +159,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BpTreeIndexerTest.h" />
     <ClInclude Include="ColumnByteConvertionTest.h" />
     <ClInclude Include="ColumnValueByteConvertionTest.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="GlobalVariables.h" />
-    <ClInclude Include="ITest.h" />
+    <ClInclude Include="HashIndexerTest.h" />
     <ClInclude Include="MockDataGenerator.h" />
     <ClInclude Include="RowByteConvertionTest.h" />
     <ClInclude Include="RowValueByteConvertionTest.h" />

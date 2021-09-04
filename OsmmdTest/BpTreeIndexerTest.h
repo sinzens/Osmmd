@@ -8,9 +8,9 @@
 
 namespace Osmmd
 {
-    class ITest
+    class BpTreeIndexerTest
     {
     public:
-        virtual void Test() = 0;
+        static void Test();
     };
 }
