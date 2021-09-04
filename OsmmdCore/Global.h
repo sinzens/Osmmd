@@ -28,6 +28,8 @@
 
 #include <filesystem>
 
+#include <assert.h>
+
 #ifdef OSMMD_CORE_EXPORT
 #define OSMMD_CORE_API __declspec(dllexport)
 #else

@@ -27,5 +27,11 @@ namespace Osmmd
         {
             static constexpr const char TIMING[] = "TIMING";
         } PerformanceConfiguration;
+
+        static const struct
+        {
+            static constexpr const char VALUE_NOT_INTEGER[] = "Failed to convert non-integer value to integer.";
+            static constexpr const char VALUE_NOT_CHAR[] = "Failed to convert non-char value to char.";
+        } Error;
     };
 }

@@ -8,7 +8,7 @@
 
 namespace Osmmd
 {
-    struct OSMMD_CORE_API Row : ISerializable
+    struct OSMMD_CORE_API Row : public ISerializable
     {
     };
 }

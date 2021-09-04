@@ -149,6 +149,7 @@
     <ClInclude Include="CommandResult.h" />
     <ClInclude Include="CreateDatabaseCommand.h" />
     <ClInclude Include="Database.h" />
+    <ClInclude Include="DataType.h" />
     <ClInclude Include="DesEncryption.h" />
     <ClInclude Include="Encryptor.h" />
     <ClInclude Include="Driver.h" />
@@ -167,6 +168,7 @@
     <ClInclude Include="StringConstants.h" />
     <ClInclude Include="StringHelper.h" />
     <ClInclude Include="Type.h" />
+    <ClInclude Include="Value.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AtomicCommand.cpp" />
@@ -175,6 +177,7 @@
     <ClCompile Include="CommandResult.cpp" />
     <ClCompile Include="CreateDatabaseCommand.cpp" />
     <ClCompile Include="Database.cpp" />
+    <ClCompile Include="DataType.cpp" />
     <ClCompile Include="DesEncryption.cpp" />
     <ClCompile Include="Encryptor.cpp" />
     <ClCompile Include="Driver.cpp" />
@@ -192,6 +195,7 @@
     <ClCompile Include="StringConstants.cpp" />
     <ClCompile Include="StringHelper.cpp" />
     <ClCompile Include="Type.cpp" />
+    <ClCompile Include="Value.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

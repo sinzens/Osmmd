@@ -99,6 +99,12 @@
     <ClInclude Include="Driver.h">
       <Filter>Driver</Filter>
     </ClInclude>
+    <ClInclude Include="Value.h">
+      <Filter>Type</Filter>
+    </ClInclude>
+    <ClInclude Include="DataType.h">
+      <Filter>Type</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Math.cpp">
@@ -169,6 +175,12 @@
     </ClCompile>
     <ClCompile Include="Driver.cpp">
       <Filter>Driver</Filter>
+    </ClCompile>
+    <ClCompile Include="Value.cpp">
+      <Filter>Type</Filter>
+    </ClCompile>
+    <ClCompile Include="DataType.cpp">
+      <Filter>Type</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

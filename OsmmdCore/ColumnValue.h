@@ -4,11 +4,11 @@
 
 #pragma once
 
-#include "Column.h"
+#include "ISerializable.h"
 
 namespace Osmmd
 {
-    struct OSMMD_CORE_API ColumnValue : Column
+    struct OSMMD_CORE_API ColumnValue : public ISerializable
     {
     };
 }
