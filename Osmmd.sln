@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OsmmdCli", "OsmmdCli\OsmmdC
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OsmmdGui", "OsmmdGui\OsmmdGui.vcxproj", "{F7EE70B5-B1C0-4E03-AADC-8030253BF205}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OsmmdTest", "OsmmdTest\OsmmdTest.vcxproj", "{9EC2449C-1323-4850-ACC7-66AEC2C0C9D0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -39,6 +41,14 @@ Global
 		{F7EE70B5-B1C0-4E03-AADC-8030253BF205}.Release|x64.ActiveCfg = Release|x64
 		{F7EE70B5-B1C0-4E03-AADC-8030253BF205}.Release|x64.Build.0 = Release|x64
 		{F7EE70B5-B1C0-4E03-AADC-8030253BF205}.Release|x86.ActiveCfg = Release|x64
+		{9EC2449C-1323-4850-ACC7-66AEC2C0C9D0}.Debug|x64.ActiveCfg = Debug|x64
+		{9EC2449C-1323-4850-ACC7-66AEC2C0C9D0}.Debug|x64.Build.0 = Debug|x64
+		{9EC2449C-1323-4850-ACC7-66AEC2C0C9D0}.Debug|x86.ActiveCfg = Debug|Win32
+		{9EC2449C-1323-4850-ACC7-66AEC2C0C9D0}.Debug|x86.Build.0 = Debug|Win32
+		{9EC2449C-1323-4850-ACC7-66AEC2C0C9D0}.Release|x64.ActiveCfg = Release|x64
+		{9EC2449C-1323-4850-ACC7-66AEC2C0C9D0}.Release|x64.Build.0 = Release|x64
+		{9EC2449C-1323-4850-ACC7-66AEC2C0C9D0}.Release|x86.ActiveCfg = Release|Win32
+		{9EC2449C-1323-4850-ACC7-66AEC2C0C9D0}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

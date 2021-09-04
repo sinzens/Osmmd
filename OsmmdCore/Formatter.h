@@ -1,5 +1,6 @@
 /*
 * Created by Zeng Yinuo, 2021.08.26
+* Edited by Zeng Yinuo, 2021.09.04
 */
 
 #pragma once
@@ -74,7 +75,7 @@ namespace Osmmd
     inline std::string Formatter::FormatWithFormatter(const char* format, const T& arg, const Args &... args)
     {
         std::string current = Formatter::FormatSingle(arg);
-        std::string currentFormatter = StringHelper(format).Replaced("{}", current, true);
+        std::string currentFormatter = StringHelper(format).Replaced("{}", current, true).GetString();
 
         if constexpr (sizeof...(Args) == 0)
         {
@@ -82,7 +83,7 @@ namespace Osmmd
         }
         else
         {
-            return Formatter::FormatWithFormatter(currentFormatter, args...);
+            return Formatter::FormatWithFormatter(currentFormatter.c_str(), args...);
         }
     }
 
@@ -93,7 +94,7 @@ namespace Osmmd
         {
             if constexpr (IsDerivedClass<T, ISerializable>())
             {
-                return arg.ToBytes();
+                return arg.ToString();
             }
             else if constexpr (IsSameType<T, bool>())
             {

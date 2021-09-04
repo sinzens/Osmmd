@@ -12,11 +12,13 @@ namespace Osmmd
     struct OSMMD_CORE_API Column : public ISerializable
     {
         std::string Name;
-        int Length;
+        int32_t Length;
 
         DataType Type;
 
         std::string ToString() const override;
         Bytes ToBytes() const override;
+
+        static Column FromBytes(const Bytes& bytes);
     };
 }

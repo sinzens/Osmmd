@@ -4,9 +4,6 @@
     <Filter Include="Base">
       <UniqueIdentifier>{10590e43-df4e-474a-86aa-50399cc57e00}</UniqueIdentifier>
     </Filter>
-    <Filter Include="FileSystem">
-      <UniqueIdentifier>{b63ad6b3-b5e5-420d-ab04-96c8f06bdb18}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Sql">
       <UniqueIdentifier>{5655bf53-995c-4e35-bdd4-bbd8639798ef}</UniqueIdentifier>
     </Filter>
@@ -25,6 +22,12 @@
     <Filter Include="Command">
       <UniqueIdentifier>{19817bac-b83f-41cc-a990-b11a9e616a38}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Log">
+      <UniqueIdentifier>{b137cfa9-e41d-406e-aac1-15ed335f8e09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Performance">
+      <UniqueIdentifier>{1b366b16-c7d1-4d77-9758-a52f3a19f148}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Global.h">
@@ -41,9 +44,6 @@
     </ClInclude>
     <ClInclude Include="Database.h">
       <Filter>Storage</Filter>
-    </ClInclude>
-    <ClInclude Include="Formatter.h">
-      <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="Type.h">
       <Filter>Base</Filter>
@@ -104,6 +104,24 @@
     </ClInclude>
     <ClInclude Include="IExecutable.h">
       <Filter>Command</Filter>
+    </ClInclude>
+    <ClInclude Include="Enum.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Debug.h">
+      <Filter>Log</Filter>
+    </ClInclude>
+    <ClInclude Include="Formatter.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="IComparable.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Performance</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeAccuracy.h">
+      <Filter>Performance</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -181,6 +199,21 @@
     </ClCompile>
     <ClCompile Include="ISerializable.cpp">
       <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Enum.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug.cpp">
+      <Filter>Log</Filter>
+    </ClCompile>
+    <ClCompile Include="IComparable.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Performance</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeAccuracy.cpp">
+      <Filter>Performance</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

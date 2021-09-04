@@ -1,6 +1,7 @@
 /*
 * Created by Zeng Yinuo, 2021.08.23
 * Edited by Zeng Yinuo, 2021.08.26
+* Edited by Zeng Yinuo, 2021.09.04
 */
 
 #include "StringHelper.h"
@@ -46,14 +47,17 @@ bool Osmmd::StringHelper::EndsWith(const std::string& str) const
 
 Osmmd::StringHelper Osmmd::StringHelper::Left(int count) const
 {
-    return count <= m_data.length() ? m_data.substr(0, count) : m_data;
+    return StringHelper(count <= m_data.length() ? m_data.substr(0, count) : m_data);
 }
 
 Osmmd::StringHelper Osmmd::StringHelper::Right(int count) const
 {
-    return count <= m_data.length()
+    return StringHelper
+    (
+        count <= m_data.length()
         ? m_data.substr(m_data.length() - count, count)
-        : m_data;
+        : m_data
+    );
 }
 
 Osmmd::StringHelper Osmmd::StringHelper::SubString(int from) const
@@ -63,9 +67,12 @@ Osmmd::StringHelper Osmmd::StringHelper::SubString(int from) const
 
 Osmmd::StringHelper Osmmd::StringHelper::SubString(int from, int to) const
 {
-    return (from >= 0 && from < m_data.length())
+    return StringHelper
+    (
+        (from >= 0 && from < m_data.length())
         ? m_data.substr(from, to - from)
-        : m_data;
+        : m_data
+    );
 }
 
 Osmmd::StringHelper Osmmd::StringHelper::Removed(char ch, bool firstOnly) const
@@ -94,7 +101,7 @@ Osmmd::StringHelper Osmmd::StringHelper::Removed(const std::string& target, bool
         }
     }
 
-    return result;
+    return StringHelper(result);
 }
 
 Osmmd::StringHelper Osmmd::StringHelper::Replaced(const std::string& target, const std::string& replacer, bool firstOnly) const
@@ -118,24 +125,24 @@ Osmmd::StringHelper Osmmd::StringHelper::Replaced(const std::string& target, con
         }
     }
 
-    return result;
+    return StringHelper(result);
 }
 
 Osmmd::StringHelper Osmmd::StringHelper::Trimmed() const
 {
     std::string result = m_data;
     size_t firstNotWhite = result.find_first_not_of(' ');
-    if (firstNotWhite == std::string::npos) { return result; }
+    if (firstNotWhite == std::string::npos) { return StringHelper(result); }
 
     result.erase(0, firstNotWhite);
 
     size_t lastNotWhite = result.find_last_not_of(' ');
-    if (lastNotWhite == std::string::npos) { return result; }
-    if (lastNotWhite == result.length() - 1) { return result; }
+    if (lastNotWhite == std::string::npos) { return StringHelper(result); }
+    if (lastNotWhite == result.length() - 1) { return StringHelper(result); }
 
     result.erase(lastNotWhite + 1, result.length() - lastNotWhite - 1);
 
-    return result;
+    return StringHelper(result);
 }
 
 Osmmd::StringHelper Osmmd::StringHelper::Densified() const
@@ -177,21 +184,21 @@ Osmmd::StringHelper Osmmd::StringHelper::Simplified() const
         }
     }
 
-    return result;
+    return StringHelper(result);
 }
 
 Osmmd::StringHelper Osmmd::StringHelper::ToUpperCase() const
 {
     std::string result = m_data;
     std::transform(m_data.begin(), m_data.end(), result.begin(), toupper);
-    return result;
+    return StringHelper(result);
 }
 
 Osmmd::StringHelper Osmmd::StringHelper::ToLowerCase() const
 {
     std::string result = m_data;
     std::transform(m_data.begin(), m_data.end(), result.begin(), tolower);
-    return result;
+    return StringHelper(result);
 }
 
 Osmmd::StringHelper Osmmd::StringHelper::ToSqlCompatible() const
@@ -199,7 +206,7 @@ Osmmd::StringHelper Osmmd::StringHelper::ToSqlCompatible() const
     return this->Simplified().ToLowerCase();
 }
 
-const std::string& Osmmd::StringHelper::String() const
+const std::string& Osmmd::StringHelper::GetString() const
 {
     return m_data;
 }

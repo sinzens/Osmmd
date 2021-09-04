@@ -3,3 +3,4 @@
 // 有关详细信息，请参见 https://go.microsoft.com/fwlink/?linkid=865984
 #define OSMMD_CORE_API __declspec(dllexport)
 #define OSMMD_CORE_API __declspec(dllimport)
+#define OSMMD_FUNC_API

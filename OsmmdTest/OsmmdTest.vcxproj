@@ -21,32 +21,32 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{f810378c-4ab6-4ac2-aa53-b339eba10639}</ProjectGuid>
-    <RootNamespace>OsmmdCore</RootNamespace>
+    <ProjectGuid>{9ec2449c-1323-4850-acc7-66aec2c0c9d0}</ProjectGuid>
+    <RootNamespace>OsmmdTest</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -86,7 +86,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);OSMMD_CORE_EXPORT;_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
@@ -101,7 +101,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);OSMMD_CORE_EXPORT;_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
@@ -116,7 +116,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);OSMMD_CORE_EXPORT;_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
@@ -131,7 +131,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);OSMMD_CORE_EXPORT;_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
@@ -143,82 +143,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AtomicCommand.h" />
-    <ClInclude Include="Column.h" />
-    <ClInclude Include="ColumnValue.h" />
-    <ClInclude Include="CommandResult.h" />
-    <ClInclude Include="CreateDatabaseCommand.h" />
-    <ClInclude Include="Database.h" />
-    <ClInclude Include="DataType.h" />
-    <ClInclude Include="Debug.h" />
-    <ClInclude Include="DesEncryption.h" />
-    <ClInclude Include="Encryptor.h" />
-    <ClInclude Include="Driver.h" />
-    <ClInclude Include="DriverConfiguration.h" />
-    <ClInclude Include="Enum.h" />
-    <ClInclude Include="Formatter.h" />
-    <ClInclude Include="Global.h" />
-    <ClInclude Include="IAsymmetricEncryption.h" />
-    <ClInclude Include="IComparable.h" />
-    <ClInclude Include="IExecutable.h" />
-    <ClInclude Include="ISerializable.h" />
-    <ClInclude Include="ISymmetricEncryption.h" />
-    <ClInclude Include="Math.h" />
-    <ClInclude Include="Md5Encryption.h" />
-    <ClInclude Include="Memory.h" />
-    <ClInclude Include="PerformanceConfiguration.h" />
-    <ClInclude Include="Row.h" />
-    <ClInclude Include="StringConstants.h" />
-    <ClInclude Include="StringHelper.h" />
-    <ClInclude Include="TimeAccuracy.h" />
-    <ClInclude Include="Timer.h" />
-    <ClInclude Include="Type.h" />
-    <ClInclude Include="Value.h" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AtomicCommand.cpp" />
-    <ClCompile Include="Column.cpp" />
-    <ClCompile Include="ColumnValue.cpp" />
-    <ClCompile Include="CommandResult.cpp" />
-    <ClCompile Include="CreateDatabaseCommand.cpp" />
-    <ClCompile Include="Database.cpp" />
-    <ClCompile Include="DataType.cpp" />
-    <ClCompile Include="Debug.cpp" />
-    <ClCompile Include="DesEncryption.cpp" />
-    <ClCompile Include="Encryptor.cpp" />
-    <ClCompile Include="Driver.cpp" />
-    <ClCompile Include="DriverConfiguration.cpp" />
-    <ClCompile Include="Enum.cpp" />
-    <ClCompile Include="Formatter.cpp" />
-    <ClCompile Include="IAsymmetricEncryption.cpp" />
-    <ClCompile Include="IComparable.cpp" />
-    <ClCompile Include="IExecutable.cpp" />
-    <ClCompile Include="ISerializable.cpp" />
-    <ClCompile Include="ISymmetricEncryption.cpp" />
-    <ClCompile Include="Math.cpp" />
-    <ClCompile Include="Md5Encryption.cpp" />
-    <ClCompile Include="Memory.cpp" />
-    <ClCompile Include="PerformanceConfiguration.cpp" />
-    <ClCompile Include="Row.cpp" />
-    <ClCompile Include="StringConstants.cpp" />
-    <ClCompile Include="StringHelper.cpp" />
-    <ClCompile Include="TimeAccuracy.cpp" />
-    <ClCompile Include="Timer.cpp" />
-    <ClCompile Include="Type.cpp" />
-    <ClCompile Include="Value.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="cpp.hint" />
-    <None Include="packages.config" />
+    <ProjectReference Include="..\OsmmdCore\OsmmdCore.vcxproj">
+      <Project>{f810378c-4ab6-4ac2-aa53-b339eba10639}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="..\packages\rapidjson.1.0.2\build\native\rapidjson.targets" Condition="Exists('..\packages\rapidjson.1.0.2\build\native\rapidjson.targets')" />
   </ImportGroup>
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\rapidjson.1.0.2\build\native\rapidjson.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\rapidjson.1.0.2\build\native\rapidjson.targets'))" />
-  </Target>
 </Project>

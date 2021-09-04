@@ -16,6 +16,12 @@ Osmmd::Value::Value(const Value& other)
 {
 }
 
+Osmmd::Value::Value(const Bytes& bytes)
+    : m_type(DataType::Char)
+    , m_bytes(bytes)
+{
+}
+
 Osmmd::Value::Value(DataType type, const Bytes& bytes)
     : m_type(type)
     , m_bytes(bytes)
@@ -49,12 +55,41 @@ std::string Osmmd::Value::ToChar() const noexcept
 
 std::string Osmmd::Value::ToString() const
 {
-    return std::string();
+    char buffer[255]{};
+
+    switch (m_type)
+    {
+    case DataType::Integer:
+        sprintf_s(buffer, "%d", this->ToInteger());
+        break;
+    case DataType::Char:
+        sprintf_s(buffer, "%s", this->ToChar().c_str());
+        break;
+    }
+
+    return buffer;
 }
 
 Bytes Osmmd::Value::ToBytes() const
 {
-    return Bytes();
+    return m_bytes;
+}
+
+int Osmmd::Value::Compare(const Value& other) const
+{
+    switch (m_type)
+    {
+    case DataType::Integer: {
+        int32_t a = this->ToInteger();
+        int32_t b = other.ToInteger();
+
+        return a > b ? 1 : (a < b ? -1 : 0);
+    }
+    case DataType::Char:
+        return this->ToChar().compare(other.ToChar());
+    }
+
+    return 0;
 }
 
 const Bytes& Osmmd::Value::Data() const

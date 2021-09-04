@@ -1,6 +1,7 @@
 /*
 * Created by Zeng Yinuo, 2021.08.23
 * Edited by Zeng Yinuo, 2021.08.26
+* Edited by Zeng Yinuo, 2021.09.04
 */
 
 #pragma once
@@ -14,8 +15,9 @@ namespace Osmmd
     public:
         StringHelper();
         StringHelper(const StringHelper& other);
-        StringHelper(const char* str);
-        StringHelper(const std::string& str);
+
+        explicit StringHelper(const char* str);
+        explicit StringHelper(const std::string& str);
 
         bool Contains(char ch) const;
         bool Contains(const std::string& str) const;
@@ -43,7 +45,7 @@ namespace Osmmd
 
         StringHelper ToSqlCompatible() const;
 
-        const std::string& String() const;
+        const std::string& GetString() const;
 
         std::vector<std::string> Split(char delim = ' ') const;
         std::vector<std::string> Split(const std::string& delim = " ") const;

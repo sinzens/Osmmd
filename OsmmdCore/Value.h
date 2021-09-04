@@ -5,15 +5,17 @@
 #pragma once
 
 #include "ISerializable.h"
+#include "IComparable.h"
 #include "DataType.h"
 
 namespace Osmmd
 {
-    class OSMMD_CORE_API Value : public ISerializable
+    class OSMMD_CORE_API Value : public ISerializable, public IComparable<Value>
     {
     public:
         Value();
         Value(const Value& other);
+        Value(const Bytes& bytes);
         Value(DataType type, const Bytes& bytes);
 
         bool IsEmpty() const;
@@ -23,6 +25,8 @@ namespace Osmmd
 
         std::string ToString() const override;
         Bytes ToBytes() const override;
+
+        int Compare(const Value& other) const override;
 
         const Bytes& Data() const;
 
