@@ -1,5 +1,6 @@
 /*
 * Created by Zeng Yinuo, 2021.09.04
+* Edited by Zeng Yinuo, 2021.09.05
 */
 
 #include "Enum.h"
@@ -19,11 +20,23 @@ Osmmd::Value::Value(const Value& other)
 
 Osmmd::Value::Value(const Bytes& bytes)
     : m_type(DataType::Char)
+    , m_bytes(std::make_shared<Bytes>(bytes))
+{
+}
+
+Osmmd::Value::Value(std::shared_ptr<Bytes> bytes)
+    : m_type(DataType::Char)
     , m_bytes(bytes)
 {
 }
 
 Osmmd::Value::Value(DataType type, const Bytes& bytes)
+    : m_type(type)
+    , m_bytes(std::make_shared<Bytes>(bytes))
+{
+}
+
+Osmmd::Value::Value(DataType type, std::shared_ptr<Bytes> bytes)
     : m_type(type)
     , m_bytes(bytes)
 {
@@ -31,7 +44,7 @@ Osmmd::Value::Value(DataType type, const Bytes& bytes)
 
 bool Osmmd::Value::IsEmpty() const
 {
-    return m_bytes.size() == 0;
+    return m_bytes->size() == 0;
 }
 
 int Osmmd::Value::GetLength() const
@@ -51,11 +64,11 @@ int32_t Osmmd::Value::ToInteger() const noexcept
 {
     assert(m_type == DataType::Integer, StringConstants::Error.VALUE_NOT_INTEGER);
 
-    int32_t number = m_bytes.at(0) & 0xFF;
+    int32_t number = m_bytes->at(0) & 0xFF;
 
-    number |= ((m_bytes.at(1) << 8) & 0xFF00);
-    number |= ((m_bytes.at(2) << 16) & 0xFF0000);
-    number |= ((m_bytes.at(3) << 24) & 0xFF000000);
+    number |= ((m_bytes->at(1) << 8) & 0xFF00);
+    number |= ((m_bytes->at(2) << 16) & 0xFF0000);
+    number |= ((m_bytes->at(3) << 24) & 0xFF000000);
 
     return number;
 }
@@ -64,7 +77,7 @@ std::string Osmmd::Value::ToChar() const noexcept
 {
     assert(m_type == DataType::Char, StringConstants::Error.VALUE_NOT_CHAR);
 
-    return std::string(m_bytes.begin(), m_bytes.end());
+    return std::string(m_bytes->begin(), m_bytes->end());
 }
 
 std::string Osmmd::Value::ToString() const
@@ -87,7 +100,7 @@ std::string Osmmd::Value::ToString() const
 
 Bytes Osmmd::Value::ToBytes() const
 {
-    return m_bytes;
+    return *m_bytes;
 }
 
 int Osmmd::Value::Compare(const Value& other) const
@@ -114,7 +127,7 @@ Osmmd::DataType Osmmd::Value::GetType() const
 
 const Bytes& Osmmd::Value::GetBytes() const
 {
-    return m_bytes;
+    return *m_bytes;
 }
 
 Osmmd::Value Osmmd::Value::FromInteger(int32_t value)
@@ -126,32 +139,25 @@ Osmmd::Value Osmmd::Value::FromInteger(int32_t value)
     data[2] = value >> 16;
     data[3] = value >> 24;
 
-    Value result;
-
-    result.m_type = DataType::Integer;
-    result.m_bytes = std::vector<unsigned char>(data, data + sizeof(int32_t));
-
-    return result;
+    return Value(DataType::Integer, std::make_shared<Bytes>(data, data + sizeof(int32_t)));
 }
 
 Osmmd::Value Osmmd::Value::FromChar(const char* str)
 {
     std::string data = str;
 
-    Value result;
-
-    result.m_type = DataType::Char;
-    result.m_bytes = std::vector<unsigned char>(data.c_str(), data.c_str() + data.size());
-
-    return result;
+    return Value(DataType::Char, std::make_shared<Bytes>(data.c_str(), data.c_str() + data.size()));
 }
 
 Osmmd::Value Osmmd::Value::FromChar(const std::string& str)
 {
-    Value result;
+    return Value(DataType::Char, std::make_shared<Bytes>(str.c_str(), str.c_str() + str.size()));
+}
 
-    result.m_type = DataType::Char;
-    result.m_bytes = std::vector<unsigned char>(str.c_str(), str.c_str() + str.size());
+Osmmd::Value& Osmmd::Value::operator=(const Value& other)
+{
+    m_type = other.m_type;
+    m_bytes = other.m_bytes;
 
-    return result;
+    return *this;
 }

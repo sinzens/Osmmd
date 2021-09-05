@@ -1,5 +1,6 @@
 /*
 * Created by Zeng Yinuo, 2021.09.04
+* Edited by Zeng Yinuo, 2021.09.05
 */
 
 #include "RowValueByteConvertionTest.h"
@@ -11,7 +12,7 @@ void Osmmd::RowValueByteConvertionTest::Test()
 {
     constexpr int REPEAT = 10000;
 
-    Row row = MockDataGenerator::MockRow();
+    Row row = MockDataGenerator::MockRow(5);
     RowValue value = MockDataGenerator::MockRowValue(row);
 
     Timer timer;

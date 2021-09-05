@@ -1,5 +1,6 @@
 /*
 * Created by Zeng Yinuo, 2021.09.04
+* Edited by Zeng Yinuo, 2021.09.05
 */
 
 #pragma once
@@ -16,7 +17,9 @@ namespace Osmmd
         Value();
         Value(const Value& other);
         Value(const Bytes& bytes);
+        Value(std::shared_ptr<Bytes> bytes);
         Value(DataType type, const Bytes& bytes);
+        Value(DataType type, std::shared_ptr<Bytes> bytes);
 
         bool IsEmpty() const;
         int GetLength() const;
@@ -36,9 +39,11 @@ namespace Osmmd
         static Value FromChar(const char* str);
         static Value FromChar(const std::string& str);
 
+        Value& operator=(const Value& other);
+
     private:
         DataType m_type;
 
-        Bytes m_bytes;
+        std::shared_ptr<Bytes> m_bytes;
     };
 }

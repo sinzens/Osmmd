@@ -1,5 +1,6 @@
 /*
 * Created by Zeng Yinuo, 2021.09.04
+* Edited by Zeng Yinuo, 2021.09.05
 */
 
 #pragma once
@@ -11,7 +12,9 @@ namespace Osmmd
 {
     struct OSMMD_CORE_API RowValue : public ISerializable
     {
-        std::vector<ColumnValue> Values;
+        std::vector<std::shared_ptr<ColumnValue>> Values;
+
+        int GetLength() const;
 
         std::string ToString() const override;
         Bytes ToBytes() const override;

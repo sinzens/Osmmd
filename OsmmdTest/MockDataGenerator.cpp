@@ -1,5 +1,6 @@
 /*
 * Created by Zeng Yinuo, 2021.09.04
+* Edited by Zeng Yinuo, 2021.09.05
 */
 
 #include "MockDataGenerator.h"
@@ -8,26 +9,17 @@
 
 Osmmd::Column Osmmd::MockDataGenerator::MockColumn()
 {
-    Column column;
-
     char buffer[20];
-
     sprintf_s(buffer, "Column%s", Random::RandomString(5).c_str());
 
     Value value = Random::RandomValue();
 
-    column.Name = buffer;
-    column.Type = value.GetType();
-    column.Length = value.GetLength();
-
-    return column;
+    return Column(buffer, value.GetLength(), value.GetType());
 }
 
 Osmmd::ColumnValue Osmmd::MockDataGenerator::MockColumnValue()
 {
-    ColumnValue column;
-    column.Data = Random::RandomValue();
-    return column;
+    return ColumnValue(Random::RandomValue());
 }
 
 Osmmd::Row Osmmd::MockDataGenerator::MockRow()
@@ -53,9 +45,7 @@ Osmmd::RowValue Osmmd::MockDataGenerator::MockRowValue(const Row& rowDefinition)
 
     for (const Column& column : rowDefinition.Columns)
     {
-        ColumnValue value;
-        value.Data = Random::RandomValue(column.Type);
-        row.Values.emplace_back(value);
+        row.Values.emplace_back(std::make_shared<ColumnValue>(Random::RandomValue(column.Type)));
     }
 
     return row;

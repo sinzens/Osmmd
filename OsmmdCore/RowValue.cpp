@@ -1,8 +1,21 @@
 /*
 * Created by Zeng Yinuo, 2021.09.04
+* Edited by Zeng Yinuo, 2021.09.05
 */
 
 #include "RowValue.h"
+
+int Osmmd::RowValue::GetLength() const
+{
+    int length = 0;
+
+    for (auto i = this->Values.begin(); i != this->Values.end(); i++)
+    {
+        length += (*i)->GetLength();
+    }
+
+    return length;
+}
 
 std::string Osmmd::RowValue::ToString() const
 {
@@ -10,7 +23,7 @@ std::string Osmmd::RowValue::ToString() const
 
     for (auto i = this->Values.begin(); i != this->Values.end(); i++)
     {
-        result.append((*i).Data.ToString());
+        result.append((*i)->Data.ToString());
         result.append(i == this->Values.end() - 1 ? ")" : ", ");
     }
 
@@ -21,9 +34,9 @@ Bytes Osmmd::RowValue::ToBytes() const
 {
     Bytes bytes;
 
-    for (const ColumnValue& value : this->Values)
+    for (std::shared_ptr<ColumnValue> value : this->Values)
     {
-        bytes.insert(bytes.end(), value.Data.GetBytes().begin(), value.Data.GetBytes().end());
+        bytes.insert(bytes.end(), value->Data.GetBytes().begin(), value->Data.GetBytes().end());
     }
 
     return bytes;
@@ -41,7 +54,7 @@ Osmmd::RowValue Osmmd::RowValue::FromBytes(const Row& rowDefinition, const Bytes
         auto columnDataBegin = bytes.begin() + columnDataBeginIndex;
         auto columnDataEnd = columnDataBegin + col.Length;
 
-        row.Values.emplace_back(ColumnValue::FromBytes(col.Type, Bytes(columnDataBegin, columnDataEnd)));
+        row.Values.emplace_back(ColumnValue::PtrFromBytes(col.Type, Bytes(columnDataBegin, columnDataEnd)));
         columnDataBeginIndex += col.Length;
     }
 

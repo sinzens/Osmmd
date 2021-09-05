@@ -1,12 +1,33 @@
 /*
 * Created by Zeng Yinuo, 2021.09.01
 * Edited by Zeng Yinuo, 2021.09.04
+* Edited by Zeng Yinuo, 2021.09.05
 */
 
 #include "Column.h"
 #include "Enum.h"
 #include "Value.h"
 #include "DataType.h"
+
+Osmmd::Column::Column()
+    : Length(0)
+    , Type(DataType::Char)
+{
+}
+
+Osmmd::Column::Column(const Column& other)
+    : Name(other.Name)
+    , Length(other.Length)
+    , Type(other.Type)
+{
+}
+
+Osmmd::Column::Column(const std::string& name, int length, DataType type)
+    : Name(name)
+    , Length(length)
+    , Type(type)
+{
+}
 
 std::string Osmmd::Column::ToString() const
 {
@@ -56,31 +77,25 @@ Osmmd::Column Osmmd::Column::FromBytes(const Bytes& bytes)
     auto nameLengthBegin = bytes.begin() + sizeof(int32_t);
     auto nameBegin = nameLengthBegin + sizeof(int32_t);
 
-    int32_t nameLength = Value
-    (
-        DataType::Integer,
-        Bytes(nameLengthBegin, nameBegin)
-    ).ToInteger();
+    int32_t nameLength = Value(DataType::Integer, std::make_shared<Bytes>(nameLengthBegin, nameBegin)).ToInteger();
 
     auto lengthBegin = nameBegin + nameLength;
     auto typeBegin = lengthBegin + sizeof(int32_t);
 
-    Bytes nameData = Bytes(nameBegin, lengthBegin);
+    Bytes nameData(nameBegin, lengthBegin);
+
     std::string name(nameData.begin(), nameData.end());
-
-    int32_t length = Value
-    (
-        DataType::Integer,
-        Bytes(lengthBegin, typeBegin)
-    ).ToInteger();
-
+    int32_t length = Value(DataType::Integer, std::make_shared<Bytes>(lengthBegin, typeBegin)).ToInteger();
     DataType type = static_cast<DataType>(bytes.at(typeBegin - bytes.begin()));
 
-    Column column;
+    return Column(name, length, type);
+}
 
-    column.Name = name;
-    column.Length = length;
-    column.Type = type;
+Osmmd::Column& Osmmd::Column::operator=(const Column& other)
+{
+    this->Name = other.Name;
+    this->Length = other.Length;
+    this->Type = other.Type;
 
-    return column;
+    return *this;
 }
