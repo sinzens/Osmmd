@@ -42,6 +42,24 @@ Osmmd::Value::Value(DataType type, std::shared_ptr<Bytes> bytes)
 {
 }
 
+Osmmd::Value::Value(int32_t value)
+    : m_type(DataType::Integer)
+    , m_bytes(std::make_shared<Bytes>(Value::FromInteger(value).GetBytes()))
+{
+}
+
+Osmmd::Value::Value(const char* str)
+    : m_type(DataType::Char)
+    , m_bytes(std::make_shared<Bytes>(str, str + std::string(str).size()))
+{
+}
+
+Osmmd::Value::Value(const std::string& str)
+    : m_type(DataType::Char)
+    , m_bytes(std::make_shared<Bytes>(str.begin(), str.end()))
+{
+}
+
 bool Osmmd::Value::IsEmpty() const
 {
     return m_bytes->size() == 0;
@@ -152,6 +170,11 @@ Osmmd::Value Osmmd::Value::FromChar(const char* str)
 Osmmd::Value Osmmd::Value::FromChar(const std::string& str)
 {
     return Value(DataType::Char, std::make_shared<Bytes>(str.c_str(), str.c_str() + str.size()));
+}
+
+int32_t Osmmd::Value::GetLengthFromBytesHead(const Bytes& bytes)
+{
+    return Value(DataType::Integer, std::make_shared<Bytes>(bytes.begin(), bytes.begin() + sizeof(int32_t))).ToInteger();
 }
 
 Osmmd::Value& Osmmd::Value::operator=(const Value& other)

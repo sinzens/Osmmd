@@ -150,6 +150,9 @@
     <ClInclude Include="CommandResult.h" />
     <ClInclude Include="CreateDatabaseCommand.h" />
     <ClInclude Include="Database.h" />
+    <ClInclude Include="DatabaseConfiguration.h" />
+    <ClInclude Include="DataTable.h" />
+    <ClInclude Include="DataTableConfiguration.h" />
     <ClInclude Include="DataType.h" />
     <ClInclude Include="Debug.h" />
     <ClInclude Include="DesEncryption.h" />
@@ -164,6 +167,7 @@
     <ClInclude Include="IComparable.h" />
     <ClInclude Include="IExecutable.h" />
     <ClInclude Include="Indexer.h" />
+    <ClInclude Include="IndexStrategy.h" />
     <ClInclude Include="ISerializable.h" />
     <ClInclude Include="ISymmetricEncryption.h" />
     <ClInclude Include="Math.h" />
@@ -188,6 +192,9 @@
     <ClCompile Include="CommandResult.cpp" />
     <ClCompile Include="CreateDatabaseCommand.cpp" />
     <ClCompile Include="Database.cpp" />
+    <ClCompile Include="DatabaseConfiguration.cpp" />
+    <ClCompile Include="DataTable.cpp" />
+    <ClCompile Include="DataTableConfiguration.cpp" />
     <ClCompile Include="DataType.cpp" />
     <ClCompile Include="Debug.cpp" />
     <ClCompile Include="DesEncryption.cpp" />
@@ -201,6 +208,7 @@
     <ClCompile Include="IComparable.cpp" />
     <ClCompile Include="IExecutable.cpp" />
     <ClCompile Include="Indexer.cpp" />
+    <ClCompile Include="IndexStrategy.cpp" />
     <ClCompile Include="ISerializable.cpp" />
     <ClCompile Include="ISymmetricEncryption.cpp" />
     <ClCompile Include="Math.cpp" />

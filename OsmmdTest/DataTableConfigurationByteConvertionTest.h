@@ -1,6 +1,5 @@
 /*
-* Created by Zeng Yinuo, 2021.09.04
-* Edited by Zeng Yinuo, 2021.09.05
+* Created by Zeng Yinuo, 2021.09.05
 */
 
 #pragma once
@@ -9,7 +8,7 @@
 
 namespace Osmmd
 {
-    class HashIndexerTest
+    class DataTableConfigurationByteConvertionTest
     {
     public:
         static void Test();

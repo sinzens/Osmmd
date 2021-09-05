@@ -31,6 +31,9 @@
     <Filter Include="Index">
       <UniqueIdentifier>{93782dc0-3642-4cef-9213-08c274584018}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Config">
+      <UniqueIdentifier>{90bc3b74-3265-43c4-9f95-c9e6f1ea171b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Math.h">
@@ -68,12 +71,6 @@
     </ClInclude>
     <ClInclude Include="Row.h">
       <Filter>Storage</Filter>
-    </ClInclude>
-    <ClInclude Include="PerformanceConfiguration.h">
-      <Filter>Driver</Filter>
-    </ClInclude>
-    <ClInclude Include="DriverConfiguration.h">
-      <Filter>Driver</Filter>
     </ClInclude>
     <ClInclude Include="Column.h">
       <Filter>Storage</Filter>
@@ -141,6 +138,24 @@
     <ClInclude Include="HashIndexer.h">
       <Filter>Index</Filter>
     </ClInclude>
+    <ClInclude Include="DataTable.h">
+      <Filter>Driver</Filter>
+    </ClInclude>
+    <ClInclude Include="DriverConfiguration.h">
+      <Filter>Config</Filter>
+    </ClInclude>
+    <ClInclude Include="PerformanceConfiguration.h">
+      <Filter>Config</Filter>
+    </ClInclude>
+    <ClInclude Include="DataTableConfiguration.h">
+      <Filter>Config</Filter>
+    </ClInclude>
+    <ClInclude Include="DatabaseConfiguration.h">
+      <Filter>Config</Filter>
+    </ClInclude>
+    <ClInclude Include="IndexStrategy.h">
+      <Filter>Index</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Math.cpp">
@@ -181,12 +196,6 @@
     </ClCompile>
     <ClCompile Include="Row.cpp">
       <Filter>Storage</Filter>
-    </ClCompile>
-    <ClCompile Include="PerformanceConfiguration.cpp">
-      <Filter>Driver</Filter>
-    </ClCompile>
-    <ClCompile Include="DriverConfiguration.cpp">
-      <Filter>Driver</Filter>
     </ClCompile>
     <ClCompile Include="Column.cpp">
       <Filter>Storage</Filter>
@@ -246,6 +255,24 @@
       <Filter>Index</Filter>
     </ClCompile>
     <ClCompile Include="HashIndexer.cpp">
+      <Filter>Index</Filter>
+    </ClCompile>
+    <ClCompile Include="DataTable.cpp">
+      <Filter>Driver</Filter>
+    </ClCompile>
+    <ClCompile Include="DriverConfiguration.cpp">
+      <Filter>Config</Filter>
+    </ClCompile>
+    <ClCompile Include="PerformanceConfiguration.cpp">
+      <Filter>Config</Filter>
+    </ClCompile>
+    <ClCompile Include="DataTableConfiguration.cpp">
+      <Filter>Config</Filter>
+    </ClCompile>
+    <ClCompile Include="DatabaseConfiguration.cpp">
+      <Filter>Config</Filter>
+    </ClCompile>
+    <ClCompile Include="IndexStrategy.cpp">
       <Filter>Index</Filter>
     </ClCompile>
   </ItemGroup>

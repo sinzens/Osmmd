@@ -1,5 +1,6 @@
 /*
 * Created by Zeng Yinuo, 2021.09.04
+* Edited by Zeng Yinuo, 2021.09.05
 */
 
 #include "Random.h"
@@ -28,6 +29,11 @@ std::string Osmmd::Random::RandomString(int length, int seed)
 Osmmd::DataType Osmmd::Random::RandomDataType(int seed)
 {
 	return static_cast<DataType>(RandomInteger(0, 1, seed));
+}
+
+Osmmd::IndexStrategy Osmmd::Random::RandomIndexStrategy(int seed)
+{
+	return static_cast<IndexStrategy>(RandomInteger(0, 1, seed));
 }
 
 Osmmd::Value Osmmd::Random::RandomValue(int seed)

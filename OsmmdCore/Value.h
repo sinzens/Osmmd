@@ -21,6 +21,10 @@ namespace Osmmd
         Value(DataType type, const Bytes& bytes);
         Value(DataType type, std::shared_ptr<Bytes> bytes);
 
+        Value(int32_t value);
+        Value(const char* str);
+        Value(const std::string& str);
+
         bool IsEmpty() const;
         int GetLength() const;
 
@@ -38,6 +42,8 @@ namespace Osmmd
         static Value FromInteger(int32_t value);
         static Value FromChar(const char* str);
         static Value FromChar(const std::string& str);
+
+        static int32_t GetLengthFromBytesHead(const Bytes& bytes);
 
         Value& operator=(const Value& other);
 

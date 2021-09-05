@@ -146,6 +146,7 @@
     <ClCompile Include="BpTreeIndexerTest.cpp" />
     <ClCompile Include="ColumnByteConvertionTest.cpp" />
     <ClCompile Include="ColumnValueByteConvertionTest.cpp" />
+    <ClCompile Include="DataTableConfigurationByteConvertionTest.cpp" />
     <ClCompile Include="GlobalVariables.cpp" />
     <ClCompile Include="HashIndexerTest.cpp" />
     <ClCompile Include="main.cpp" />
@@ -162,6 +163,7 @@
     <ClInclude Include="BpTreeIndexerTest.h" />
     <ClInclude Include="ColumnByteConvertionTest.h" />
     <ClInclude Include="ColumnValueByteConvertionTest.h" />
+    <ClInclude Include="DataTableConfigurationByteConvertionTest.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="GlobalVariables.h" />
     <ClInclude Include="HashIndexerTest.h" />

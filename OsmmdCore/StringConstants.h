@@ -1,6 +1,7 @@
 /*
 * Created by Zeng Yinuo, 2021.08.26
 * Edited by Zeng Yinuo, 2021.09.04
+* Edited by Zeng Yinuo, 2021.09.05
 */
 
 #pragma once
@@ -11,6 +12,20 @@ namespace Osmmd
 {
     struct OSMMD_CORE_API StringConstants
     {
+        static const struct
+        {
+            static constexpr const char INTEGER[] = "int";
+            static constexpr const char CHAR[] = "char";
+            static constexpr const char UNKNOWN[] = "unknown";
+        } DataType;
+
+        static const struct
+        {
+            static constexpr const char BP_TREE[] = "BpTree";
+            static constexpr const char HASH[] = "Hash";
+            static constexpr const char UNKNOWN[] = "Unknown";
+        } IndexStrategy;
+
         static const struct
         {
             static constexpr const char CONFIG_FILE_NAME[] = "osmmd.config";

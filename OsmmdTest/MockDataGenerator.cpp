@@ -5,8 +5,6 @@
 
 #include "MockDataGenerator.h"
 
-#include "../OsmmdCore/Random.h"
-
 Osmmd::Column Osmmd::MockDataGenerator::MockColumn()
 {
     char buffer[20];
@@ -71,4 +69,62 @@ std::vector<Osmmd::RowValue> Osmmd::MockDataGenerator::MockRowValues(const Row& 
     }
 
     return values;
+}
+
+Osmmd::DataTableConfiguration Osmmd::MockDataGenerator::MockDataTableConfiguration()
+{
+    DataTableConfiguration config;
+
+    config.NAME = Random::RandomString(10);
+    config.PRIMARY_KEY = Random::RandomString(5);
+    config.INDEX_STRATEGY = Random::RandomIndexStrategy();
+
+    int randomIndexCount = Random::RandomInteger(0, 5);
+
+    for (int i = 0; i < randomIndexCount; i++)
+    {
+        config.INDEXES.insert(Random::RandomString(10));
+    }
+
+    return config;
+}
+
+Osmmd::BpTreeIndexer Osmmd::MockDataGenerator::MockBpTreeIndexer()
+{
+    return MockBpTreeIndexer(Random::RandomInteger(1, 100));
+}
+
+Osmmd::BpTreeIndexer Osmmd::MockDataGenerator::MockBpTreeIndexer(int rowCount)
+{
+    BpTreeIndexer indexer;
+
+    std::vector<RowValue> values = MockRowValues(rowCount);
+    int randomPrimaryKeyIndex = Random::RandomInteger(0, values.front().Values.size());
+
+    for (const RowValue& value : values)
+    {
+        indexer.Insert(*(value.Values.at(randomPrimaryKeyIndex)), std::make_shared<RowValue>(value));
+    }
+
+    return indexer;
+}
+
+Osmmd::HashIndexer Osmmd::MockDataGenerator::MockHashIndexer()
+{
+    return MockHashIndexer(Random::RandomInteger(1, 100));
+}
+
+Osmmd::HashIndexer Osmmd::MockDataGenerator::MockHashIndexer(int rowCount)
+{
+    HashIndexer indexer;
+
+    std::vector<RowValue> values = MockRowValues(rowCount);
+    int randomPrimaryKeyIndex = Random::RandomInteger(0, values.front().Values.size());
+
+    for (const RowValue& value : values)
+    {
+        indexer.Insert(*(value.Values.at(randomPrimaryKeyIndex)), std::make_shared<RowValue>(value));
+    }
+
+    return indexer;
 }
