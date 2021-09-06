@@ -11,5 +11,15 @@ Osmmd::DeleteCommand::DeleteCommand(const DeleteCommandArg& arg)
 
 std::shared_ptr<Osmmd::CommandResult> Osmmd::DeleteCommand::DoExecute()
 {
-    return std::shared_ptr<CommandResult>();
+    std::shared_ptr<IndexResult> indexResult = m_arg.Table->Delete(m_arg.Conditions);
+    
+    return std::make_shared<CommandResult>
+    (
+        CommandType::Delete,
+        indexResult->AffectRowCount,
+        indexResult->AffectColCount,
+        true,
+        std::string(),
+        0
+    );
 }

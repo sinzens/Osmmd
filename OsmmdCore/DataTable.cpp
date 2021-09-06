@@ -5,6 +5,7 @@
 #include "DataTable.h"
 #include "BpTreeIndexer.h"
 #include "HashIndexer.h"
+#include "Math.h"
 
 Osmmd::DataTable::DataTable()
     : m_primaryIndexer(nullptr)
@@ -19,9 +20,126 @@ Osmmd::DataTable::DataTable(const DataTable& other)
 {
 }
 
+std::shared_ptr<Osmmd::IndexResult> Osmmd::DataTable::Insert(std::shared_ptr<RowValue> value)
+{
+    for (int i = 0; i < value->Values.size(); i++)
+    {
+        std::string columnName = m_rowDefinition.ColumnAt(i).Name;
+
+        if (this->IsIndex(columnName))
+        {
+            std::shared_ptr<RowValue> primaryKeyValue = std::make_shared<RowValue>();
+            primaryKeyValue->Values.emplace_back(value->Values.at(this->GetPrimaryKeyIndex()));
+
+            m_indexIndexers.at(columnName)->Insert(value->Values.at(i), primaryKeyValue);
+        }
+    }
+
+    return m_primaryIndexer->Insert(value->Values.at(this->GetPrimaryKeyIndex()), value);
+}
+
+std::shared_ptr<Osmmd::IndexResult> Osmmd::DataTable::Delete(const std::vector<Condition>& conditions)
+{
+    std::shared_ptr<SelectIndexResult> deleteResult = m_primaryIndexer->Delete(conditions);
+
+    int primaryKeyIndex = this->GetPrimaryKeyIndex();
+
+    if (deleteResult->Results->size() != 0)
+    {
+        for (int i = 0; i < m_rowDefinition.Columns.size(); i++)
+        {
+            std::string columnName = m_rowDefinition.ColumnAt(i).Name;
+
+            if (!this->IsIndex(columnName))
+            {
+                continue;
+            }
+
+            for (std::shared_ptr<RowValue> deletedValue : *(deleteResult->Results))
+            {
+                Condition condition(ConditionOperator::Equal, { 0 }, deletedValue->Values.at(primaryKeyIndex));
+                m_indexIndexers.at(columnName)->Delete({ condition });
+            }
+        }
+    }
+
+    return deleteResult;
+}
+
+std::shared_ptr<Osmmd::IndexResult> Osmmd::DataTable::Update
+(
+    const std::vector<Condition>& conditions,
+    const Row& updateRow,
+    std::shared_ptr<RowValue> updateValue
+)
+{
+    if (this->UseIndexIndexing(conditions))
+    {
+        std::string indexName = this->IndexName(conditions.front().ColumnIndexes.front());
+        std::shared_ptr<RowValue> rowResult = this->SelectValueWithIndex(indexName, conditions.front().Value);
+
+        if (rowResult)
+        {
+            for (int i = 0; i < updateRow.Columns.size(); i++)
+            {
+                std::string columnName = updateRow.ColumnAt(i).Name;
+
+                if (this->IsIndex(columnName))
+                {
+                    int columnIndex = m_rowDefinition.ColumnIndex(columnName);
+                    m_indexIndexers.at(columnName)->UpdateKeyword(updateValue->Values.at(i), rowResult->Values.at(columnIndex));
+                }
+            }
+
+            return std::make_shared<IndexResult>(1, rowResult->Update(updateRow, m_rowDefinition, updateValue));
+        }
+
+        return std::make_shared<IndexResult>();
+    }
+
+    return m_primaryIndexer->Update(conditions, updateRow, m_rowDefinition, updateValue);
+}
+
+std::shared_ptr<Osmmd::SelectIndexResult> Osmmd::DataTable::Select
+(
+    const std::vector<Condition>& conditions,
+    const Row& selectRow
+)
+{
+    if (this->UseIndexIndexing(conditions))
+    {
+        std::string indexName = this->IndexName(conditions.front().ColumnIndexes.front());
+        std::shared_ptr<RowValue> rowResult = this->SelectValueWithIndex(indexName, conditions.front().Value);
+
+        std::shared_ptr<SelectIndexResult> result = std::make_shared<SelectIndexResult>();
+
+        if (rowResult)
+        {
+            result->Results->emplace_back(rowResult);
+        }
+
+        return result;
+    }
+
+    return m_primaryIndexer->Select(conditions, selectRow, m_rowDefinition);
+}
+
 std::string Osmmd::DataTable::ToString() const
 {
-    return std::string();
+    std::string result;
+
+    result.append(m_config.ToString()).append("\n\n");
+    result.append("Primary Key Index:\n").append(m_primaryIndexer->ToString()).append("\n\n");
+
+    for (auto i = m_indexIndexers.begin(); i != m_indexIndexers.end(); i++)
+    {
+        char buffer[100]{};
+        sprintf_s(buffer, "Index (%s):\n", i->first.c_str());
+
+        result.append(buffer).append(i->second->ToString()).append("\n\n");
+    }
+
+    return result;
 }
 
 Bytes Osmmd::DataTable::ToBytes() const
@@ -130,4 +248,62 @@ std::shared_ptr<Osmmd::Indexer> Osmmd::DataTable::IndexerFromBytes
     case IndexStrategy::Hash:
         return HashIndexer::PtrFromBytes(rowDefinition, bytes);
     }
+}
+
+int Osmmd::DataTable::GetPrimaryKeyIndex() const
+{
+    return m_rowDefinition.ColumnIndex(m_config.PRIMARY_KEY);
+}
+
+bool Osmmd::DataTable::UseIndexIndexing(const std::vector<Condition>& conditions)
+{
+    return
+    (
+        conditions.size() == 1 &&
+        conditions.front().IsSimpleEqualCondition() &&
+        this->IsIndex(conditions.front().ColumnIndexes.front())
+    );
+}
+
+bool Osmmd::DataTable::IsIndex(int index) const
+{
+    if (index < 0 || index >= m_rowDefinition.Columns.size())
+    {
+        return false;
+    }
+
+    return m_config.INDEXES.find(m_rowDefinition.ColumnAt(index).Name) != m_config.INDEXES.end();
+}
+
+bool Osmmd::DataTable::IsIndex(const std::string& name) const
+{
+    return m_config.INDEXES.find(name) != m_config.INDEXES.end();
+}
+
+std::string Osmmd::DataTable::IndexName(int index) const
+{
+    std::string columnName = m_rowDefinition.ColumnAt(index).Name;
+
+    if (m_config.INDEXES.find(columnName) == m_config.INDEXES.end())
+    {
+        return std::string();
+    }
+
+    return columnName;
+}
+
+std::shared_ptr<Osmmd::RowValue> Osmmd::DataTable::SelectValueWithIndex
+(
+    const std::string& indexName,
+    std::shared_ptr<ColumnValue> indexValue
+)
+{
+    std::shared_ptr<RowValue> primaryKeyRowValue = m_indexIndexers.at(indexName)->DirectSelect(indexValue);
+
+    if (!primaryKeyRowValue)
+    {
+        return nullptr;
+    }
+
+    return m_primaryIndexer->DirectSelect(primaryKeyRowValue->Values.front());
 }

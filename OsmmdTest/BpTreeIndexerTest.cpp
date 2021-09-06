@@ -11,10 +11,15 @@
 
 void Osmmd::BpTreeIndexerTest::Test()
 {
+    constexpr int ROW_COUNT = 10000;
+
+    Row rowDefinition = MockDataGenerator::MockRow();
+    BpTreeIndexer indexer = MockDataGenerator::MockBpTreeIndexer(ROW_COUNT, rowDefinition);
+
     Timer timer;
     timer.Start();
 
-    BpTreeIndexer indexer = MockDataGenerator::MockBpTreeIndexer();
+    auto result = indexer.Select({ MockDataGenerator::MockCondition(rowDefinition) }, rowDefinition, rowDefinition);
 
     timer.End();
 
@@ -23,6 +28,6 @@ void Osmmd::BpTreeIndexerTest::Test()
     Debug::WriteLine("-------------------------------------------------------------");
     Debug::WriteLine("BpTree Indexer test:");
     Debug::WriteLine("Costs {}ms", timer.Duration(TimeAccuracy::Millisecond));
-    Debug::WriteLine("Content:\n{}", indexer.ToString());
+    //Debug::WriteLine("Content:\n{}", indexer.ToString());
     Debug::WriteLine("-------------------------------------------------------------");
 }

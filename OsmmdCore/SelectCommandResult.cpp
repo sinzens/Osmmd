@@ -4,6 +4,12 @@
 
 #include "SelectCommandResult.h"
 
+Osmmd::SelectCommandResult::SelectCommandResult(const SelectCommandResult& other)
+    : CommandResult(other)
+    , Results(other.Results)
+{
+}
+
 Osmmd::SelectCommandResult::SelectCommandResult
 (
     CommandType type,
@@ -17,6 +23,23 @@ Osmmd::SelectCommandResult::SelectCommandResult
     : CommandResult(type, row, col, successful, message, time)
     , Results(results)
 {
+}
+
+std::string Osmmd::SelectCommandResult::ToString() const
+{
+    static constexpr const char SPLIT_LINE[] = "-------------------------------------------------------------";
+
+    std::string result = SPLIT_LINE;
+    result.append("\n");
+
+    for (std::shared_ptr<RowValue> value : *(this->Results))
+    {
+        result.append("\t").append(value->ToString()).append("\n");
+    }
+
+    result.append(SPLIT_LINE).append("\n").append(CommandResult::ToString());
+
+    return result;
 }
 
 Osmmd::SelectCommandResult& Osmmd::SelectCommandResult::operator=(const SelectCommandResult& other)

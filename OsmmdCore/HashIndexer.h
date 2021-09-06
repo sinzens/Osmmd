@@ -14,14 +14,36 @@ namespace Osmmd
     class OSMMD_CORE_API HashIndexer : public Indexer
     {
     public:
-        std::shared_ptr<CommandResult> Insert(const ColumnValue& key, std::shared_ptr<RowValue> value) override;
+        std::shared_ptr<IndexResult> Insert
+        (
+            std::shared_ptr<ColumnValue> key,
+            std::shared_ptr<RowValue> value
+        ) override;
 
-        std::shared_ptr<CommandResult> Delete(const ColumnValue& key) override;
+        std::shared_ptr<SelectIndexResult> Delete(const std::vector<Condition>& conditions) override;
 
-        std::shared_ptr<CommandResult> Update(const ColumnValue& key, std::shared_ptr<RowValue> value) override;
+        std::shared_ptr<IndexResult> Update
+        (
+            const std::vector<Condition>& conditions,
+            const Row& updateRow,
+            const Row& originalRow,
+            std::shared_ptr<RowValue> updateValue
+        ) override;
 
-        std::shared_ptr<SelectCommandResult> Select(const ColumnValue& key) const override;
-        std::shared_ptr<SelectCommandResult> Select(std::function<bool(std::shared_ptr<RowValue>)> filter) const override;
+        std::shared_ptr<IndexResult> UpdateKeyword
+        (
+            std::shared_ptr<ColumnValue> newKey,
+            std::shared_ptr<ColumnValue> oldKey
+        ) override;
+
+        std::shared_ptr<SelectIndexResult> Select
+        (
+            const std::vector<Condition>& conditions,
+            const Row& selectRow,
+            const Row& originalRow
+        ) const override;
+
+        std::shared_ptr<RowValue> DirectSelect(std::shared_ptr<ColumnValue> key) const override;
 
         std::string ToString() const override;
         Bytes ToBytes() const override;
@@ -30,7 +52,7 @@ namespace Osmmd
         static std::shared_ptr<HashIndexer> PtrFromBytes(const Row& rowDefinition, const Bytes& bytes); 
 
     private:
-        static std::string ColumnValueToBytesForHash(const ColumnValue& value);
+        static std::string ColumnValueToBytesForHash(std::shared_ptr<ColumnValue> value);
 
         std::map<std::string, std::shared_ptr<RowValue>> m_hashMap;
     };

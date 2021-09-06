@@ -175,9 +175,11 @@
     <ClInclude Include="IComparable.h" />
     <ClInclude Include="IExecutable.h" />
     <ClInclude Include="Indexer.h" />
+    <ClInclude Include="IndexResult.h" />
     <ClInclude Include="IndexStrategy.h" />
     <ClInclude Include="InsertCommand.h" />
     <ClInclude Include="InsertCommandArg.h" />
+    <ClInclude Include="InsertIndexArg.h" />
     <ClInclude Include="ISerializable.h" />
     <ClInclude Include="ISymmetricEncryption.h" />
     <ClInclude Include="Math.h" />
@@ -190,6 +192,7 @@
     <ClInclude Include="SelectCommand.h" />
     <ClInclude Include="SelectCommandArg.h" />
     <ClInclude Include="SelectCommandResult.h" />
+    <ClInclude Include="SelectIndexResult.h" />
     <ClInclude Include="StringConstants.h" />
     <ClInclude Include="StringHelper.h" />
     <ClInclude Include="TimeAccuracy.h" />
@@ -231,9 +234,11 @@
     <ClCompile Include="IComparable.cpp" />
     <ClCompile Include="IExecutable.cpp" />
     <ClCompile Include="Indexer.cpp" />
+    <ClCompile Include="IndexResult.cpp" />
     <ClCompile Include="IndexStrategy.cpp" />
     <ClCompile Include="InsertCommand.cpp" />
     <ClCompile Include="InsertCommandArg.cpp" />
+    <ClCompile Include="InsertIndexArg.cpp" />
     <ClCompile Include="ISerializable.cpp" />
     <ClCompile Include="ISymmetricEncryption.cpp" />
     <ClCompile Include="Math.cpp" />
@@ -246,6 +251,7 @@
     <ClCompile Include="SelectCommand.cpp" />
     <ClCompile Include="SelectCommandArg.cpp" />
     <ClCompile Include="SelectCommandResult.cpp" />
+    <ClCompile Include="SelectIndexResult.cpp" />
     <ClCompile Include="StringConstants.cpp" />
     <ClCompile Include="StringHelper.cpp" />
     <ClCompile Include="TimeAccuracy.cpp" />

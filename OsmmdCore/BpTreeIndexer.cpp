@@ -6,29 +6,53 @@
 
 #include "BpTreeIndexer.h"
 
-std::shared_ptr<Osmmd::CommandResult> Osmmd::BpTreeIndexer::Insert(const ColumnValue& key, std::shared_ptr<RowValue> value)
+std::shared_ptr<Osmmd::IndexResult> Osmmd::BpTreeIndexer::Insert
+(
+    std::shared_ptr<ColumnValue> key,
+    std::shared_ptr<RowValue> value
+)
 {
-    return nullptr;
+    return std::shared_ptr<IndexResult>();
 }
 
-std::shared_ptr<Osmmd::CommandResult> Osmmd::BpTreeIndexer::Delete(const ColumnValue& key)
+std::shared_ptr<Osmmd::SelectIndexResult> Osmmd::BpTreeIndexer::Delete(const std::vector<Condition>& conditions)
 {
-    return nullptr;
+    return std::shared_ptr<SelectIndexResult>();
 }
 
-std::shared_ptr<Osmmd::CommandResult> Osmmd::BpTreeIndexer::Update(const ColumnValue& key, std::shared_ptr<RowValue> value)
+std::shared_ptr<Osmmd::IndexResult> Osmmd::BpTreeIndexer::Update
+(
+    const std::vector<Condition>& conditions,
+    const Row& updateRow,
+    const Row& originalRow,
+    std::shared_ptr<RowValue> updateValue
+)
 {
-    return nullptr;
+    return std::shared_ptr<IndexResult>();
 }
 
-std::shared_ptr<Osmmd::SelectCommandResult> Osmmd::BpTreeIndexer::Select(const ColumnValue& key) const
+std::shared_ptr<Osmmd::IndexResult> Osmmd::BpTreeIndexer::UpdateKeyword
+(
+    std::shared_ptr<ColumnValue> newKey,
+    std::shared_ptr<ColumnValue> oldKey
+)
 {
-    return nullptr;
+    return std::shared_ptr<IndexResult>();
 }
 
-std::shared_ptr<Osmmd::SelectCommandResult> Osmmd::BpTreeIndexer::Select(std::function<bool(std::shared_ptr<RowValue>)> filter) const
+std::shared_ptr<Osmmd::SelectIndexResult> Osmmd::BpTreeIndexer::Select
+(
+    const std::vector<Condition>& conditions,
+    const Row& selectRow,
+    const Row& originalRow
+) const
 {
-    return nullptr;
+    return std::shared_ptr<SelectIndexResult>();
+}
+
+std::shared_ptr<Osmmd::RowValue> Osmmd::BpTreeIndexer::DirectSelect(std::shared_ptr<ColumnValue> key) const
+{
+    return std::shared_ptr<RowValue>();
 }
 
 std::string Osmmd::BpTreeIndexer::ToString() const

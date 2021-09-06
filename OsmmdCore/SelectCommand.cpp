@@ -12,5 +12,16 @@ Osmmd::SelectCommand::SelectCommand(const SelectCommandArg& arg)
 
 std::shared_ptr<Osmmd::CommandResult> Osmmd::SelectCommand::DoExecute()
 {
-    return std::shared_ptr<CommandResult>();
+    std::shared_ptr<SelectIndexResult> indexResult = m_arg.Table->Select(m_arg.Conditions, m_arg.SelectRow);
+
+    return std::make_shared<SelectCommandResult>
+    (
+        CommandType::Select,
+        indexResult->AffectRowCount,
+        indexResult->AffectColCount,
+        true,
+        std::string(),
+        0,
+        indexResult->Results
+    );
 }

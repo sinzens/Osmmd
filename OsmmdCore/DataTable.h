@@ -1,11 +1,13 @@
 /*
 * Created by Zeng Yinuo, 2021.09.05
+* Edited by Zeng Yinuo, 2021.09.06
 */
 
 #pragma once
 
 #include "Row.h"
 #include "Indexer.h"
+#include "IndexResult.h"
 #include "DataTableConfiguration.h"
 
 namespace Osmmd
@@ -15,6 +17,23 @@ namespace Osmmd
     public:
         DataTable();
         DataTable(const DataTable& other);
+
+        std::shared_ptr<IndexResult> Insert(std::shared_ptr<RowValue> value);
+
+        std::shared_ptr<IndexResult> Delete(const std::vector<Condition>& conditions);
+
+        std::shared_ptr<IndexResult> Update
+        (
+            const std::vector<Condition>& conditions,
+            const Row& updateRow,
+            std::shared_ptr<RowValue> updateValue
+        );
+
+        std::shared_ptr<SelectIndexResult> Select
+        (
+            const std::vector<Condition>& conditions,
+            const Row& selectRow
+        );
 
         std::string ToString() const override;
         Bytes ToBytes() const override;
@@ -28,6 +47,21 @@ namespace Osmmd
             IndexStrategy indexStrategy,
             const Row& rowDefinition,
             const Bytes& bytes
+        );
+
+        int GetPrimaryKeyIndex() const;
+
+        bool UseIndexIndexing(const std::vector<Condition>& conditions);
+
+        bool IsIndex(int index) const;
+        bool IsIndex(const std::string& name) const;
+
+        std::string IndexName(int index) const;
+
+        std::shared_ptr<RowValue> SelectValueWithIndex
+        (
+            const std::string& indexName,
+            std::shared_ptr<ColumnValue> indexValue
         );
 
         DataTableConfiguration m_config;

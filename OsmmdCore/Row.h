@@ -12,7 +12,24 @@ namespace Osmmd
 {
     struct OSMMD_CORE_API Row : public ISerializable
     {
-        std::vector<Column> Columns;
+        std::deque<Column> Columns;
+
+        void AddColumn(const Column& column);
+
+        void RemoveColumn(int index);
+        void RemoveColumn(const std::string& name);
+
+        void UpdateColumn(int index, const Column& column);
+        void UpdateColumn(const std::string& name, const Column& column);
+
+        const Column& ColumnAt(int index) const;
+        const Column& ColumnAt(const std::string& name) const;
+
+        bool HasColumn(const std::string& name) const;
+        bool HasColumn(const Column& column) const;
+
+        int ColumnIndex(const std::string& name) const;
+        int ColumnIndex(const Column& column) const;
 
         std::string ToString() const override;
         Bytes ToBytes() const override;
@@ -21,5 +38,8 @@ namespace Osmmd
 
         bool operator==(const Row& other) const;
         bool operator!=(const Row& other) const;
+
+    private:
+        std::map<std::string, int> m_nameIndexMap;
     };
 }

@@ -1,6 +1,7 @@
 /*
 * Created by Zeng Yinuo, 2021.09.04
 * Edited by Zeng Yinuo, 2021.09.05
+* Edited by Zeng Yinuo, 2021.09.06
 */
 
 #include "Random.h"
@@ -34,6 +35,11 @@ Osmmd::DataType Osmmd::Random::RandomDataType(int seed)
 Osmmd::IndexStrategy Osmmd::Random::RandomIndexStrategy(int seed)
 {
 	return static_cast<IndexStrategy>(RandomInteger(0, 1, seed));
+}
+
+Osmmd::ConditionOperator Osmmd::Random::RandomConditionOperator(int seed)
+{
+	return static_cast<ConditionOperator>(RandomInteger(0, 5, seed));
 }
 
 Osmmd::Value Osmmd::Random::RandomValue(int seed)

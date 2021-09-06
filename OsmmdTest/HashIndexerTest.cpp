@@ -13,23 +13,13 @@ void Osmmd::HashIndexerTest::Test()
 {
     constexpr int ROW_COUNT = 10000;
 
-    HashIndexer indexer = MockDataGenerator::MockHashIndexer(ROW_COUNT);
+    Row rowDefinition = MockDataGenerator::MockRow();
+    HashIndexer indexer = MockDataGenerator::MockHashIndexer(ROW_COUNT, rowDefinition);
 
     Timer timer;
     timer.Start();
 
-    auto results = indexer.Select
-    ([](std::shared_ptr<RowValue> row) -> bool
-        {
-            auto &value = row->Values.at(0);
-            if (value->Data.GetType() == DataType::Integer)
-            {
-                return *(value) > Value(10000000);
-            }
-            
-            return *(value) > Value("2345678901");
-        }
-    );
+    auto result = indexer.Select({ MockDataGenerator::MockCondition(rowDefinition) }, rowDefinition, rowDefinition);
 
     timer.End();
 
@@ -38,7 +28,7 @@ void Osmmd::HashIndexerTest::Test()
     Debug::WriteLine("-------------------------------------------------------------");
     Debug::WriteLine("Hash Indexer test:");
     Debug::WriteLine("Row count {}, Costs {}ms", ROW_COUNT, timer.Duration(TimeAccuracy::Millisecond));
-    Debug::WriteLine("Results: {}", results->Results->size());
+    Debug::WriteLine("Results: {}", result->Results->size());
     //Debug::WriteLine("Content:\n{}", indexer.ToString());
     Debug::WriteLine("-------------------------------------------------------------");
 }

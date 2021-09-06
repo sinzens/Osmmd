@@ -6,6 +6,120 @@
 
 #include "Row.h"
 
+void Osmmd::Row::AddColumn(const Column& column)
+{
+    this->Columns.emplace_back(column);
+    this->m_nameIndexMap.insert({ column.Name, this->Columns.size() - 1 });
+}
+
+void Osmmd::Row::RemoveColumn(int index)
+{
+    if (index < 0 || index >= this->Columns.size())
+    {
+        return;
+    }
+
+    this->m_nameIndexMap.erase(this->Columns.at(index).Name);
+    this->Columns.erase(this->Columns.begin() + index);
+}
+
+void Osmmd::Row::RemoveColumn(const std::string& name)
+{
+    auto target = this->m_nameIndexMap.find(name);
+
+    if (target == this->m_nameIndexMap.end())
+    {
+        return;
+    }
+
+    this->Columns.erase(this->Columns.begin() + target->second);
+    this->m_nameIndexMap.erase(target);
+}
+
+void Osmmd::Row::UpdateColumn(int index, const Column& column)
+{
+    if (index < 0 || index >= this->Columns.size())
+    {
+        return;
+    }
+
+    this->m_nameIndexMap.erase(this->Columns.at(index).Name);
+    this->m_nameIndexMap.insert({ column.Name, index });
+
+    this->Columns.at(index) = column;
+}
+
+void Osmmd::Row::UpdateColumn(const std::string& name, const Column& column)
+{
+    auto target = this->m_nameIndexMap.find(name);
+
+    if (target == this->m_nameIndexMap.end())
+    {
+        return;
+    }
+
+    this->Columns.at(target->second) = column;
+    this->m_nameIndexMap.at(name) = target->second;
+}
+
+const Osmmd::Column& Osmmd::Row::ColumnAt(int index) const
+{
+    return this->Columns.at(index);
+}
+
+const Osmmd::Column& Osmmd::Row::ColumnAt(const std::string& name) const
+{
+    return this->Columns.at(this->m_nameIndexMap.at(name));
+}
+
+bool Osmmd::Row::HasColumn(const std::string& name) const
+{
+    return this->m_nameIndexMap.find(name) != this->m_nameIndexMap.end();
+}
+
+bool Osmmd::Row::HasColumn(const Column& column) const
+{
+    if (this->m_nameIndexMap.find(column.Name) == this->m_nameIndexMap.end())
+    {
+        return false;
+    }
+
+    for (const Column& col : this->Columns)
+    {
+        if (col == column)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+int Osmmd::Row::ColumnIndex(const std::string& name) const
+{
+    auto target = m_nameIndexMap.find(name);
+
+    if (target == m_nameIndexMap.end())
+    {
+        return -1;
+    }
+
+    return target->second;
+}
+
+int Osmmd::Row::ColumnIndex(const Column& column) const
+{
+    for (auto i = this->Columns.begin(); i != this->Columns.end(); i++)
+    {
+        if ((*i) == column)
+        {
+            return i - this->Columns.begin();
+        }
+    }
+
+    return -1;
+}
+
 std::string Osmmd::Row::ToString() const
 {
     std::string result;
@@ -72,7 +186,9 @@ Osmmd::Row Osmmd::Row::FromBytes(const Bytes& bytes)
         int columnDataLength = Value(DataType::Integer, Bytes(columnDataBegin, columnDataBegin + sizeof(int32_t))).ToInteger();
 
         Bytes columnData(columnDataBegin, columnDataBegin + columnDataLength);
-        row.Columns.emplace_back(Column::FromBytes(columnData));
+        Column column = Column::FromBytes(columnData);
+
+        row.AddColumn(column);
 
         columnDataBeginIndex += columnDataLength;
     }

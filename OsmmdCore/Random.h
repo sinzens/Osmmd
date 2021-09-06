@@ -1,12 +1,14 @@
 /*
 * Created by Zeng Yinuo, 2021.09.04
 * Edited by Zeng Yinuo, 2021.09.05
+* Edited by Zeng Yinuo, 2021.09.06
 */
 
 #pragma once
 
 #include "Value.h"
 #include "IndexStrategy.h"
+#include "ConditionOperator.h"
 
 namespace Osmmd
 {
@@ -19,6 +21,7 @@ namespace Osmmd
 
         static DataType RandomDataType(int seed = -1);
         static IndexStrategy RandomIndexStrategy(int seed = -1);
+        static ConditionOperator RandomConditionOperator(int seed = -1);
 
         static Value RandomValue(int seed = -1);
         static Value RandomValue(DataType type, int seed = -1);

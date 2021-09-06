@@ -25,7 +25,9 @@ namespace Osmmd
         double TimeElapse;
 
         CommandResult();
+
         CommandResult(const CommandResult& other);
+
         CommandResult
         (
             CommandType type,

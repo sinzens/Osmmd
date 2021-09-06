@@ -6,57 +6,114 @@
 
 #include "HashIndexer.h"
 
-std::shared_ptr<Osmmd::CommandResult> Osmmd::HashIndexer::Insert(const ColumnValue& key, std::shared_ptr<RowValue> value)
+std::shared_ptr<Osmmd::IndexResult> Osmmd::HashIndexer::Insert
+(
+    std::shared_ptr<ColumnValue> key,
+    std::shared_ptr<RowValue> value
+)
 {
     m_hashMap.insert({ ColumnValueToBytesForHash(key), value });
 
-    return nullptr;
+    return std::make_shared<IndexResult>(1, value->Values.size());
 }
 
-std::shared_ptr<Osmmd::CommandResult> Osmmd::HashIndexer::Delete(const ColumnValue& key)
+std::shared_ptr<Osmmd::SelectIndexResult> Osmmd::HashIndexer::Delete(const std::vector<Condition>& conditions)
 {
-    m_hashMap.erase(ColumnValueToBytesForHash(key));
-
-    return nullptr;
-}
-
-std::shared_ptr<Osmmd::CommandResult> Osmmd::HashIndexer::Update(const ColumnValue& key, std::shared_ptr<RowValue> value)
-{
-    auto target = m_hashMap.find(ColumnValueToBytesForHash(key));
-    
-    if (target != m_hashMap.end())
-    {
-        target->second = value;
-    }
-
-    return nullptr;
-}
-
-std::shared_ptr<Osmmd::SelectCommandResult> Osmmd::HashIndexer::Select(const ColumnValue& key) const
-{
-    auto target = m_hashMap.find(ColumnValueToBytesForHash(key));
-
-    if (target != m_hashMap.end())
-    {
-        //return { *(target->second) };
-    }
-
-    return nullptr;
-}
-
-std::shared_ptr<Osmmd::SelectCommandResult> Osmmd::HashIndexer::Select(std::function<bool(std::shared_ptr<RowValue>)> filter) const
-{
-    std::vector<RowValue> results;
+    std::shared_ptr<SelectIndexResult> result = std::make_shared<SelectIndexResult>();
 
     for (auto i = m_hashMap.begin(); i != m_hashMap.end(); i++)
     {
-        if (filter(i->second))
+        if (i->second->MeetConditions(conditions))
         {
-            results.emplace_back(*(i->second));
+            result->Results->emplace_back(std::make_shared<RowValue>(i->second));
+            i = m_hashMap.erase(i);
         }
     }
 
-    return nullptr;
+    result->AffectRowCount = result->Results->size();
+    result->AffectColCount = result->Results->size() == 0 ? 0 : result->Results->front()->Values.size();
+
+    return result;
+}
+
+std::shared_ptr<Osmmd::IndexResult> Osmmd::HashIndexer::Update
+(
+    const std::vector<Condition>& conditions,
+    const Row& updateRow,
+    const Row& originalRow,
+    std::shared_ptr<RowValue> updateValue
+)
+{
+    int counter = 0;
+
+    for (auto i = m_hashMap.begin(); i != m_hashMap.end(); i++)
+    {
+        if (i->second->MeetConditions(conditions))
+        {
+            i->second->Update(updateRow, originalRow, updateValue);
+            counter++;
+        }
+    }
+
+    return std::make_shared<IndexResult>(counter, updateRow.Columns.size());
+}
+
+std::shared_ptr<Osmmd::IndexResult> Osmmd::HashIndexer::UpdateKeyword
+(
+    std::shared_ptr<ColumnValue> newKey,
+    std::shared_ptr<ColumnValue> oldKey
+)
+{
+    std::shared_ptr<IndexResult> result = std::make_shared<IndexResult>();
+
+    auto target = m_hashMap.find(ColumnValueToBytesForHash(oldKey));
+
+    if (target == m_hashMap.end())
+    {
+        return result;
+    }
+
+    std::shared_ptr<RowValue> value = target->second;
+
+    m_hashMap.erase(target);
+    m_hashMap.insert({ ColumnValueToBytesForHash(newKey), value });
+
+    result->AffectRowCount = 1;
+    result->AffectColCount = 1;
+
+    return result;
+}
+
+std::shared_ptr<Osmmd::SelectIndexResult> Osmmd::HashIndexer::Select
+(
+    const std::vector<Condition>& conditions,
+    const Row& selectRow,
+    const Row& originalRow
+) const
+{
+    std::shared_ptr<SelectIndexResult> result = std::make_shared<SelectIndexResult>();
+
+    for (auto i = m_hashMap.begin(); i != m_hashMap.end(); i++)
+    {
+        if (i->second->MeetConditions(conditions))
+        {
+            result->Results->emplace_back(std::make_shared<RowValue>(i->second->Sliced(selectRow, originalRow)));
+        }
+    }
+
+    return result;
+}
+
+std::shared_ptr<Osmmd::RowValue> Osmmd::HashIndexer::DirectSelect(std::shared_ptr<ColumnValue> key) const
+{
+    auto target = m_hashMap.find(ColumnValueToBytesForHash(key));
+
+    if (target == m_hashMap.end())
+    {
+        return nullptr;
+    }
+
+    return target->second;
 }
 
 std::string Osmmd::HashIndexer::ToString() const
@@ -89,7 +146,7 @@ std::shared_ptr<Osmmd::HashIndexer> Osmmd::HashIndexer::PtrFromBytes(const Row& 
     return std::shared_ptr<HashIndexer>();
 }
 
-std::string Osmmd::HashIndexer::ColumnValueToBytesForHash(const ColumnValue& value)
+std::string Osmmd::HashIndexer::ColumnValueToBytesForHash(std::shared_ptr<ColumnValue> value)
 {
-    return std::string(value.Data.GetBytes().begin(), value.Data.GetBytes().end());
+    return std::string(value->Data.GetBytes().begin(), value->Data.GetBytes().end());
 }

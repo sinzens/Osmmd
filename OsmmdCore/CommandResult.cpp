@@ -53,20 +53,34 @@ std::string Osmmd::CommandResult::ToString() const
 
     if (!this->Successful)
     {
-        sprintf_s(buffer, "Execution failed;\nError message is:\n%s;\n", this->Message.c_str());
+        sprintf_s(buffer, "Execution failed;\nError message is:\n'%s';", this->Message.c_str());
         result = buffer;
     }
     else
     {
-        sprintf_s
-        (
-            buffer,
-            "Execution succeeded;\nCommand type: %s;\n%d rows affected;\n%d cols affected;\nMessage is:\n%s;\n",
-            GetCommandTypeName(this->Type).c_str(),
-            this->AffectRowCount,
-            this->AffectColCount,
-            this->Message.c_str()
-        );
+        if (this->Message.empty())
+        {
+            sprintf_s
+            (
+                buffer,
+                "Execution succeeded;\nCommand type: %s;\n%d rows affected;\n%d cols affected;",
+                GetCommandTypeName(this->Type).c_str(),
+                this->AffectRowCount,
+                this->AffectColCount
+            );
+        }
+        else
+        {
+            sprintf_s
+            (
+                buffer,
+                "Execution succeeded;\nCommand type: %s;\n%d rows affected;\n%d cols affected;\nMessage is:\n'%s';",
+                GetCommandTypeName(this->Type).c_str(),
+                this->AffectRowCount,
+                this->AffectColCount,
+                this->Message.c_str()
+            );
+        }
 
         result = buffer;
 

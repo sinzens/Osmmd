@@ -7,21 +7,43 @@
 #pragma once
 
 #include "RowValue.h"
-#include "CommandResult.h"
-#include "SelectCommandResult.h"
+#include "IndexResult.h"
+#include "SelectIndexResult.h"
 
 namespace Osmmd
 {
     class OSMMD_CORE_API Indexer : public ISerializable
     {
     public:
-        virtual std::shared_ptr<CommandResult> Insert(const ColumnValue& key, std::shared_ptr<RowValue> value) = 0;
+        virtual std::shared_ptr<IndexResult> Insert
+        (
+            std::shared_ptr<ColumnValue> key,
+            std::shared_ptr<RowValue> value
+        ) = 0;
 
-        virtual std::shared_ptr<CommandResult> Delete(const ColumnValue& key) = 0;
+        virtual std::shared_ptr<SelectIndexResult> Delete(const std::vector<Condition>& conditions) = 0;
 
-        virtual std::shared_ptr<CommandResult> Update(const ColumnValue& key, std::shared_ptr<RowValue> value) = 0;
+        virtual std::shared_ptr<IndexResult> Update
+        (
+            const std::vector<Condition>& conditions,
+            const Row& updateRow,
+            const Row& originalRow,
+            std::shared_ptr<RowValue> updateValue
+        ) = 0;
 
-        virtual std::shared_ptr<SelectCommandResult> Select(const ColumnValue& key) const = 0;
-        virtual std::shared_ptr<SelectCommandResult> Select(std::function<bool(std::shared_ptr<RowValue>)> filter) const = 0;
+        virtual std::shared_ptr<IndexResult> UpdateKeyword
+        (
+            std::shared_ptr<ColumnValue> newKey,
+            std::shared_ptr<ColumnValue> oldKey
+        ) = 0;
+
+        virtual std::shared_ptr<SelectIndexResult> Select
+        (
+            const std::vector<Condition>& conditions,
+            const Row& selectRow,
+            const Row& originalRow
+        ) const = 0;
+
+        virtual std::shared_ptr<RowValue> DirectSelect(std::shared_ptr<ColumnValue> key) const = 0;
     };
 }

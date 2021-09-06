@@ -11,5 +11,15 @@ Osmmd::InsertCommand::InsertCommand(const InsertCommandArg& arg)
 
 std::shared_ptr<Osmmd::CommandResult> Osmmd::InsertCommand::DoExecute()
 {
-    return std::shared_ptr<CommandResult>();
+    std::shared_ptr<Osmmd::IndexResult> indexResult = m_arg.Table->Insert(m_arg.Value);
+
+    return std::make_shared<CommandResult>
+    (
+        CommandType::Insert,
+        indexResult->AffectRowCount,
+        indexResult->AffectColCount,
+        true,
+        std::string(),
+        0
+    );
 }

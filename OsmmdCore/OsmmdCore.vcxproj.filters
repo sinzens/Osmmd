@@ -159,9 +159,6 @@
     <ClInclude Include="CreateDatabaseCommand.h">
       <Filter>Command</Filter>
     </ClInclude>
-    <ClInclude Include="InsertCommandArg.h">
-      <Filter>Command</Filter>
-    </ClInclude>
     <ClInclude Include="DeleteCommandArg.h">
       <Filter>Command</Filter>
     </ClInclude>
@@ -200,6 +197,18 @@
     </ClInclude>
     <ClInclude Include="CreateTableCommand.h">
       <Filter>Command</Filter>
+    </ClInclude>
+    <ClInclude Include="IndexResult.h">
+      <Filter>Index</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectIndexResult.h">
+      <Filter>Index</Filter>
+    </ClInclude>
+    <ClInclude Include="InsertCommandArg.h">
+      <Filter>Index</Filter>
+    </ClInclude>
+    <ClInclude Include="InsertIndexArg.h">
+      <Filter>Index</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -364,6 +373,15 @@
     </ClCompile>
     <ClCompile Include="CreateTableCommand.cpp">
       <Filter>Command</Filter>
+    </ClCompile>
+    <ClCompile Include="IndexResult.cpp">
+      <Filter>Index</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectIndexResult.cpp">
+      <Filter>Index</Filter>
+    </ClCompile>
+    <ClCompile Include="InsertIndexArg.cpp">
+      <Filter>Index</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,7 @@
 /*
 * Created by Zeng Yinuo, 2021.09.04
 * Edited by Zeng Yinuo, 2021.09.05
+* Edited by Zeng Yinuo, 2021.09.06
 */
 
 #include "MockDataGenerator.h"
@@ -18,6 +19,11 @@ Osmmd::Column Osmmd::MockDataGenerator::MockColumn()
 Osmmd::ColumnValue Osmmd::MockDataGenerator::MockColumnValue()
 {
     return ColumnValue(Random::RandomValue());
+}
+
+Osmmd::ColumnValue Osmmd::MockDataGenerator::MockColumnValue(const Column& column)
+{
+    return ColumnValue(Random::RandomValue(column.Type));
 }
 
 Osmmd::Row Osmmd::MockDataGenerator::MockRow()
@@ -56,10 +62,10 @@ std::vector<Osmmd::RowValue> Osmmd::MockDataGenerator::MockRowValues()
 
 std::vector<Osmmd::RowValue> Osmmd::MockDataGenerator::MockRowValues(int rowCount)
 {
-    return MockRowValues(MockRow(), rowCount);
+    return MockRowValues(rowCount, MockRow());
 }
 
-std::vector<Osmmd::RowValue> Osmmd::MockDataGenerator::MockRowValues(const Row& rowDefinition, int rowCount)
+std::vector<Osmmd::RowValue> Osmmd::MockDataGenerator::MockRowValues(int rowCount, const Row& rowDefinition)
 {
     std::vector<RowValue> values;
 
@@ -96,14 +102,19 @@ Osmmd::BpTreeIndexer Osmmd::MockDataGenerator::MockBpTreeIndexer()
 
 Osmmd::BpTreeIndexer Osmmd::MockDataGenerator::MockBpTreeIndexer(int rowCount)
 {
+    return MockBpTreeIndexer(rowCount, MockRow());
+}
+
+Osmmd::BpTreeIndexer Osmmd::MockDataGenerator::MockBpTreeIndexer(int rowCount, const Row& rowDefinition)
+{
     BpTreeIndexer indexer;
 
-    std::vector<RowValue> values = MockRowValues(rowCount);
+    std::vector<RowValue> values = MockRowValues(rowCount, rowDefinition);
     int randomPrimaryKeyIndex = Random::RandomInteger(0, values.front().Values.size());
 
     for (const RowValue& value : values)
     {
-        indexer.Insert(*(value.Values.at(randomPrimaryKeyIndex)), std::make_shared<RowValue>(value));
+        indexer.Insert(value.Values.at(randomPrimaryKeyIndex), std::make_shared<RowValue>(value));
     }
 
     return indexer;
@@ -116,15 +127,44 @@ Osmmd::HashIndexer Osmmd::MockDataGenerator::MockHashIndexer()
 
 Osmmd::HashIndexer Osmmd::MockDataGenerator::MockHashIndexer(int rowCount)
 {
+    return MockHashIndexer(rowCount, MockRow());
+}
+
+Osmmd::HashIndexer Osmmd::MockDataGenerator::MockHashIndexer(int rowCount, const Row& rowDefinition)
+{
     HashIndexer indexer;
 
-    std::vector<RowValue> values = MockRowValues(rowCount);
+    std::vector<RowValue> values = MockRowValues(rowCount, rowDefinition);
     int randomPrimaryKeyIndex = Random::RandomInteger(0, values.front().Values.size());
 
     for (const RowValue& value : values)
     {
-        indexer.Insert(*(value.Values.at(randomPrimaryKeyIndex)), std::make_shared<RowValue>(value));
+        indexer.Insert(value.Values.at(randomPrimaryKeyIndex), std::make_shared<RowValue>(value));
     }
 
     return indexer;
+}
+
+Osmmd::Condition Osmmd::MockDataGenerator::MockCondition(const Row& rowDefinition)
+{
+    int randomColumnIndex = Random::RandomInteger(0, rowDefinition.Columns.size());
+
+    return Condition
+    (
+        Random::RandomConditionOperator(),
+        { randomColumnIndex },
+        std::make_shared<ColumnValue>(MockColumnValue(rowDefinition.ColumnAt(randomColumnIndex)))
+    );
+}
+
+Osmmd::Condition Osmmd::MockDataGenerator::MockCondition(std::shared_ptr<RowValue> value)
+{
+    int randomColumnIndex = Random::RandomInteger(0, value->Values.size());
+
+    return Condition
+    (
+        Random::RandomConditionOperator(),
+        { randomColumnIndex },
+        value->Values.at(randomColumnIndex)
+    );
 }

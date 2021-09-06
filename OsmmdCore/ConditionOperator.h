@@ -8,6 +8,6 @@ namespace Osmmd
 {
     enum class ConditionOperator : unsigned char
     {
-        LessThan, GreaterThan, Equal, LessThanEqual, GreaterThanEqual
+        LessThan, GreaterThan, Equal, LessThanEqual, GreaterThanEqual, NotEqual
     };
 }

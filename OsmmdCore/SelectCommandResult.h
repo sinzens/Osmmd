@@ -15,6 +15,8 @@ namespace Osmmd
 
         std::shared_ptr<std::vector<std::shared_ptr<RowValue>>> Results;
 
+        SelectCommandResult(const SelectCommandResult& other);
+
         SelectCommandResult
         (
             CommandType type,
@@ -25,6 +27,8 @@ namespace Osmmd
             double time,
             std::shared_ptr<std::vector<std::shared_ptr<RowValue>>> results
         );
+
+        std::string ToString() const override;
 
         SelectCommandResult& operator=(const SelectCommandResult& other);
     };
