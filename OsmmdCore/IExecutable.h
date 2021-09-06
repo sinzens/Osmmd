@@ -1,5 +1,6 @@
 /*
 * Created by Zeng Yinuo, 2021.08.23
+* Edited by Zeng Yinuo, 2021.09.06
 */
 
 #pragma once
@@ -11,6 +12,6 @@ namespace Osmmd
     class OSMMD_CORE_API IExecutable
     {
     public:
-        virtual CommandResult Execute() = 0;
+        virtual std::shared_ptr<CommandResult> Execute() = 0;
     };
 }

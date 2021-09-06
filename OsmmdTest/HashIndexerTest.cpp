@@ -1,6 +1,7 @@
 /*
 * Created by Zeng Yinuo, 2021.09.04
 * Edited by Zeng Yinuo, 2021.09.05
+* Edited by Zeng Yinuo, 2021.09.06
 */
 
 #include "HashIndexerTest.h"
@@ -37,7 +38,7 @@ void Osmmd::HashIndexerTest::Test()
     Debug::WriteLine("-------------------------------------------------------------");
     Debug::WriteLine("Hash Indexer test:");
     Debug::WriteLine("Row count {}, Costs {}ms", ROW_COUNT, timer.Duration(TimeAccuracy::Millisecond));
-    Debug::WriteLine("Results: {}", results.size());
+    Debug::WriteLine("Results: {}", results->Results->size());
     //Debug::WriteLine("Content:\n{}", indexer.ToString());
     Debug::WriteLine("-------------------------------------------------------------");
 }

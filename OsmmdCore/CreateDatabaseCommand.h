@@ -1,22 +1,24 @@
 /*
 * Created by Zeng Yinuo, 2021.08.26
+* Edited by Zeng Yinuo, 2021.09.06
 */
 
 #pragma once
 
 #include "AtomicCommand.h"
-#include "Database.h"
+#include "CreateDatabaseCommandArg.h"
 
 namespace Osmmd
 {
     class OSMMD_CORE_API CreateDatabaseCommand : public AtomicCommand
     {
     public:
-        CreateDatabaseCommand(const Database& database);
+        CreateDatabaseCommand(const CreateDatabaseCommandArg& arg);
 
-        CommandResult Execute() override;
+    protected:
+        std::shared_ptr<CommandResult> DoExecute() override;
 
     private:
-        Database m_database;
+        CreateDatabaseCommandArg m_arg;
     };
 }

@@ -1,6 +1,7 @@
 /*
 * Created by Zeng Yinuo, 2021.09.04
 * Edited by Zeng Yinuo, 2021.09.05
+* Edited by Zeng Yinuo, 2021.09.06
 */
 
 #pragma once
@@ -13,14 +14,14 @@ namespace Osmmd
     class OSMMD_CORE_API BpTreeIndexer : public Indexer
     {
     public:
-        virtual void Insert(const ColumnValue& key, std::shared_ptr<RowValue> value) override;
+        std::shared_ptr<CommandResult> Insert(const ColumnValue& key, std::shared_ptr<RowValue> value) override;
 
-        virtual void Delete(const ColumnValue& key) override;
+        std::shared_ptr<CommandResult> Delete(const ColumnValue& key) override;
 
-        virtual void Update(const ColumnValue& key, std::shared_ptr<RowValue> value) override;
+        std::shared_ptr<CommandResult> Update(const ColumnValue& key, std::shared_ptr<RowValue> value) override;
 
-        virtual std::vector<RowValue> Select(const ColumnValue& key) const override;
-        virtual std::vector<RowValue> Select(std::function<bool(std::shared_ptr<RowValue>)> filter) const override;
+        std::shared_ptr<SelectCommandResult> Select(const ColumnValue& key) const override;
+        std::shared_ptr<SelectCommandResult> Select(std::function<bool(std::shared_ptr<RowValue>)> filter) const override;
 
         std::string ToString() const override;
         Bytes ToBytes() const override;

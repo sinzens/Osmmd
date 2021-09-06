@@ -1,30 +1,34 @@
 /*
 * Created by Zeng Yinuo, 2021.09.04
 * Edited by Zeng Yinuo, 2021.09.05
+* Edited by Zeng Yinuo, 2021.09.06
 */
 
 #include "BpTreeIndexer.h"
 
-void Osmmd::BpTreeIndexer::Insert(const ColumnValue& key, std::shared_ptr<RowValue> value)
+std::shared_ptr<Osmmd::CommandResult> Osmmd::BpTreeIndexer::Insert(const ColumnValue& key, std::shared_ptr<RowValue> value)
 {
+    return nullptr;
 }
 
-void Osmmd::BpTreeIndexer::Delete(const ColumnValue& key)
+std::shared_ptr<Osmmd::CommandResult> Osmmd::BpTreeIndexer::Delete(const ColumnValue& key)
 {
+    return nullptr;
 }
 
-void Osmmd::BpTreeIndexer::Update(const ColumnValue& key, std::shared_ptr<RowValue> value)
+std::shared_ptr<Osmmd::CommandResult> Osmmd::BpTreeIndexer::Update(const ColumnValue& key, std::shared_ptr<RowValue> value)
 {
+    return nullptr;
 }
 
-std::vector<Osmmd::RowValue> Osmmd::BpTreeIndexer::Select(const ColumnValue& key) const
+std::shared_ptr<Osmmd::SelectCommandResult> Osmmd::BpTreeIndexer::Select(const ColumnValue& key) const
 {
-    return std::vector<RowValue>();
+    return nullptr;
 }
 
-std::vector<Osmmd::RowValue> Osmmd::BpTreeIndexer::Select(std::function<bool(std::shared_ptr<RowValue>)> filter) const
+std::shared_ptr<Osmmd::SelectCommandResult> Osmmd::BpTreeIndexer::Select(std::function<bool(std::shared_ptr<RowValue>)> filter) const
 {
-    return std::vector<RowValue>();
+    return nullptr;
 }
 
 std::string Osmmd::BpTreeIndexer::ToString() const

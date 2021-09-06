@@ -84,9 +84,6 @@
     <ClInclude Include="CommandResult.h">
       <Filter>Command</Filter>
     </ClInclude>
-    <ClInclude Include="CreateDatabaseCommand.h">
-      <Filter>Command</Filter>
-    </ClInclude>
     <ClInclude Include="ISerializable.h">
       <Filter>Base</Filter>
     </ClInclude>
@@ -98,9 +95,6 @@
     </ClInclude>
     <ClInclude Include="DataType.h">
       <Filter>Type</Filter>
-    </ClInclude>
-    <ClInclude Include="IExecutable.h">
-      <Filter>Command</Filter>
     </ClInclude>
     <ClInclude Include="Enum.h">
       <Filter>Base</Filter>
@@ -156,12 +150,60 @@
     <ClInclude Include="IndexStrategy.h">
       <Filter>Index</Filter>
     </ClInclude>
+    <ClInclude Include="CommandType.h">
+      <Filter>Command</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectCommandResult.h">
+      <Filter>Command</Filter>
+    </ClInclude>
+    <ClInclude Include="CreateDatabaseCommand.h">
+      <Filter>Command</Filter>
+    </ClInclude>
+    <ClInclude Include="InsertCommandArg.h">
+      <Filter>Command</Filter>
+    </ClInclude>
+    <ClInclude Include="DeleteCommandArg.h">
+      <Filter>Command</Filter>
+    </ClInclude>
+    <ClInclude Include="Condition.h">
+      <Filter>Command</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdateCommandArg.h">
+      <Filter>Command</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectCommandArg.h">
+      <Filter>Command</Filter>
+    </ClInclude>
+    <ClInclude Include="ConditionOperator.h">
+      <Filter>Command</Filter>
+    </ClInclude>
+    <ClInclude Include="IExecutable.h">
+      <Filter>Command</Filter>
+    </ClInclude>
+    <ClInclude Include="InsertCommand.h">
+      <Filter>Command</Filter>
+    </ClInclude>
+    <ClInclude Include="DeleteCommand.h">
+      <Filter>Command</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdateCommand.h">
+      <Filter>Command</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectCommand.h">
+      <Filter>Command</Filter>
+    </ClInclude>
+    <ClInclude Include="CreateDatabaseCommandArg.h">
+      <Filter>Command</Filter>
+    </ClInclude>
+    <ClInclude Include="CreateTableCommandArg.h">
+      <Filter>Command</Filter>
+    </ClInclude>
+    <ClInclude Include="CreateTableCommand.h">
+      <Filter>Command</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Math.cpp">
-      <Filter>Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Memory.cpp">
       <Filter>Base</Filter>
     </ClCompile>
     <ClCompile Include="StringHelper.cpp">
@@ -274,6 +316,54 @@
     </ClCompile>
     <ClCompile Include="IndexStrategy.cpp">
       <Filter>Index</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandType.cpp">
+      <Filter>Command</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectCommandResult.cpp">
+      <Filter>Command</Filter>
+    </ClCompile>
+    <ClCompile Include="InsertCommandArg.cpp">
+      <Filter>Command</Filter>
+    </ClCompile>
+    <ClCompile Include="DeleteCommandArg.cpp">
+      <Filter>Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Condition.cpp">
+      <Filter>Command</Filter>
+    </ClCompile>
+    <ClCompile Include="UpdateCommandArg.cpp">
+      <Filter>Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Memory.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectCommandArg.cpp">
+      <Filter>Command</Filter>
+    </ClCompile>
+    <ClCompile Include="ConditionOperator.cpp">
+      <Filter>Command</Filter>
+    </ClCompile>
+    <ClCompile Include="InsertCommand.cpp">
+      <Filter>Command</Filter>
+    </ClCompile>
+    <ClCompile Include="DeleteCommand.cpp">
+      <Filter>Command</Filter>
+    </ClCompile>
+    <ClCompile Include="UpdateCommand.cpp">
+      <Filter>Command</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectCommand.cpp">
+      <Filter>Command</Filter>
+    </ClCompile>
+    <ClCompile Include="CreateDatabaseCommandArg.cpp">
+      <Filter>Command</Filter>
+    </ClCompile>
+    <ClCompile Include="CreateTableCommandArg.cpp">
+      <Filter>Command</Filter>
+    </ClCompile>
+    <ClCompile Include="CreateTableCommand.cpp">
+      <Filter>Command</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

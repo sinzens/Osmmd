@@ -1,11 +1,12 @@
 /*
 * Created by Zeng Yinuo, 2021.08.26
+* Edited by Zeng Yinuo, 2021.09.06
 */
 
 #pragma once
 
-#include "Global.h"
 #include "DriverConfiguration.h"
+#include "PerformanceConfiguration.h"
 
 namespace Osmmd
 {
@@ -27,6 +28,7 @@ namespace Osmmd
         std::string GetConfigurationPath() const;
 
         const DriverConfiguration& GetConfiguration() const;
+        const PerformanceConfiguration& GetPerformance() const;
 
         static Driver& GetInstance();
 
@@ -39,5 +41,6 @@ namespace Osmmd
         std::string m_workingDirectory;
 
         DriverConfiguration m_config;
+        PerformanceConfiguration m_performance;
     };
 }

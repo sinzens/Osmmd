@@ -148,13 +148,21 @@
     <ClInclude Include="Column.h" />
     <ClInclude Include="ColumnValue.h" />
     <ClInclude Include="CommandResult.h" />
+    <ClInclude Include="CommandType.h" />
+    <ClInclude Include="Condition.h" />
+    <ClInclude Include="ConditionOperator.h" />
     <ClInclude Include="CreateDatabaseCommand.h" />
+    <ClInclude Include="CreateDatabaseCommandArg.h" />
+    <ClInclude Include="CreateTableCommand.h" />
+    <ClInclude Include="CreateTableCommandArg.h" />
     <ClInclude Include="Database.h" />
     <ClInclude Include="DatabaseConfiguration.h" />
     <ClInclude Include="DataTable.h" />
     <ClInclude Include="DataTableConfiguration.h" />
     <ClInclude Include="DataType.h" />
     <ClInclude Include="Debug.h" />
+    <ClInclude Include="DeleteCommand.h" />
+    <ClInclude Include="DeleteCommandArg.h" />
     <ClInclude Include="DesEncryption.h" />
     <ClInclude Include="Encryptor.h" />
     <ClInclude Include="Driver.h" />
@@ -168,6 +176,8 @@
     <ClInclude Include="IExecutable.h" />
     <ClInclude Include="Indexer.h" />
     <ClInclude Include="IndexStrategy.h" />
+    <ClInclude Include="InsertCommand.h" />
+    <ClInclude Include="InsertCommandArg.h" />
     <ClInclude Include="ISerializable.h" />
     <ClInclude Include="ISymmetricEncryption.h" />
     <ClInclude Include="Math.h" />
@@ -177,11 +187,16 @@
     <ClInclude Include="Random.h" />
     <ClInclude Include="Row.h" />
     <ClInclude Include="RowValue.h" />
+    <ClInclude Include="SelectCommand.h" />
+    <ClInclude Include="SelectCommandArg.h" />
+    <ClInclude Include="SelectCommandResult.h" />
     <ClInclude Include="StringConstants.h" />
     <ClInclude Include="StringHelper.h" />
     <ClInclude Include="TimeAccuracy.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Type.h" />
+    <ClInclude Include="UpdateCommand.h" />
+    <ClInclude Include="UpdateCommandArg.h" />
     <ClInclude Include="Value.h" />
   </ItemGroup>
   <ItemGroup>
@@ -190,13 +205,21 @@
     <ClCompile Include="Column.cpp" />
     <ClCompile Include="ColumnValue.cpp" />
     <ClCompile Include="CommandResult.cpp" />
+    <ClCompile Include="CommandType.cpp" />
+    <ClCompile Include="Condition.cpp" />
+    <ClCompile Include="ConditionOperator.cpp" />
     <ClCompile Include="CreateDatabaseCommand.cpp" />
+    <ClCompile Include="CreateDatabaseCommandArg.cpp" />
+    <ClCompile Include="CreateTableCommand.cpp" />
+    <ClCompile Include="CreateTableCommandArg.cpp" />
     <ClCompile Include="Database.cpp" />
     <ClCompile Include="DatabaseConfiguration.cpp" />
     <ClCompile Include="DataTable.cpp" />
     <ClCompile Include="DataTableConfiguration.cpp" />
     <ClCompile Include="DataType.cpp" />
     <ClCompile Include="Debug.cpp" />
+    <ClCompile Include="DeleteCommand.cpp" />
+    <ClCompile Include="DeleteCommandArg.cpp" />
     <ClCompile Include="DesEncryption.cpp" />
     <ClCompile Include="Encryptor.cpp" />
     <ClCompile Include="Driver.cpp" />
@@ -209,6 +232,8 @@
     <ClCompile Include="IExecutable.cpp" />
     <ClCompile Include="Indexer.cpp" />
     <ClCompile Include="IndexStrategy.cpp" />
+    <ClCompile Include="InsertCommand.cpp" />
+    <ClCompile Include="InsertCommandArg.cpp" />
     <ClCompile Include="ISerializable.cpp" />
     <ClCompile Include="ISymmetricEncryption.cpp" />
     <ClCompile Include="Math.cpp" />
@@ -218,11 +243,16 @@
     <ClCompile Include="Random.cpp" />
     <ClCompile Include="Row.cpp" />
     <ClCompile Include="RowValue.cpp" />
+    <ClCompile Include="SelectCommand.cpp" />
+    <ClCompile Include="SelectCommandArg.cpp" />
+    <ClCompile Include="SelectCommandResult.cpp" />
     <ClCompile Include="StringConstants.cpp" />
     <ClCompile Include="StringHelper.cpp" />
     <ClCompile Include="TimeAccuracy.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Type.cpp" />
+    <ClCompile Include="UpdateCommand.cpp" />
+    <ClCompile Include="UpdateCommandArg.cpp" />
     <ClCompile Include="Value.cpp" />
   </ItemGroup>
   <ItemGroup>

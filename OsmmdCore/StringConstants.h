@@ -2,6 +2,7 @@
 * Created by Zeng Yinuo, 2021.08.26
 * Edited by Zeng Yinuo, 2021.09.04
 * Edited by Zeng Yinuo, 2021.09.05
+* Edited by Zeng Yinuo, 2021.09.06
 */
 
 #pragma once
@@ -25,6 +26,19 @@ namespace Osmmd
             static constexpr const char HASH[] = "Hash";
             static constexpr const char UNKNOWN[] = "Unknown";
         } IndexStrategy;
+
+        static const struct
+        {
+            static constexpr const char CREATE_DATABASE[] = "CREATE DATABASE";
+            static constexpr const char CREATE_TABLE[] = "CREATE TABLE";
+            static constexpr const char DELETE_DATABASE[] = "DELETE DATABASE";
+            static constexpr const char DELETE_TABLE[] = "DELETE TABLE";
+            static constexpr const char INSERT[] = "INSERT";
+            static constexpr const char DELETE[] = "DELETE";
+            static constexpr const char UPDATE[] = "UPDATE";
+            static constexpr const char SELECT[] = "SELECT";
+            static constexpr const char UNKNOWN[] = "UNKNOWN";
+        } CommandType;
 
         static const struct
         {

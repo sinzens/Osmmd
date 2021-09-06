@@ -2,6 +2,7 @@
 * Created by Zeng Yinuo, 2021.08.23
 * Edited by Zeng Yinuo, 2021.08.26
 * Edited by Zeng Yinuo, 2021.09.04
+* Edited by Zeng Yinuo, 2021.09.06
 */
 
 #pragma once
@@ -41,6 +42,8 @@
 #endif
 
 #define OSMMD_FUNC_API extern "C" OSMMD_CORE_API
+
+#define TIMING_ON Driver::GetInstance().GetPerformance().TIMING
 
 #undef min
 #undef max

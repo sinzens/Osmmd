@@ -1,27 +1,27 @@
 /*
 * Created by Zeng Yinuo, 2021.08.26
+* Edited by Zeng Yinuo, 2021.09.06
 */
 
 #include "CreateDatabaseCommand.h"
 #include "Driver.h"
 
-Osmmd::CreateDatabaseCommand::CreateDatabaseCommand(const Database& database)
-    : m_database(database)
+Osmmd::CreateDatabaseCommand::CreateDatabaseCommand(const CreateDatabaseCommandArg& arg)
+    : m_arg(arg)
 {
 }
 
-Osmmd::CommandResult Osmmd::CreateDatabaseCommand::Execute()
+std::shared_ptr<Osmmd::CommandResult> Osmmd::CreateDatabaseCommand::DoExecute()
 {
     Driver& driver = Driver::GetInstance();
     DriverConfiguration config = driver.GetConfiguration();
 
     std::filesystem::path path(driver.GetWorkingDirectory());
-    path.append(m_database.GetName()).append(std::string(m_database.GetName()).append(".database"));
+    path.append(m_arg.Name).append(std::string(m_arg.Name).append(".database"));
 
-    //config.databases.emplace_back(std::tuple(m_database.GetName(), path.u8string()));
-    config.DATABASES.insert({ m_database.GetName(), path.u8string() });
+    config.DATABASES.insert({ m_arg.Name, path.u8string() });
 
     driver.RefreshConfiguration(config);
 
-    return CommandResult();
+    return std::make_shared<CommandResult>();
 }

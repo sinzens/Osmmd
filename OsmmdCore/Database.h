@@ -1,21 +1,26 @@
 /*
 * Created by Zeng Yinuo, 2021.08.26
+* Edited by Zeng Yinuo, 2021.09.06
 */
 
 #pragma once
 
-#include "Global.h"
+#include "DatabaseConfiguration.h"
 
 namespace Osmmd
 {
-    class OSMMD_CORE_API Database
+    class OSMMD_CORE_API Database : public ISerializable
     {
     public:
-        Database(const std::string& name);
+        Database(const DatabaseConfiguration& config);
 
-        const std::string& GetName() const;
+        std::string ToString() const override;
+        Bytes ToBytes() const override;
+
+        static Database FromBytes(const Bytes& bytes);
+        static std::shared_ptr<Database> PtrFromBytes(const Bytes& bytes);
 
     private:
-        std::string m_name;
+        DatabaseConfiguration m_config;
     };
 }
