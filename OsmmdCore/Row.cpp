@@ -1,6 +1,7 @@
 /*
 * Created by Zeng Yinuo, 2021.09.01
 * Edited by Zeng Yinuo, 2021.09.04
+* Edited by Zeng Yinuo, 2021.09.06
 */
 
 #include "Row.h"
@@ -56,7 +57,6 @@ Bytes Osmmd::Row::ToBytes() const
 
 Osmmd::Row Osmmd::Row::FromBytes(const Bytes& bytes)
 {
-    //int dataLength = Value(Bytes(bytes.begin(), bytes.begin() + sizeof(int32_t))).ToInteger();
     auto dataLengthBegin = bytes.begin();
     auto columnCountBegin = dataLengthBegin + sizeof(int32_t);
     auto columnsDataBegin = columnCountBegin + sizeof(int32_t);
@@ -78,4 +78,40 @@ Osmmd::Row Osmmd::Row::FromBytes(const Bytes& bytes)
     }
 
     return row;
+}
+
+bool Osmmd::Row::operator==(const Row& other) const
+{
+    if (this->Columns.size() != other.Columns.size())
+    {
+        return false;
+    }
+
+    for (int i = 0; i < this->Columns.size(); i++)
+    {
+        if (this->Columns.at(i) != other.Columns.at(i))
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool Osmmd::Row::operator!=(const Row& other) const
+{
+    if (this->Columns.size() != other.Columns.size())
+    {
+        return true;
+    }
+
+    for (int i = 0; i < this->Columns.size(); i++)
+    {
+        if (this->Columns.at(i) != other.Columns.at(i))
+        {
+            return true;
+        }
+    }
+
+    return false;
 }

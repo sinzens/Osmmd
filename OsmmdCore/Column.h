@@ -2,6 +2,7 @@
 * Created by Zeng Yinuo, 2021.09.01
 * Edited by Zeng Yinuo, 2021.09.04
 * Edited by Zeng Yinuo, 2021.09.05
+* Edited by Zeng Yinuo, 2021.09.06
 */
 
 #pragma once
@@ -27,5 +28,8 @@ namespace Osmmd
         static Column FromBytes(const Bytes& bytes);
 
         Column& operator=(const Column& other);
+
+        bool operator==(const Column& other) const;
+        bool operator!=(const Column& other) const;
     };
 }

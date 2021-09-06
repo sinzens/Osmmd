@@ -1,6 +1,7 @@
 /*
 * Created by Zeng Yinuo, 2021.09.01
 * Edited by Zeng Yinuo, 2021.09.04
+* Edited by Zeng Yinuo, 2021.09.06
 */
 
 #pragma once
@@ -17,5 +18,8 @@ namespace Osmmd
         Bytes ToBytes() const override;
 
         static Row FromBytes(const Bytes& bytes);
+
+        bool operator==(const Row& other) const;
+        bool operator!=(const Row& other) const;
     };
 }

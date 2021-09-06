@@ -14,7 +14,14 @@ namespace Osmmd
         std::shared_ptr<DataTable> Table;
         std::vector<Condition> Conditions;
 
-        SelectCommandArg(std::shared_ptr<DataTable> table, const std::vector<Condition>& conditions);
+        Row SelectRow;
+
+        SelectCommandArg
+        (
+            std::shared_ptr<DataTable> table,
+            const std::vector<Condition>& conditions,
+            const Row& selectRow
+        );
 
         SelectCommandArg& operator=(const SelectCommandArg& other);
     };

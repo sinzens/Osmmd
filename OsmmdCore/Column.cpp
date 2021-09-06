@@ -2,6 +2,7 @@
 * Created by Zeng Yinuo, 2021.09.01
 * Edited by Zeng Yinuo, 2021.09.04
 * Edited by Zeng Yinuo, 2021.09.05
+* Edited by Zeng Yinuo, 2021.09.06
 */
 
 #include "Column.h"
@@ -98,4 +99,14 @@ Osmmd::Column& Osmmd::Column::operator=(const Column& other)
     this->Type = other.Type;
 
     return *this;
+}
+
+bool Osmmd::Column::operator==(const Column& other) const
+{
+    return this->Name == other.Name && this->Length == other.Length && this->Type == other.Type;
+}
+
+bool Osmmd::Column::operator!=(const Column& other) const
+{
+    return !(this->Name == other.Name && this->Length == other.Length && this->Type == other.Type);
 }
