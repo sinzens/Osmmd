@@ -281,6 +281,12 @@ Osmmd::SqlParseResult Osmmd::SqlParser::ParseCreateTableCommand(const StringHelp
         case DataType::Char:
             length = Value(DataType::Integer, Bytes(lengthContent.GetString().begin(), lengthContent.GetString().end())).ToInteger();
             break;
+        case DataType::Double:
+            length = sizeof(double);
+            break;
+        case DataType::DateTime:
+            length = sizeof(int16_t) + 5 * sizeof(int8_t);
+            break;
         }
 
         rowDefinition.AddColumn(Column(columnName.GetString(), length, type));

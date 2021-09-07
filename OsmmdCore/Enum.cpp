@@ -16,6 +16,10 @@ std::string Osmmd::GetDataTypeName(Osmmd::DataType type)
         return StringConstants::DataType.INTEGER;
     case DataType::Char:
         return StringConstants::DataType.CHAR;
+    case DataType::Double:
+        return StringConstants::DataType.DOUBLE;
+    case DataType::DateTime:
+        return StringConstants::DataType.DATETIME;
     }
 
     return StringConstants::DataType.UNKNOWN;
@@ -31,6 +35,16 @@ Osmmd::DataType Osmmd::GetDataType(const std::string& name)
     if (name == StringConstants::DataType.CHAR)
     {
         return DataType::Char;
+    }
+
+    if (name == StringConstants::DataType.DOUBLE)
+    {
+        return DataType::Double;
+    }
+
+    if (name == StringConstants::DataType.DATETIME)
+    {
+        return DataType::DateTime;
     }
 
     return DataType::Char;

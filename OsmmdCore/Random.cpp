@@ -2,6 +2,7 @@
 * Created by Zeng Yinuo, 2021.09.04
 * Edited by Zeng Yinuo, 2021.09.05
 * Edited by Zeng Yinuo, 2021.09.06
+* Edited by Zeng Yinuo, 2021.09.07
 */
 
 #include "Random.h"
@@ -29,7 +30,7 @@ std::string Osmmd::Random::RandomString(int length, int seed)
 
 Osmmd::DataType Osmmd::Random::RandomDataType(int seed)
 {
-	return static_cast<DataType>(RandomInteger(0, 1, seed));
+	return static_cast<DataType>(RandomInteger(0, 3, seed));
 }
 
 Osmmd::IndexStrategy Osmmd::Random::RandomIndexStrategy(int seed)

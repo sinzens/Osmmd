@@ -234,6 +234,9 @@
     <ClInclude Include="DeleteTableCommand.h">
       <Filter>Command</Filter>
     </ClInclude>
+    <ClInclude Include="DateTime.h">
+      <Filter>Type</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Math.cpp">
@@ -430,6 +433,9 @@
     </ClCompile>
     <ClCompile Include="DeleteTableCommand.cpp">
       <Filter>Command</Filter>
+    </ClCompile>
+    <ClCompile Include="DateTime.cpp">
+      <Filter>Type</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

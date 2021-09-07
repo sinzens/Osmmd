@@ -1,6 +1,7 @@
 /*
 * Created by Zeng Yinuo, 2021.09.04
 * Edited by Zeng Yinuo, 2021.09.05
+* Edited by Zeng Yinuo, 2021.09.07
 */
 
 #include "Enum.h"
@@ -60,6 +61,18 @@ Osmmd::Value::Value(const std::string& str)
 {
 }
 
+Osmmd::Value::Value(double value)
+    : m_type(DataType::Double)
+    , m_bytes(std::make_shared<Bytes>(Value::FromDouble(value).GetBytes()))
+{
+}
+
+Osmmd::Value::Value(const DateTime& dateTime)
+    : m_type(DataType::DateTime)
+    , m_bytes(std::make_shared<Bytes>(dateTime.ToBytes()))
+{
+}
+
 bool Osmmd::Value::IsEmpty() const
 {
     return m_bytes->size() == 0;
@@ -73,6 +86,10 @@ int Osmmd::Value::GetLength() const
         return sizeof(int32_t);
     case DataType::Char:
         return this->ToChar().size();
+    case DataType::Double:
+        return sizeof(double);
+    case DataType::DateTime:
+        return sizeof(int16_t) + 5 * sizeof(int8_t);
     }
 
     return 0;
@@ -96,6 +113,27 @@ std::string Osmmd::Value::ToChar() const noexcept
     assert(m_type == DataType::Char, StringConstants::Error.VALUE_NOT_CHAR);
 
     return std::string(m_bytes->begin(), m_bytes->end());
+}
+
+double Osmmd::Value::ToDouble() const noexcept
+{
+    assert(m_type == DataType::Double, StringConstants::Error.VALUE_NOT_DOUBLE);
+
+    unsigned char data[sizeof(double)]{};
+
+    for (int i = 0; i < sizeof(data); i++)
+    {
+        data[i] = m_bytes->at(i);
+    }
+
+    return *(reinterpret_cast<double*>(data));
+}
+
+Osmmd::DateTime Osmmd::Value::ToDateTime() const noexcept
+{
+    assert(m_type == DataType::DateTime, StringConstants::Error.VALUE_NOT_DATETIME);
+
+    return DateTime::FromBytes(*m_bytes);
 }
 
 std::string Osmmd::Value::ToString() const
@@ -128,11 +166,20 @@ int Osmmd::Value::Compare(const Value& other) const
     case DataType::Integer: {
         int32_t a = this->ToInteger();
         int32_t b = other.ToInteger();
-
         return a > b ? 1 : (a < b ? -1 : 0);
     }
+
     case DataType::Char:
         return this->ToChar().compare(other.ToChar());
+
+    case DataType::Double: {
+        double a = this->ToDouble();
+        double b = other.ToDouble();
+        return a > b ? 1 : (a < b ? -1 : 0);
+    }
+
+    case DataType::DateTime:
+        return this->ToDateTime().Compare(other.ToDateTime());
     }
 
     return 0;
@@ -170,6 +217,18 @@ Osmmd::Value Osmmd::Value::FromChar(const char* str)
 Osmmd::Value Osmmd::Value::FromChar(const std::string& str)
 {
     return Value(DataType::Char, std::make_shared<Bytes>(str.c_str(), str.c_str() + str.size()));
+}
+
+Osmmd::Value Osmmd::Value::FromDouble(double value)
+{
+    unsigned char* data = reinterpret_cast<unsigned char*>(&value);
+
+    return Value(DataType::Double, std::make_shared<Bytes>(data, data + sizeof(data)));
+}
+
+Osmmd::Value Osmmd::Value::FromDateTime(const DateTime& dateTime)
+{
+    return Value(DataType::DateTime, std::make_shared<Bytes>(dateTime.ToBytes()));
 }
 
 int32_t Osmmd::Value::GetLengthFromBytesHead(const Bytes& bytes)

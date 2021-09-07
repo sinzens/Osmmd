@@ -18,6 +18,8 @@ namespace Osmmd
         {
             static constexpr const char INTEGER[] = "int";
             static constexpr const char CHAR[] = "char";
+            static constexpr const char DOUBLE[] = "double";
+            static constexpr const char DATETIME[] = "datetime";
             static constexpr const char UNKNOWN[] = "unknown";
         } DataType;
 
@@ -64,6 +66,8 @@ namespace Osmmd
         {
             static constexpr const char VALUE_NOT_INTEGER[] = "Failed to convert non-integer value to integer.";
             static constexpr const char VALUE_NOT_CHAR[] = "Failed to convert non-char value to char.";
+            static constexpr const char VALUE_NOT_DOUBLE[] = "Failed to convert non-double value to double.";
+            static constexpr const char VALUE_NOT_DATETIME[] = "Failed to convert non-datetime value to datetime.";
 
             static constexpr const char SQL_NO_SUCH_COMMAND[] = "No such command";
             static constexpr const char SQL_NO_DATABASE_NAME[] = "No database name given";

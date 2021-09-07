@@ -1,13 +1,13 @@
 /*
 * Created by Zeng Yinuo, 2021.09.04
 * Edited by Zeng Yinuo, 2021.09.05
+* Edited by Zeng Yinuo, 2021.09.07
 */
 
 #pragma once
 
-#include "ISerializable.h"
-#include "IComparable.h"
 #include "DataType.h"
+#include "DateTime.h"
 
 namespace Osmmd
 {
@@ -24,12 +24,16 @@ namespace Osmmd
         Value(int32_t value);
         Value(const char* str);
         Value(const std::string& str);
+        Value(double value);
+        Value(const DateTime& dateTime);
 
         bool IsEmpty() const;
         int GetLength() const;
 
         int32_t ToInteger() const noexcept;
         std::string ToChar() const noexcept;
+        double ToDouble() const noexcept;
+        DateTime ToDateTime() const noexcept;
 
         std::string ToString() const override;
         Bytes ToBytes() const override;
@@ -42,6 +46,8 @@ namespace Osmmd
         static Value FromInteger(int32_t value);
         static Value FromChar(const char* str);
         static Value FromChar(const std::string& str);
+        static Value FromDouble(double value);
+        static Value FromDateTime(const DateTime& dateTime);
 
         static int32_t GetLengthFromBytesHead(const Bytes& bytes);
 

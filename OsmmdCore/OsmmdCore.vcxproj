@@ -165,6 +165,7 @@
     <ClInclude Include="DataTable.h" />
     <ClInclude Include="DataTableConfiguration.h" />
     <ClInclude Include="DataType.h" />
+    <ClInclude Include="DateTime.h" />
     <ClInclude Include="Debug.h" />
     <ClInclude Include="DeleteCommand.h" />
     <ClInclude Include="DeleteCommandArg.h" />
@@ -233,6 +234,7 @@
     <ClCompile Include="DataTable.cpp" />
     <ClCompile Include="DataTableConfiguration.cpp" />
     <ClCompile Include="DataType.cpp" />
+    <ClCompile Include="DateTime.cpp" />
     <ClCompile Include="Debug.cpp" />
     <ClCompile Include="DeleteCommand.cpp" />
     <ClCompile Include="DeleteCommandArg.cpp" />
