@@ -2,6 +2,7 @@
 * Created by Zeng Yinuo, 2021.08.23
 * Edited by Zeng Yinuo, 2021.08.26
 * Edited by Zeng Yinuo, 2021.09.04
+* Edited by Zeng Yinuo, 2021.09.07
 */
 
 #pragma once
@@ -25,6 +26,13 @@ namespace Osmmd
         bool StartsWith(const std::string& str) const;
         bool EndsWith(const std::string& str) const;
 
+        bool IsValidIdentifier() const;
+
+        bool StartsWithNumber() const;
+
+        bool ContainsOnlyLettersAndNumbers() const;
+        bool ContainsOnlyLettersNumbersAndUnderscore() const;
+
         StringHelper Left(int count) const;
         StringHelper Right(int count) const;
 
@@ -44,6 +52,8 @@ namespace Osmmd
         StringHelper ToLowerCase() const;
 
         StringHelper ToSqlCompatible() const;
+
+        int GetLength() const;
 
         const std::string& GetString() const;
 

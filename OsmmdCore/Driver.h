@@ -1,12 +1,15 @@
 /*
 * Created by Zeng Yinuo, 2021.08.26
 * Edited by Zeng Yinuo, 2021.09.06
+* Edited by Zeng Yinuo, 2021.09.07
 */
 
 #pragma once
 
 #include "DriverConfiguration.h"
 #include "PerformanceConfiguration.h"
+
+#include "CommandExecutor.h"
 
 namespace Osmmd
 {
@@ -30,6 +33,8 @@ namespace Osmmd
         const DriverConfiguration& GetConfiguration() const;
         const PerformanceConfiguration& GetPerformance() const;
 
+        void ExecuteSqls(const std::vector<std::string>& sqls);
+
         static Driver& GetInstance();
 
     private:
@@ -42,5 +47,7 @@ namespace Osmmd
 
         DriverConfiguration m_config;
         PerformanceConfiguration m_performance;
+
+        std::unique_ptr<CommandExecutor> m_executor;
     };
 }

@@ -2,13 +2,15 @@
 * Created by Zeng Yinuo, 2021.08.26
 * Edited by Zeng Yinuo, 2021.09.04
 * Edited by Zeng Yinuo, 2021.09.06
+* Edited by Zeng Yinuo, 2021.09.07
 */
 
 #include "Driver.h"
-#include "DriverConfiguration.h"
 #include "StringConstants.h"
+#include "SqlParser.h"
 
 Osmmd::Driver::Driver()
+    : m_executor(std::make_unique<CommandExecutor>())
 {
 }
 
@@ -111,6 +113,24 @@ const Osmmd::DriverConfiguration& Osmmd::Driver::GetConfiguration() const
 const Osmmd::PerformanceConfiguration& Osmmd::Driver::GetPerformance() const
 {
     return m_performance;
+}
+
+void Osmmd::Driver::ExecuteSqls(const std::vector<std::string>& sqls)
+{
+    for (const std::string& sql : sqls)
+    {
+        SqlParseResult result = SqlParser::Parse(sql);
+
+        if (!result.Successful)
+        {
+            std::cout << result.ToString() << std::endl;
+            return;
+        }
+
+        m_executor->AddCommand(result.Command);
+    }
+
+    m_executor->Execute();
 }
 
 Osmmd::Driver& Osmmd::Driver::GetInstance()

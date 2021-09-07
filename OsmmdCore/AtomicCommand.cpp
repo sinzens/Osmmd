@@ -1,6 +1,7 @@
 /*
 * Created by Zeng Yinuo, 2021.08.23
 * Edited by Zeng Yinuo, 2021.09.06
+* Edited by Zeng Yinuo, 2021.09.07
 */
 
 #include "AtomicCommand.h"
@@ -23,4 +24,9 @@ std::shared_ptr<Osmmd::CommandResult> Osmmd::AtomicCommand::Execute()
     }
     
     return this->DoExecute();
+}
+
+Osmmd::CommandType Osmmd::AtomicCommand::GetType() const
+{
+    return m_type;
 }

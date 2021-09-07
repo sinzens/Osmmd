@@ -1,5 +1,6 @@
 /*
 * Created by Zeng Yinuo, 2021.09.06
+* Edited by Zeng Yinuo, 2021.09.07
 */
 
 #pragma once
@@ -15,6 +16,7 @@ namespace Osmmd
         Insert,
         Delete,
         Update,
-        Select
+        Select,
+        Quit
     };
 }

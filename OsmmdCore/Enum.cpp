@@ -2,6 +2,7 @@
 * Created by Zeng Yinuo, 2021.09.04
 * Edited by Zeng Yinuo, 2021.09.05
 * Edited by Zeng Yinuo, 2021.09.06
+* Edited by Zeng Yinuo, 2021.09.07
 */
 
 #include "Enum.h"
@@ -33,6 +34,11 @@ Osmmd::DataType Osmmd::GetDataType(const std::string& name)
     }
 
     return DataType::Char;
+}
+
+bool Osmmd::IsKnownDataType(const std::string& name)
+{
+    return name == StringConstants::DataType.INTEGER || name == StringConstants::DataType.CHAR;
 }
 
 std::string Osmmd::GetIndexStrategyName(Osmmd::IndexStrategy indexStrategy)
@@ -83,6 +89,8 @@ std::string Osmmd::GetCommandTypeName(CommandType type)
         return StringConstants::CommandType.UPDATE;
     case CommandType::Select:
         return StringConstants::CommandType.SELECT;
+    case CommandType::Quit:
+        return StringConstants::CommandType.QUIT;
     }
 
     return StringConstants::CommandType.UNKNOWN;
@@ -128,6 +136,11 @@ Osmmd::CommandType Osmmd::GetCommandType(const std::string& name)
     if (name == StringConstants::CommandType.SELECT)
     {
         return CommandType::Select;
+    }
+
+    if (name == StringConstants::CommandType.QUIT)
+    {
+        return CommandType::Quit;
     }
 
     return CommandType::Select;

@@ -1,5 +1,6 @@
 /*
 * Created by Zeng Yinuo, 2021.09.06
+* Edited by Zeng Yinuo, 2021.09.07
 */
 
 #include "SelectCommand.h"
@@ -8,6 +9,7 @@
 Osmmd::SelectCommand::SelectCommand(const SelectCommandArg& arg)
     : m_arg(arg)
 {
+    m_type = CommandType::Select;
 }
 
 std::shared_ptr<Osmmd::CommandResult> Osmmd::SelectCommand::DoExecute()

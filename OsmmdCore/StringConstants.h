@@ -3,6 +3,7 @@
 * Edited by Zeng Yinuo, 2021.09.04
 * Edited by Zeng Yinuo, 2021.09.05
 * Edited by Zeng Yinuo, 2021.09.06
+* Edited by Zeng Yinuo, 2021.09.07
 */
 
 #pragma once
@@ -37,6 +38,7 @@ namespace Osmmd
             static constexpr const char DELETE[] = "DELETE";
             static constexpr const char UPDATE[] = "UPDATE";
             static constexpr const char SELECT[] = "SELECT";
+            static constexpr const char QUIT[] = "QUIT";
             static constexpr const char UNKNOWN[] = "UNKNOWN";
         } CommandType;
 
@@ -62,6 +64,33 @@ namespace Osmmd
         {
             static constexpr const char VALUE_NOT_INTEGER[] = "Failed to convert non-integer value to integer.";
             static constexpr const char VALUE_NOT_CHAR[] = "Failed to convert non-char value to char.";
+
+            static constexpr const char SQL_NO_SUCH_COMMAND[] = "No such command";
+            static constexpr const char SQL_NO_DATABASE_NAME[] = "No database name given";
+            static constexpr const char SQL_NO_DATATABLE_NAME[] = "No data table name given";
+            static constexpr const char SQL_NO_DATATABLE_DEFINITION[] = "No data table definition given";
+            static constexpr const char SQL_NO_DATATABLE_DEFINITION_END[] = "Data table definition should end with ')'";
+            static constexpr const char SQL_NO_DATATABLE_DEFINITION_CONTENT[] = "Data table definition is empty";
+
+            static constexpr const char SQL_INVALID_COLUMN_DEFINITION[] = "Invalid column definition";
+            static constexpr const char SQL_INVALID_PRIMARY_KEY_DECLARATION[] = "Invalid primary key declaration";
+            static constexpr const char SQL_INVALID_INDEX_DECLARATION[] = "Invalid index declaration";
+
+            static constexpr const char SQL_INVALID_IDENTIFIER_NOT_ALLOWED_CHARACTER[]
+                = "Invalid identifier, only letters, numbers and underscore are allowed";
+
+            static constexpr const char SQL_INVALID_IDENTIFIER_STARTS_WITH_NUMBER[]
+                = "Invalid identifier, an identifier cannot start with a number";
+
+            static constexpr const char SQL_INVALID_IDENTIFIER_TOO_SHORT[]
+                = "Invalid identifier, an identifier must be at least 2 letters long";
+
+            static constexpr const char SQL_UNKNOWN_TYPE[] = "Unknown type";
+            static constexpr const char SQL_CHAR_NO_LENGTH[] = "A length must be specified for type 'char'";
+            static constexpr const char SQL_LENGTH_EMPTY[] = "A length cannot be empty";
+            static constexpr const char SQL_NO_COLUMNS[] = "No columns specified for data table";
+            static constexpr const char SQL_COLUMN_NOT_EXIST[] = "Column doesn't exist in data table";
+
         } Error;
     };
 }

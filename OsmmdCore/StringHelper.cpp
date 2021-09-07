@@ -2,6 +2,7 @@
 * Created by Zeng Yinuo, 2021.08.23
 * Edited by Zeng Yinuo, 2021.08.26
 * Edited by Zeng Yinuo, 2021.09.04
+* Edited by Zeng Yinuo, 2021.09.07
 */
 
 #include "StringHelper.h"
@@ -43,6 +44,66 @@ bool Osmmd::StringHelper::StartsWith(const std::string& str) const
 bool Osmmd::StringHelper::EndsWith(const std::string& str) const
 {
     return this->Right(str.length()) == str;
+}
+
+bool Osmmd::StringHelper::IsValidIdentifier() const
+{
+    return this->GetLength() >= 2 && this->ContainsOnlyLettersNumbersAndUnderscore() && !this->StartsWithNumber();
+}
+
+bool Osmmd::StringHelper::StartsWithNumber() const
+{
+    if (m_data.empty())
+    {
+        return false;
+    }
+
+    char front = m_data.front();
+
+    return '0' <= front && front <= '9';
+}
+
+bool Osmmd::StringHelper::ContainsOnlyLettersAndNumbers() const
+{
+    if (m_data.empty())
+    {
+        return false;
+    }
+
+    for (char ch : m_data)
+    {
+        bool isLetter = ('A' <= ch && ch <= 'Z') || ('a' <= ch && ch <= 'z');
+        bool isNumber = '0' <= ch && ch <= '9';
+
+        if (!isLetter && !isNumber)
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool Osmmd::StringHelper::ContainsOnlyLettersNumbersAndUnderscore() const
+{
+    if (m_data.empty())
+    {
+        return false;
+    }
+
+    for (char ch : m_data)
+    {
+        bool isLetter = ('A' <= ch && ch <= 'Z') || ('a' <= ch && ch <= 'z');
+        bool isNumber = ('0' <= ch && ch <= '9');
+        bool isUnderscore = (ch == '_');
+
+        if (!isLetter && !isNumber && !isUnderscore)
+        {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 Osmmd::StringHelper Osmmd::StringHelper::Left(int count) const
@@ -204,6 +265,11 @@ Osmmd::StringHelper Osmmd::StringHelper::ToLowerCase() const
 Osmmd::StringHelper Osmmd::StringHelper::ToSqlCompatible() const
 {
     return this->Simplified().ToLowerCase();
+}
+
+int Osmmd::StringHelper::GetLength() const
+{
+    return m_data.size();
 }
 
 const std::string& Osmmd::StringHelper::GetString() const

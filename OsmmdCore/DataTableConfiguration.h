@@ -1,5 +1,6 @@
 /*
 * Created by Zeng Yinuo, 2021.09.05
+* Edited by Zeng Yinuo, 2021.09.07
 */
 
 #pragma once
@@ -15,7 +16,7 @@ namespace Osmmd
         std::string PRIMARY_KEY;
         std::set<std::string> INDEXES;
 
-        IndexStrategy INDEX_STRATEGY;
+        IndexStrategy INDEX_STRATEGY = IndexStrategy::Hash;
 
         std::string ToString() const override;
         Bytes ToBytes() const override;
