@@ -147,6 +147,27 @@ Osmmd::DateTime Osmmd::DateTime::FromBytes(const Bytes& bytes)
     );
 }
 
+Osmmd::DateTime Osmmd::DateTime::FromString(const std::string& str)
+{
+    int year, month, day, hour, minute, second;
+
+    int successful = sscanf_s
+    (
+        str.c_str(),
+        "%04d-%02d-%02d %02d:%02d:%02d",
+        &year,
+        &month,
+        &day,
+        &hour,
+        &minute,
+        &second
+    );
+
+    return successful == 6
+        ? DateTime(year, month, day, hour, minute, second)
+        : DateTime();
+}
+
 Osmmd::DateTime& Osmmd::DateTime::operator=(const DateTime& other)
 {
     this->Year = other.Year;

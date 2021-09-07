@@ -13,22 +13,15 @@ void Osmmd::CommandExecutor::Execute()
 
     for (std::shared_ptr<AtomicCommand> command : m_commands)
     {
-        /*std::future<std::shared_ptr<CommandResult>> futureResult = std::async
-        ([&command]() -> std::shared_ptr<CommandResult>
-            {
-                return command->Execute();
-            }
-        );
-
-        std::shared_ptr<CommandResult> result = futureResult.get();*/
-
         std::shared_ptr<CommandResult> result = command->Execute();
-        std::cout << result->ToString() << std::endl;
 
         if (!result->Successful)
         {
+            std::cerr << result->ToString() << std::endl;
             break;
         }
+
+        std::cout << result->ToString() << std::endl;
     }
 
     m_commands.clear();

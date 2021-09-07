@@ -204,9 +204,6 @@
     <ClInclude Include="SelectIndexResult.h">
       <Filter>Index</Filter>
     </ClInclude>
-    <ClInclude Include="InsertCommandArg.h">
-      <Filter>Index</Filter>
-    </ClInclude>
     <ClInclude Include="InsertIndexArg.h">
       <Filter>Index</Filter>
     </ClInclude>
@@ -236,6 +233,9 @@
     </ClInclude>
     <ClInclude Include="DateTime.h">
       <Filter>Type</Filter>
+    </ClInclude>
+    <ClInclude Include="InsertCommandArg.h">
+      <Filter>Command</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,11 +1,13 @@
 /*
 * Created by Zeng Yinuo, 2021.08.26
 * Edited by Zeng Yinuo, 2021.09.06
+* Edited by Zeng Yinuo, 2021.09.07
 */
 
 #pragma once
 
 #include "DatabaseConfiguration.h"
+#include "DataTable.h"
 
 namespace Osmmd
 {
@@ -14,13 +16,19 @@ namespace Osmmd
     public:
         Database(const DatabaseConfiguration& config);
 
+        std::shared_ptr<DataTable> GetTable(const std::string& name);
+
         std::string ToString() const override;
         Bytes ToBytes() const override;
 
         static Database FromBytes(const Bytes& bytes);
         static std::shared_ptr<Database> PtrFromBytes(const Bytes& bytes);
 
+        static std::shared_ptr<DataTable> ReadTableFromFile(const std::string& path);
+
     private:
         DatabaseConfiguration m_config;
+
+        std::map<std::string, std::shared_ptr<DataTable>> m_tables;
     };
 }

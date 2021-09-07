@@ -45,6 +45,9 @@
     <ClCompile Include="DataTableConfigurationByteConvertionTest.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="SqlParsingTest.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MockDataGenerator.h">
@@ -75,6 +78,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="DataTableConfigurationByteConvertionTest.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SqlParsingTest.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

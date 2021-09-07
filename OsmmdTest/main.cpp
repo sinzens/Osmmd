@@ -15,6 +15,8 @@
 #include "BpTreeIndexerTest.h"
 #include "HashIndexerTest.h"
 
+#include "SqlParsingTest.h"
+
 using namespace Osmmd;
 
 int main()
@@ -28,6 +30,7 @@ int main()
         //std::async(DataTableConfigurationByteConvertionTest::Test),
         //std::async(BpTreeIndexerTest::Test),
         //std::async(HashIndexerTest::Test),
+        std::async(SqlParsingTest::Test),
     };
 
     for (const std::shared_future<void>& thread : testThreads)

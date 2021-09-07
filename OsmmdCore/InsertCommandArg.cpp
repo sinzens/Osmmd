@@ -1,10 +1,11 @@
 /*
 * Created by Zeng Yinuo, 2021.09.06
+* Edited by Zeng Yinuo, 2021.09.07
 */
 
 #include "InsertCommandArg.h"
 
-Osmmd::InsertCommandArg::InsertCommandArg(std::shared_ptr<DataTable> table, std::shared_ptr<RowValue> value)
+Osmmd::InsertCommandArg::InsertCommandArg(const std::string& table, std::shared_ptr<RowValue> value)
     : Table(table)
     , Value(value)
 {

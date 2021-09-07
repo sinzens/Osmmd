@@ -1,5 +1,6 @@
 /*
 * Created by Zeng Yinuo, 2021.09.06
+* Edited by Zeng Yinuo, 2021.09.07
 */
 
 #pragma once
@@ -10,10 +11,10 @@ namespace Osmmd
 {
     struct OSMMD_CORE_API InsertCommandArg
     {
-        std::shared_ptr<DataTable> Table;
+        std::string Table;
         std::shared_ptr<RowValue> Value;
 
-        InsertCommandArg(std::shared_ptr<DataTable> table, std::shared_ptr<RowValue> value);
+        InsertCommandArg(const std::string& table, std::shared_ptr<RowValue> value);
 
         InsertCommandArg& operator=(const InsertCommandArg& other);
     };

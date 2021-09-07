@@ -7,6 +7,7 @@
 
 #include "Enum.h"
 #include "StringConstants.h"
+#include "StringHelper.h"
 
 std::string Osmmd::GetDataTypeName(Osmmd::DataType type)
 {
@@ -52,7 +53,13 @@ Osmmd::DataType Osmmd::GetDataType(const std::string& name)
 
 bool Osmmd::IsKnownDataType(const std::string& name)
 {
-    return name == StringConstants::DataType.INTEGER || name == StringConstants::DataType.CHAR;
+    return
+    (
+        name == StringConstants::DataType.INTEGER ||
+        name == StringConstants::DataType.CHAR ||
+        name == StringConstants::DataType.DOUBLE ||
+        name == StringConstants::DataType.DATETIME
+    );
 }
 
 std::string Osmmd::GetIndexStrategyName(Osmmd::IndexStrategy indexStrategy)
@@ -70,17 +77,28 @@ std::string Osmmd::GetIndexStrategyName(Osmmd::IndexStrategy indexStrategy)
 
 Osmmd::IndexStrategy Osmmd::GetIndexStrategy(const std::string& name)
 {
-    if (name == StringConstants::IndexStrategy.BP_TREE)
+    if (StringHelper(StringConstants::IndexStrategy.BP_TREE).ToLowerCase() == name)
     {
         return IndexStrategy::BpTree;
     }
 
-    if (name == StringConstants::IndexStrategy.HASH)
+    if (StringHelper(StringConstants::IndexStrategy.HASH).ToLowerCase() == name)
     {
         return IndexStrategy::Hash;
     }
 
-    return IndexStrategy::BpTree;
+    return IndexStrategy::Hash;
+}
+
+bool Osmmd::IsKnownIndexStrategy(const std::string& name)
+{
+    StringHelper lowercased = StringHelper(name).ToLowerCase();
+
+    return
+    (
+        StringHelper(StringConstants::IndexStrategy.BP_TREE).ToLowerCase() == lowercased ||
+        StringHelper(StringConstants::IndexStrategy.HASH).ToLowerCase() == lowercased
+    );
 }
 
 std::string Osmmd::GetCommandTypeName(CommandType type)

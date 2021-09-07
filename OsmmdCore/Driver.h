@@ -8,6 +8,7 @@
 
 #include "DriverConfiguration.h"
 #include "PerformanceConfiguration.h"
+#include "Database.h"
 
 #include "CommandExecutor.h"
 
@@ -33,6 +34,9 @@ namespace Osmmd
         const DriverConfiguration& GetConfiguration() const;
         const PerformanceConfiguration& GetPerformance() const;
 
+        std::shared_ptr<Database> GetDatabase(const std::string& name) const;
+        std::shared_ptr<Database> GetCurrentDatabase() const;
+
         void ExecuteSqls(const std::vector<std::string>& sqls);
 
         static Driver& GetInstance();
@@ -47,6 +51,8 @@ namespace Osmmd
 
         DriverConfiguration m_config;
         PerformanceConfiguration m_performance;
+
+        std::map<std::string, std::shared_ptr<Database>> m_databases;
 
         std::unique_ptr<CommandExecutor> m_executor;
     };

@@ -20,6 +20,7 @@ namespace Osmmd
 
     OSMMD_FUNC_API std::string GetIndexStrategyName(IndexStrategy indexStrategy);
     OSMMD_FUNC_API IndexStrategy GetIndexStrategy(const std::string& name);
+    OSMMD_FUNC_API bool IsKnownIndexStrategy(const std::string& name);
 
     OSMMD_FUNC_API std::string GetCommandTypeName(CommandType type);
     OSMMD_FUNC_API CommandType GetCommandType(const std::string& name);

@@ -39,6 +39,7 @@ namespace Osmmd
         int Compare(const DateTime& other) const override;
 
         static DateTime FromBytes(const Bytes& bytes);
+        static DateTime FromString(const std::string& str);
 
         DateTime& operator=(const DateTime& other);
 

@@ -157,6 +157,7 @@
     <ClCompile Include="MockDataGenerator.cpp" />
     <ClCompile Include="RowByteConvertionTest.cpp" />
     <ClCompile Include="RowValueByteConvertionTest.cpp" />
+    <ClCompile Include="SqlParsingTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OsmmdCore\OsmmdCore.vcxproj">
@@ -174,6 +175,7 @@
     <ClInclude Include="MockDataGenerator.h" />
     <ClInclude Include="RowByteConvertionTest.h" />
     <ClInclude Include="RowValueByteConvertionTest.h" />
+    <ClInclude Include="SqlParsingTest.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

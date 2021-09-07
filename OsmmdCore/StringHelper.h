@@ -30,8 +30,11 @@ namespace Osmmd
 
         bool StartsWithNumber() const;
 
+        bool ContainsOnlyNumbers() const;
         bool ContainsOnlyLettersAndNumbers() const;
         bool ContainsOnlyLettersNumbersAndUnderscore() const;
+
+        bool IsDouble(bool strict = false) const;
 
         StringHelper Left(int count) const;
         StringHelper Right(int count) const;
@@ -66,6 +69,10 @@ namespace Osmmd
         bool operator==(const char* str) const;
         bool operator==(const std::string& str) const;
         bool operator==(const StringHelper& other) const;
+
+        bool operator!=(const char* str) const;
+        bool operator!=(const std::string& str) const;
+        bool operator!=(const StringHelper& other) const;
 
     private:
         std::string m_data;

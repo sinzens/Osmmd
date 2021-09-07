@@ -68,7 +68,7 @@ std::string Osmmd::SqlParseResult::ToString() const
     sprintf_s
     (
         buffer,
-        "SQL successfully parsed, command is %s;",
+        "SQL successfully parsed, command is %s",
         GetCommandTypeName(this->Command->GetType()).c_str()
     );
 

@@ -1,6 +1,7 @@
 /*
 * Created by Zeng Yinuo, 2021.09.04
 * Edited by Zeng Yinuo, 2021.09.05
+* Edited by Zeng Yinuo, 2021.09.07
 */
 
 #pragma once
@@ -19,3 +20,5 @@
 
 #include "../OsmmdCore/BpTreeIndexer.h"
 #include "../OsmmdCore/HashIndexer.h"
+
+#include "../OsmmdCore/SqlParser.h"

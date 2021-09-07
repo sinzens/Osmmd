@@ -115,6 +115,23 @@ const Osmmd::PerformanceConfiguration& Osmmd::Driver::GetPerformance() const
     return m_performance;
 }
 
+std::shared_ptr<Osmmd::Database> Osmmd::Driver::GetDatabase(const std::string& name) const
+{
+    auto target = m_databases.find(name);
+
+    if (target == m_databases.end())
+    {
+        return nullptr;
+    }
+
+    return target->second;
+}
+
+std::shared_ptr<Osmmd::Database> Osmmd::Driver::GetCurrentDatabase() const
+{
+    return std::shared_ptr<Database>();
+}
+
 void Osmmd::Driver::ExecuteSqls(const std::vector<std::string>& sqls)
 {
     for (const std::string& sql : sqls)

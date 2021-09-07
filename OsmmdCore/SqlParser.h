@@ -6,6 +6,8 @@
 
 #include "SqlParseResult.h"
 #include "StringHelper.h"
+#include "DataType.h"
+#include "ColumnValue.h"
 
 namespace Osmmd
 {
@@ -30,9 +32,15 @@ namespace Osmmd
         static SqlParseResult ParseSelectCommand(const StringHelper& sql);
 
         static SqlParseResult NoSuchCommandResult(const StringHelper& command);
+        static SqlParseResult UnknownIndexStrategyResult(const StringHelper& indexStrategy);
         static SqlParseResult UnknownTypeResult(const StringHelper& type);
         static SqlParseResult ColumnNotExistResult(const StringHelper& columnName, const StringHelper& tableName);
 
         static std::string CheckIdentifierValid(const StringHelper& identifier);
+
+        static std::vector<std::string> SplitCreateTableDeclarations(const std::string declaration);
+
+        static DataType ParseType(const StringHelper& str);
+        static std::shared_ptr<ColumnValue> ParseValue(const StringHelper& str);
     };
 }

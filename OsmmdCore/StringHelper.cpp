@@ -63,6 +63,24 @@ bool Osmmd::StringHelper::StartsWithNumber() const
     return '0' <= front && front <= '9';
 }
 
+bool Osmmd::StringHelper::ContainsOnlyNumbers() const
+{
+    if (m_data.empty())
+    {
+        return false;
+    }
+
+    for (char ch : m_data)
+    {
+        if (ch < '0' || ch > '9')
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 bool Osmmd::StringHelper::ContainsOnlyLettersAndNumbers() const
 {
     if (m_data.empty())
@@ -98,6 +116,29 @@ bool Osmmd::StringHelper::ContainsOnlyLettersNumbersAndUnderscore() const
         bool isUnderscore = (ch == '_');
 
         if (!isLetter && !isNumber && !isUnderscore)
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool Osmmd::StringHelper::IsDouble(bool strict) const
+{
+    if (m_data.empty())
+    {
+        return false;
+    }
+
+    if (strict && !this->Contains("."))
+    {
+        return false;
+    }
+
+    for (char ch : m_data)
+    {
+        if ((ch < '0' || ch > '9') && ch != '.')
         {
             return false;
         }
@@ -192,16 +233,9 @@ Osmmd::StringHelper Osmmd::StringHelper::Replaced(const std::string& target, con
 Osmmd::StringHelper Osmmd::StringHelper::Trimmed() const
 {
     std::string result = m_data;
-    size_t firstNotWhite = result.find_first_not_of(' ');
-    if (firstNotWhite == std::string::npos) { return StringHelper(result); }
 
-    result.erase(0, firstNotWhite);
-
-    size_t lastNotWhite = result.find_last_not_of(' ');
-    if (lastNotWhite == std::string::npos) { return StringHelper(result); }
-    if (lastNotWhite == result.length() - 1) { return StringHelper(result); }
-
-    result.erase(lastNotWhite + 1, result.length() - lastNotWhite - 1);
+    result.erase(0, result.find_first_not_of(" "));
+    result.erase(result.find_last_not_of(" ") + 1);
 
     return StringHelper(result);
 }
@@ -220,7 +254,7 @@ Osmmd::StringHelper Osmmd::StringHelper::Simplified() const
 
     for (size_t i = 0; i < result.length(); i++)
     {
-        if (result.at(i) == ' ')
+        if (result.at(i) == ' ' || result.at(i) == '\n' || result.at(i) == '\r')
         {
             counter++;
             if (i == 0) { isStart = true; }
@@ -322,4 +356,19 @@ bool Osmmd::StringHelper::operator==(const std::string& str) const
 bool Osmmd::StringHelper::operator==(const StringHelper& other) const
 {
     return m_data == other.m_data;
+}
+
+bool Osmmd::StringHelper::operator!=(const char* str) const
+{
+    return m_data != str;
+}
+
+bool Osmmd::StringHelper::operator!=(const std::string& str) const
+{
+    return m_data != str;
+}
+
+bool Osmmd::StringHelper::operator!=(const StringHelper& other) const
+{
+    return m_data != other.m_data;
 }

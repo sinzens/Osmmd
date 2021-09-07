@@ -69,16 +69,25 @@ namespace Osmmd
             static constexpr const char VALUE_NOT_DOUBLE[] = "Failed to convert non-double value to double.";
             static constexpr const char VALUE_NOT_DATETIME[] = "Failed to convert non-datetime value to datetime.";
 
+            static constexpr const char COMMAND_NO_CURRENT_DATABASE[] = "No database set, try 'use <DATABASE>'";
+            static constexpr const char COMMAND_NO_SUCH_TABLE[] = "No such table";
+
+            static constexpr const char SQL_NO_COMMAND[] = "No command given";
             static constexpr const char SQL_NO_SUCH_COMMAND[] = "No such command";
             static constexpr const char SQL_NO_DATABASE_NAME[] = "No database name given";
             static constexpr const char SQL_NO_DATATABLE_NAME[] = "No data table name given";
             static constexpr const char SQL_NO_DATATABLE_DEFINITION[] = "No data table definition given";
             static constexpr const char SQL_NO_DATATABLE_DEFINITION_END[] = "Data table definition should end with ')'";
             static constexpr const char SQL_NO_DATATABLE_DEFINITION_CONTENT[] = "Data table definition is empty";
+            static constexpr const char SQL_NO_PRIMARY_KEY[] = "A primary key must be specified for table";
+            static constexpr const char SQL_NO_COLUMNS[] = "No columns specified for data table";
+            static constexpr const char SQL_NO_INSERT_VALUES[] = "No values to insert";
+            static constexpr const char SQL_NO_INSERT_VALUES_END[] = "Insert values should end with ')'";
 
             static constexpr const char SQL_INVALID_COLUMN_DEFINITION[] = "Invalid column definition";
             static constexpr const char SQL_INVALID_PRIMARY_KEY_DECLARATION[] = "Invalid primary key declaration";
             static constexpr const char SQL_INVALID_INDEX_DECLARATION[] = "Invalid index declaration";
+            static constexpr const char SQL_INVALID_CHAR_VALUE_FORMAT[] = "Invalid char format";
 
             static constexpr const char SQL_INVALID_IDENTIFIER_NOT_ALLOWED_CHARACTER[]
                 = "Invalid identifier, only letters, numbers and underscore are allowed";
@@ -90,9 +99,10 @@ namespace Osmmd
                 = "Invalid identifier, an identifier must be at least 2 letters long";
 
             static constexpr const char SQL_UNKNOWN_TYPE[] = "Unknown type";
+            static constexpr const char SQL_UNKNOWN_INDEX_STRATEGY[] = "Unknown index strategy";
+
             static constexpr const char SQL_CHAR_NO_LENGTH[] = "A length must be specified for type 'char'";
             static constexpr const char SQL_LENGTH_EMPTY[] = "A length cannot be empty";
-            static constexpr const char SQL_NO_COLUMNS[] = "No columns specified for data table";
             static constexpr const char SQL_COLUMN_NOT_EXIST[] = "Column doesn't exist in data table";
 
         } Error;

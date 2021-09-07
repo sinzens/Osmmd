@@ -142,13 +142,20 @@ std::string Osmmd::Value::ToString() const
     {
     case DataType::Integer:
     {
-        char buffer[255]{};
+        char buffer[20]{};
         sprintf_s(buffer, "%d", this->ToInteger());
         return buffer;
     }
     case DataType::Char:
-        return this->ToChar();
-        break;
+        return std::string("'") + this->ToChar() + "'";
+    case DataType::Double:
+    {
+        char buffer[20]{};
+        sprintf_s(buffer, "%g", this->ToDouble());
+        return buffer;
+    }
+    case DataType::DateTime:
+        return std::string("'") + this->ToDateTime().ToString() + "'";
     }
 
     return GetDataTypeName(m_type);
