@@ -46,5 +46,8 @@ namespace Osmmd
         ) const = 0;
 
         virtual std::shared_ptr<RowValue> DirectSelect(std::shared_ptr<ColumnValue> key) const = 0;
+
+    protected:
+        static std::shared_ptr<IndexResult> DuplicateKeyResult(const std::string& value);
     };
 }

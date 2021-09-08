@@ -3,6 +3,7 @@
 * Edited by Zeng Yinuo, 2021.08.26
 * Edited by Zeng Yinuo, 2021.09.04
 * Edited by Zeng Yinuo, 2021.09.07
+* Edited by Zeng Yinuo, 2021.09.08
 */
 
 #pragma once
@@ -65,6 +66,8 @@ namespace Osmmd
 
         int IndexOf(char ch) const;
         int IndexOf(const std::string& str) const;
+
+        int Compare(const StringHelper& other) const;
 
         bool operator==(const char* str) const;
         bool operator==(const std::string& str) const;

@@ -42,7 +42,7 @@ namespace Osmmd
         std::string CreateDatabase(const std::string& name);
         std::string DeleteDatabase(const std::string& name);
 
-        void ExecuteSqls(const std::vector<std::string>& sqls);
+        std::vector<std::shared_ptr<CommandResult>> ExecuteSqls(const std::vector<std::string>& sqls);
 
         static Driver& GetInstance();
 

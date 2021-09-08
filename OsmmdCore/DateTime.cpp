@@ -1,5 +1,6 @@
 /*
 * Created by Zeng Yinuo, 2021.09.07
+* Edited by Zeng Yinuo, 2021.09.08
 */
 
 #include "DateTime.h"
@@ -154,7 +155,7 @@ Osmmd::DateTime Osmmd::DateTime::FromString(const std::string& str)
     int successful = sscanf_s
     (
         str.c_str(),
-        "%04d-%02d-%02d %02d:%02d:%02d",
+        "%d-%d-%d %d:%d:%d",
         &year,
         &month,
         &day,

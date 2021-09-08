@@ -1,5 +1,6 @@
 /*
 * Created by Zeng Yinuo, 2021.09.05
+* Edited by Zeng Yinuo, 2021.09.08
 */
 
 #include "DataTableConfiguration.h"
@@ -64,7 +65,7 @@ Bytes Osmmd::DataTableConfiguration::ToBytes() const
         bytes.insert(bytes.end(), indexData.begin(), indexData.end());
     }
 
-    Bytes dataLengthData = Value::FromInteger(static_cast<int32_t>(bytes.size())).GetBytes();
+    Bytes dataLengthData = Value::FromInteger(static_cast<int32_t>(bytes.size()) + sizeof(int32_t)).GetBytes();
     bytes.insert(bytes.begin(), dataLengthData.begin(), dataLengthData.end());
 
     return bytes;
@@ -84,15 +85,22 @@ Osmmd::DataTableConfiguration Osmmd::DataTableConfiguration::FromBytes(const Byt
 
     auto indexStrategyBegin = primaryKeyBegin + primaryKeyLength;
     auto indexIndexerCountBegin = indexStrategyBegin + sizeof(IndexStrategy);
-    auto indexIndexerBegin = indexIndexerCountBegin + sizeof(int32_t);
 
     DataTableConfiguration config;
 
     config.NAME = std::string(nameBegin, primaryKeyLengthBegin);
     config.PRIMARY_KEY = std::string(primaryKeyBegin, indexStrategyBegin);
     config.INDEX_STRATEGY = static_cast<IndexStrategy>(bytes.at(indexStrategyBegin - bytes.begin()));
+
+    if (indexIndexerCountBegin == bytes.end())
+    {
+        return config;
+    }
+
+    auto indexIndexerBegin = indexIndexerCountBegin + sizeof(int32_t);
    
     int indexCount = Value::GetLengthFromBytesHead(Bytes(indexIndexerCountBegin, indexIndexerBegin));
+
     if (indexCount == 0)
     {
         return config;

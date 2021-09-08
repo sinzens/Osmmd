@@ -1,6 +1,7 @@
 /*
 * Created by Zeng Yinuo, 2021.08.23
 * Edited by Zeng Yinuo, 2021.08.26
+* Edited by Zeng Yinuo, 2021.09.08
 */
 
 #pragma once
@@ -10,12 +11,14 @@
 namespace Osmmd
 {
     class Driver;
+    class RowValue;
 
     class Cli
     {
     public:
         Cli(const Cli& other) = delete;
         Cli& operator=(const Cli& other) = delete;
+        ~Cli();
 
         int Run();
 
@@ -32,12 +35,20 @@ namespace Osmmd
 
         void PrintHello();
         void PrintBye();
+        void PrintSelectResults(const std::vector<std::shared_ptr<RowValue>>& results);
 
         int RunMessageLoop();
+
+        void HandleInput(const std::string& input);
+
+        int GetDisplayLength(std::shared_ptr<RowValue> row) const;
+        std::string GetDisplayString(std::shared_ptr<RowValue> row) const;
 
         std::vector<std::string> m_commandLineArgs;
         std::string m_workingDirectory;
 
         Driver& m_driver;
+        
+        std::ofstream m_logger;
     };
 }

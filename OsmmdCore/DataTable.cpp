@@ -226,7 +226,7 @@ Bytes Osmmd::DataTable::ToBytes() const
         bytes.insert(bytes.end(), indexIndexerData.begin(), indexIndexerData.end());
     }
 
-    Bytes dataLengthData = Value::FromInteger(static_cast<int32_t>(bytes.size())).GetBytes();
+    Bytes dataLengthData = Value::FromInteger(static_cast<int32_t>(bytes.size()) + sizeof(int32_t)).GetBytes();
 
     bytes.insert(bytes.begin(), dataLengthData.begin(), dataLengthData.end());
 
@@ -236,7 +236,10 @@ Bytes Osmmd::DataTable::ToBytes() const
 Osmmd::DataTable Osmmd::DataTable::FromBytes(const Bytes& bytes)
 {
     auto configDataBegin = bytes.begin() + sizeof(int32_t);
-    auto rowDefinitionDataBegin = configDataBegin + Value::GetLengthFromBytesHead(bytes);
+
+    auto rowDefinitionDataBegin
+        = configDataBegin
+        + Value::GetLengthFromBytesHead(Bytes(configDataBegin, configDataBegin + sizeof(int32_t)));
 
     auto primaryIndexerDataBegin
         = rowDefinitionDataBegin
@@ -252,8 +255,16 @@ Osmmd::DataTable Osmmd::DataTable::FromBytes(const Bytes& bytes)
     std::shared_ptr<Bytes> primaryIndexerData = std::make_shared<Bytes>(primaryIndexerDataBegin, indexIndexerCountDataBegin);
 
     DataTableConfiguration config = DataTableConfiguration::FromBytes(Bytes(configDataBegin, rowDefinitionDataBegin));
+
     Row rowDefinition = Row::FromBytes(Bytes(rowDefinitionDataBegin, primaryIndexerDataBegin));
-    std::shared_ptr<Indexer> primaryIndexer = IndexerFromBytes(config.INDEX_STRATEGY, rowDefinition, *primaryIndexerData);
+
+    std::shared_ptr<Indexer> primaryIndexer = IndexerFromBytes
+    (
+        config.INDEX_STRATEGY,
+        rowDefinition.ColumnIndex(config.PRIMARY_KEY),
+        rowDefinition,
+        *primaryIndexerData
+    );
 
     DataTable table;
 
@@ -279,7 +290,14 @@ Osmmd::DataTable Osmmd::DataTable::FromBytes(const Bytes& bytes)
             = std::make_shared<Bytes>(indexIndexerDataBegin, indexIndexerDataBegin + indexIndexerDataLength);
 
         std::string indexerName(indexerNameDataBegin, indexIndexerDataBegin);
-        std::shared_ptr<Indexer> indexer = IndexerFromBytes(config.INDEX_STRATEGY, rowDefinition, *indexIndexerData);
+
+        std::shared_ptr<Indexer> indexer = IndexerFromBytes
+        (
+            config.INDEX_STRATEGY,
+            0,
+            rowDefinition.Sliced(std::vector<std::string>({ config.PRIMARY_KEY })),
+            *indexIndexerData
+        );
 
         table.m_indexIndexers.insert({ indexerName, indexer });
     }
@@ -305,6 +323,7 @@ Osmmd::DataTable& Osmmd::DataTable::operator=(const DataTable& other)
 std::shared_ptr<Osmmd::Indexer> Osmmd::DataTable::IndexerFromBytes
 (
     IndexStrategy indexStrategy,
+    int keyIndex,
     const Row& rowDefinition,
     const Bytes& bytes
 )
@@ -312,9 +331,9 @@ std::shared_ptr<Osmmd::Indexer> Osmmd::DataTable::IndexerFromBytes
     switch (indexStrategy)
     {
     case IndexStrategy::BpTree:
-        return BpTreeIndexer::PtrFromBytes(rowDefinition, bytes);
+        return BpTreeIndexer::PtrFromBytes(keyIndex, rowDefinition, bytes);
     case IndexStrategy::Hash:
-        return HashIndexer::PtrFromBytes(rowDefinition, bytes);
+        return HashIndexer::PtrFromBytes(keyIndex, rowDefinition, bytes);
     }
 }
 
@@ -347,7 +366,7 @@ std::shared_ptr<Osmmd::IndexResult> Osmmd::DataTable::UpdateIndexers
         }
     }
 
-    return std::shared_ptr<IndexResult>();
+    return std::make_shared<IndexResult>();
 }
 
 std::shared_ptr<Osmmd::Indexer> Osmmd::DataTable::CreateIndexer() const
@@ -408,6 +427,16 @@ std::string Osmmd::DataTable::IndexName(int index) const
     }
 
     return columnName;
+}
+
+bool Osmmd::DataTable::IsPrimaryKey(int index) const
+{
+    return this->GetPrimaryKeyIndex() == index;
+}
+
+bool Osmmd::DataTable::IsPrimaryKey(const std::string& name)
+{
+    return name == m_config.PRIMARY_KEY;
 }
 
 std::shared_ptr<Osmmd::RowValue> Osmmd::DataTable::SelectValueWithIndex

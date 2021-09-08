@@ -40,7 +40,12 @@ int Osmmd::RowValue::GetLength() const
 
 Osmmd::RowValue Osmmd::RowValue::Sliced(const Row& newDefinition, const Row& oldDefinition, bool strict) const
 {
-    if (newDefinition.Columns.size() >= oldDefinition.Columns.size())
+    if (newDefinition.Columns.size() > oldDefinition.Columns.size())
+    {
+        return *this;
+    }
+
+    if (newDefinition == oldDefinition)
     {
         return *this;
     }

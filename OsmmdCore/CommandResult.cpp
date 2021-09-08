@@ -2,6 +2,7 @@
 * Created by Zeng Yinuo, 2021.08.26
 * Edited by Zeng Yinuo, 2021.09.04
 * Edited by Zeng Yinuo, 2021.09.06
+* Edited by Zeng Yinuo, 2021.09.08
 */
 
 #include "CommandResult.h"
@@ -53,7 +54,7 @@ std::string Osmmd::CommandResult::ToString() const
 
     if (!this->Successful)
     {
-        sprintf_s(buffer, "Execution failed;\nError message is:\n'%s';", this->Message.c_str());
+        sprintf_s(buffer, "Execution failed;\nError message is:\n%s;", this->Message.c_str());
         result = buffer;
     }
     else
@@ -74,7 +75,7 @@ std::string Osmmd::CommandResult::ToString() const
             sprintf_s
             (
                 buffer,
-                "Execution succeeded;\nCommand type: %s;\n%d rows affected;\n%d cols affected;\nMessage is:\n'%s';",
+                "Execution succeeded;\nCommand type: %s;\n%d rows affected;\n%d cols affected;\nMessage is:\n%s;",
                 GetCommandTypeName(this->Type).c_str(),
                 this->AffectRowCount,
                 this->AffectColCount,
@@ -87,7 +88,7 @@ std::string Osmmd::CommandResult::ToString() const
         if (Driver::GetInstance().GetPerformance().TIMING)
         {
             char timeBuffer[50]{};
-            sprintf_s(timeBuffer, "Time cost: %fms", this->TimeElapse);
+            sprintf_s(timeBuffer, "\nTime cost: %fms", this->TimeElapse);
 
             result.append(timeBuffer);
         }

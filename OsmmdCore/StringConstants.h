@@ -97,6 +97,8 @@ namespace Osmmd
             static constexpr const char COMMAND_DATABASE_EXISTS[] = "Database already exists";
             static constexpr const char COMMAND_TABLE_EXISTS[] = "Data table already exists";
 
+            static constexpr const char COMMAND_DUPLICATE_KEY[] = "Duplicate key";
+
             static constexpr const char SQL_NO_COMMAND[] = "No command given";
             static constexpr const char SQL_NO_SUCH_COMMAND[] = "No such command";
             static constexpr const char SQL_NO_DATABASE_NAME[] = "No database name given";
@@ -135,6 +137,7 @@ namespace Osmmd
             static constexpr const char SQL_COLUMN_NOT_EXIST[] = "Column doesn't exist in data table";
             static constexpr const char SQL_OR_NOT_SUPPORTED[] = "Operator 'or' is not supported";
             static constexpr const char SQL_TOO_MANY_ARGS[] = "Too many arguments";
+            static constexpr const char SQL_COLUMNS_NOT_MATCH[] = "Columns not match";
 
         } Error;
     };

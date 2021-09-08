@@ -8,6 +8,7 @@
 #include "Enum.h"
 #include "Value.h"
 #include "StringConstants.h"
+#include "StringHelper.h"
 
 Osmmd::Value::Value()
     : m_type(DataType::Char)
@@ -169,25 +170,75 @@ Bytes Osmmd::Value::ToBytes() const
 
 int Osmmd::Value::Compare(const Value& other) const
 {
+    /*if (other.m_type == DataType::Char || other.m_type == DataType::DateTime)
+    {
+        return StringHelper(this->ToString()).Removed("'").Compare(StringHelper(other.ToString()).Removed("'"));
+    }
+
+    if (m_type == DataType::Char || m_type == DataType::DateTime)
+    {
+        return StringHelper(this->ToString()).Removed("'").Compare(StringHelper(other.ToString()).Removed("'"));
+    }*/
+
     switch (m_type)
     {
-    case DataType::Integer: {
-        int32_t a = this->ToInteger();
-        int32_t b = other.ToInteger();
-        return a > b ? 1 : (a < b ? -1 : 0);
-    }
+    case DataType::Integer:
+        switch (other.m_type)
+        {
+        case DataType::Integer:
+        {
+            int32_t a = this->ToInteger();
+            int32_t b = other.ToInteger();
+            return a > b ? 1 : (a < b ? -1 : 0);
+        }
+        case DataType::Char:
+            return this->ToString().compare(other.ToChar());
+        case DataType::Double:
+        {
+            double a = static_cast<double>(this->ToInteger());
+            double b = other.ToDouble();
+            return a > b ? 1 : (a < b ? -1 : 0);
+        }
+        case DataType::DateTime:
+            return this->ToString().compare(other.ToString());
+        }
 
     case DataType::Char:
-        return this->ToChar().compare(other.ToChar());
+        switch (other.m_type)
+        {
+        case DataType::Integer:
+            return this->ToChar().compare(other.ToString());
+        case DataType::Char:
+            return this->ToChar().compare(other.ToChar());
+        case DataType::Double:
+            return this->ToChar().compare(other.ToString());
+        case DataType::DateTime:
+            return this->ToString().compare(other.ToString());
+        }
 
-    case DataType::Double: {
-        double a = this->ToDouble();
-        double b = other.ToDouble();
-        return a > b ? 1 : (a < b ? -1 : 0);
-    }
+    case DataType::Double:
+        switch (other.m_type)
+        {
+        case DataType::Integer:
+        {
+            double a = this->ToDouble();
+            double b = static_cast<double>(other.ToInteger());
+            return a > b ? 1 : (a < b ? -1 : 0);
+        }
+        case DataType::Char:
+            return this->ToString().compare(other.ToChar());
+        case DataType::Double:
+        {
+            double a = this->ToDouble();
+            double b = other.ToDouble();
+            return a > b ? 1 : (a < b ? -1 : 0);
+        }
+        case DataType::DateTime:
+            return this->ToString().compare(other.ToString());
+        }
 
     case DataType::DateTime:
-        return this->ToDateTime().Compare(other.ToDateTime());
+        return this->ToString().compare(other.ToString());
     }
 
     return 0;

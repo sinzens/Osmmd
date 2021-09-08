@@ -34,7 +34,12 @@ std::shared_ptr<Osmmd::CommandResult> Osmmd::UpdateCommand::DoExecute()
     {
         if (!table->GetRowDefinition().HasColumn(column))
         {
-            return this->NoSuchColumnResult(column.Name, m_arg.Table);
+            return this->NoSuchColumnResult(column.ToString(), m_arg.Table);
+        }
+
+        if (table->IsIndex(column.Name) || table->IsPrimaryKey(column.Name))
+        {
+            return this->CannotUpdateKeyResult(column.Name);
         }
     }
 

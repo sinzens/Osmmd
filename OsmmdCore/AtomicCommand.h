@@ -39,6 +39,8 @@ namespace Osmmd
             const Row& rowDefinition
         ) const;
 
+        std::shared_ptr<CommandResult> CannotUpdateKeyResult(const std::string columnName);
+
         CommandType m_type = CommandType::Select;
     };
 }

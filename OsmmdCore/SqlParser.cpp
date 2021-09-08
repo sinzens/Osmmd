@@ -296,7 +296,7 @@ Osmmd::SqlParseResult Osmmd::SqlParser::ParseCreateTableCommand(const StringHelp
             return SqlParseResult(false, StringConstants::Error.SQL_CHAR_NO_LENGTH);
         }
 
-        if (typeLengthStr.GetLength() <= 2)
+        if (typeLengthStr.GetLength() <= 2 && typeLengthStr.GetLength() > 0)
         {
             return SqlParseResult(false, StringConstants::Error.SQL_LENGTH_EMPTY);
         }
@@ -719,11 +719,6 @@ Osmmd::SqlParseResult Osmmd::SqlParser::ParseSelectCommand(const StringHelper& s
         columnNames.emplace_back(StringHelper(name).Trimmed().GetString());
     }
 
-    for (const std::string& name : columnNames)
-    {
-        std::cout << name << std::endl;
-    }
-
     std::vector<Condition> conditions;
 
     if (conditionsBegin != std::string::npos)
@@ -908,7 +903,7 @@ Osmmd::DataType Osmmd::SqlParser::ParseType(const StringHelper& str)
         int successful = sscanf_s
         (
             str.GetString().c_str(),
-            "%04d-%02d-%02d %02d:%02d:%02d",
+            "'%d-%d-%d %d:%d:%d'",
             &year,
             &month,
             &day,

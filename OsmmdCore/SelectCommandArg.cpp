@@ -13,6 +13,7 @@ Osmmd::SelectCommandArg::SelectCommandArg
 )
     : Table(table)
     , Conditions(conditions)
+    , ColumnNames(columnNames)
 {
 }
 

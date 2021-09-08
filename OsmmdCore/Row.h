@@ -32,6 +32,8 @@ namespace Osmmd
         int ColumnIndex(const std::string& name) const;
         int ColumnIndex(const Column& column) const;
 
+        int GetLength() const;
+
         Row Sliced(const std::vector<int>& indexes) const;
         Row Sliced(const std::vector<std::string>& columnNames) const;
 

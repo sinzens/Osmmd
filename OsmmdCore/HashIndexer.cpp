@@ -13,7 +13,14 @@ std::shared_ptr<Osmmd::IndexResult> Osmmd::HashIndexer::Insert
     std::shared_ptr<RowValue> value
 )
 {
-    m_hashMap.insert({ ColumnValueToBytesForHash(key), value });
+    std::string keyData = ColumnValueToBytesForHash(key);
+
+    if (m_hashMap.find(keyData) != m_hashMap.end())
+    {
+        return DuplicateKeyResult(key->ToString());
+    }
+
+    m_hashMap.insert({ keyData, value });
 
     return std::make_shared<IndexResult>(1, value->Values.size());
 }
@@ -22,12 +29,16 @@ std::shared_ptr<Osmmd::SelectIndexResult> Osmmd::HashIndexer::Delete(const std::
 {
     std::shared_ptr<SelectIndexResult> result = std::make_shared<SelectIndexResult>();
 
-    for (auto i = m_hashMap.begin(); i != m_hashMap.end(); i++)
+    for (auto i = m_hashMap.begin(); i != m_hashMap.end();)
     {
         if (i->second->MeetConditions(conditions))
         {
             result->Results->emplace_back(std::make_shared<RowValue>(i->second));
-            i = m_hashMap.erase(i);
+            m_hashMap.erase(i++);
+        }
+        else
+        {
+            i++;
         }
     }
 
@@ -140,17 +151,56 @@ std::string Osmmd::HashIndexer::ToString() const
 
 Bytes Osmmd::HashIndexer::ToBytes() const
 {
-    return Bytes();
+    Bytes bytes;
+    Bytes dataCountData = Value::FromInteger(static_cast<int32_t>(m_hashMap.size())).GetBytes();
+
+    bytes.insert(bytes.end(), dataCountData.begin(), dataCountData.end());
+
+    for (auto i = m_hashMap.begin(); i != m_hashMap.end(); i++)
+    {
+        Bytes rowBytes = i->second->ToBytes();
+        bytes.insert(bytes.end(), rowBytes.begin(), rowBytes.end());
+    }
+
+    Bytes dataLengthData = Value::FromInteger(static_cast<int32_t>(bytes.size()) + sizeof(int32_t)).GetBytes();
+
+    bytes.insert(bytes.begin(), dataLengthData.begin(), dataLengthData.end());
+
+    return bytes;
 }
 
-Osmmd::HashIndexer Osmmd::HashIndexer::FromBytes(const Row& rowDefinition, const Bytes& bytes)
+Osmmd::HashIndexer Osmmd::HashIndexer::FromBytes(int keyIndex, const Row& rowDefinition, const Bytes& bytes)
 {
-    return HashIndexer();
+    HashIndexer indexer;
+
+    auto dataCountBegin = bytes.begin() + sizeof(int32_t);
+    auto rowDataBlockBegin = dataCountBegin + sizeof(int32_t);
+
+    int dataCount = Value::GetLengthFromBytesHead(Bytes(dataCountBegin, rowDataBlockBegin));
+
+    int rowDataLength = rowDefinition.GetLength();
+    int rowDataBeginIndex = rowDataBlockBegin - bytes.begin();
+
+    for (int i = 0; i < dataCount; i++)
+    {
+        auto rowDataBegin = bytes.begin() + rowDataBeginIndex;
+        auto rowDataEnd = rowDataBegin + rowDataLength;
+
+        std::shared_ptr<RowValue> value
+            = std::make_shared<RowValue>(RowValue::FromBytes(rowDefinition, Bytes(rowDataBegin, rowDataEnd)));
+
+        std::shared_ptr<ColumnValue> key = value->Values.at(keyIndex);
+        indexer.m_hashMap.insert({ ColumnValueToBytesForHash(key), value });
+
+        rowDataBeginIndex = rowDataEnd - bytes.begin();
+    }
+
+    return indexer;
 }
 
-std::shared_ptr<Osmmd::HashIndexer> Osmmd::HashIndexer::PtrFromBytes(const Row& rowDefinition, const Bytes& bytes)
+std::shared_ptr<Osmmd::HashIndexer> Osmmd::HashIndexer::PtrFromBytes(int keyIndex, const Row& rowDefinition, const Bytes& bytes)
 {
-    return std::shared_ptr<HashIndexer>();
+    return std::make_shared<HashIndexer>(HashIndexer::FromBytes(keyIndex, rowDefinition, bytes));
 }
 
 std::string Osmmd::HashIndexer::ColumnValueToBytesForHash(std::shared_ptr<ColumnValue> value)

@@ -204,7 +204,8 @@ std::string Osmmd::Driver::DeleteDatabase(const std::string& name)
         return StringConstants::Error.COMMAND_NO_SUCH_DATABASE;
     }
 
-    std::filesystem::remove(std::filesystem::path(target->second).parent_path());
+    std::filesystem::path databaseDir = std::filesystem::path(target->second).parent_path();
+    std::filesystem::remove_all(databaseDir);
 
     m_config.DATABASES.erase(target);
     m_databases.erase(name);
@@ -216,22 +217,27 @@ std::string Osmmd::Driver::DeleteDatabase(const std::string& name)
     return std::string();
 }
 
-void Osmmd::Driver::ExecuteSqls(const std::vector<std::string>& sqls)
+std::vector<std::shared_ptr<Osmmd::CommandResult>> Osmmd::Driver::ExecuteSqls(const std::vector<std::string>& sqls)
 {
     for (const std::string& sql : sqls)
     {
+        if (sql.empty())
+        {
+            continue;
+        }
+
         SqlParseResult result = SqlParser::Parse(sql);
 
         if (!result.Successful)
         {
-            std::cout << result.ToString() << std::endl;
-            return;
+            m_executor->ClearCommands();
+            return { std::make_shared<CommandResult>(CommandType::Select, 0, 0, false, result.ToString(), 0) };
         }
 
         m_executor->AddCommand(result.Command);
     }
 
-    m_executor->Execute();
+    return m_executor->Execute();
 }
 
 Osmmd::Driver& Osmmd::Driver::GetInstance()

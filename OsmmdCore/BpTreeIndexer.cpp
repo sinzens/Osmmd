@@ -13,12 +13,12 @@ std::shared_ptr<Osmmd::IndexResult> Osmmd::BpTreeIndexer::Insert
     std::shared_ptr<RowValue> value
 )
 {
-    return std::shared_ptr<IndexResult>();
+    return std::make_shared<IndexResult>();
 }
 
 std::shared_ptr<Osmmd::SelectIndexResult> Osmmd::BpTreeIndexer::Delete(const std::vector<Condition>& conditions)
 {
-    return std::shared_ptr<SelectIndexResult>();
+    return std::make_shared<SelectIndexResult>();
 }
 
 std::shared_ptr<Osmmd::SelectIndexResult> Osmmd::BpTreeIndexer::Update
@@ -29,7 +29,7 @@ std::shared_ptr<Osmmd::SelectIndexResult> Osmmd::BpTreeIndexer::Update
     std::shared_ptr<RowValue> updateValue
 )
 {
-    return std::shared_ptr<SelectIndexResult>();
+    return std::make_shared<SelectIndexResult>();
 }
 
 std::shared_ptr<Osmmd::IndexResult> Osmmd::BpTreeIndexer::UpdateKeyword
@@ -38,7 +38,7 @@ std::shared_ptr<Osmmd::IndexResult> Osmmd::BpTreeIndexer::UpdateKeyword
     std::shared_ptr<ColumnValue> oldKey
 )
 {
-    return std::shared_ptr<IndexResult>();
+    return std::make_shared<IndexResult>();
 }
 
 std::shared_ptr<Osmmd::SelectIndexResult> Osmmd::BpTreeIndexer::Select
@@ -48,12 +48,12 @@ std::shared_ptr<Osmmd::SelectIndexResult> Osmmd::BpTreeIndexer::Select
     const Row& originalRow
 ) const
 {
-    return std::shared_ptr<SelectIndexResult>();
+    return std::make_shared<SelectIndexResult>();
 }
 
 std::shared_ptr<Osmmd::RowValue> Osmmd::BpTreeIndexer::DirectSelect(std::shared_ptr<ColumnValue> key) const
 {
-    return std::shared_ptr<RowValue>();
+    return std::make_shared<RowValue>();
 }
 
 std::string Osmmd::BpTreeIndexer::ToString() const
@@ -66,12 +66,12 @@ Bytes Osmmd::BpTreeIndexer::ToBytes() const
     return Bytes();
 }
 
-Osmmd::BpTreeIndexer Osmmd::BpTreeIndexer::FromBytes(const Row& rowDefinition, const Bytes& bytes)
+Osmmd::BpTreeIndexer Osmmd::BpTreeIndexer::FromBytes(int keyIndex, const Row& rowDefinition, const Bytes& bytes)
 {
     return BpTreeIndexer();
 }
 
-std::shared_ptr<Osmmd::BpTreeIndexer> Osmmd::BpTreeIndexer::PtrFromBytes(const Row& rowDefinition, const Bytes& bytes)
+std::shared_ptr<Osmmd::BpTreeIndexer> Osmmd::BpTreeIndexer::PtrFromBytes(int keyIndex, const Row& rowDefinition, const Bytes& bytes)
 {
-    return std::shared_ptr<BpTreeIndexer>();
+    return std::make_shared<BpTreeIndexer>(BpTreeIndexer::FromBytes(keyIndex, rowDefinition, bytes));
 }

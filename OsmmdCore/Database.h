@@ -16,6 +16,7 @@ namespace Osmmd
     {
     public:
         Database(const DatabaseConfiguration& config);
+        ~Database();
 
         const DatabaseConfiguration& GetConfiguration() const;
 

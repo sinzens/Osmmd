@@ -15,6 +15,15 @@ Osmmd::Database::Database(const DatabaseConfiguration& config)
 {
 }
 
+Osmmd::Database::~Database()
+{
+    for (auto i = m_tables.begin(); i != m_tables.end(); i++)
+    {
+        std::string path = m_config.TABLES.at(i->first);
+        WriteTableToFile(path, i->second);
+    }
+}
+
 const Osmmd::DatabaseConfiguration& Osmmd::Database::GetConfiguration() const
 {
     return m_config;

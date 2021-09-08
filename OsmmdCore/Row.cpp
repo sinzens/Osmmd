@@ -121,6 +121,18 @@ int Osmmd::Row::ColumnIndex(const Column& column) const
     return -1;
 }
 
+int Osmmd::Row::GetLength() const
+{
+    int length = 0;
+
+    for (const Column& column : this->Columns)
+    {
+        length += column.Length;
+    }
+
+    return length;
+}
+
 Osmmd::Row Osmmd::Row::Sliced(const std::vector<int>& indexes) const
 {
     Row row;

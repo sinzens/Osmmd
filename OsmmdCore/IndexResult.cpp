@@ -1,5 +1,6 @@
 /*
 * Created by Zeng Yinuo, 2021.09.06
+* Edited by Zeng Yinuo, 2021.09.08
 */
 
 #include "IndexResult.h"
@@ -32,7 +33,7 @@ Osmmd::IndexResult::IndexResult(int row, int col, const std::string& message)
 
 bool Osmmd::IndexResult::IsSuccessful() const
 {
-    return !this->Message.empty();
+    return this->Message.empty();
 }
 
 Osmmd::IndexResult& Osmmd::IndexResult::operator=(const IndexResult& other)

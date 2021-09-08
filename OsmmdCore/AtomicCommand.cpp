@@ -92,3 +92,11 @@ std::shared_ptr<Osmmd::CommandResult> Osmmd::AtomicCommand::CannotFetchCondition
 
     return std::make_shared<CommandResult>(m_type, 0, 0, false, buffer, 0);
 }
+
+std::shared_ptr<Osmmd::CommandResult> Osmmd::AtomicCommand::CannotUpdateKeyResult(const std::string columnName)
+{
+    char buffer[100]{};
+    sprintf_s(buffer, "Cannot update column '%s' because it's either primary key or index", columnName.c_str());
+
+    return std::make_shared<CommandResult>(m_type, 0, 0, false, buffer, 0);
+}

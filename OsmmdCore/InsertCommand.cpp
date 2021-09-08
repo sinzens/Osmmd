@@ -30,6 +30,32 @@ std::shared_ptr<Osmmd::CommandResult> Osmmd::InsertCommand::DoExecute()
         return this->NoSuchTableResult(m_arg.Table);
     }
 
+    if (m_arg.Value->Values.size() != table->GetRowDefinition().Columns.size())
+    {
+        return std::make_shared<CommandResult>
+        (
+            CommandType::Insert,
+            0,
+            0,
+            false,
+            StringConstants::Error.SQL_COLUMNS_NOT_MATCH,
+            0
+        );
+    }
+
+    for (int i = 0; i < m_arg.Value->Values.size(); i++)
+    {
+        std::shared_ptr<ColumnValue> value = m_arg.Value->Values.at(i);
+
+        Column tempColumn("unnamed", value->GetLength(), value->GetType());
+        Column column = table->GetRowDefinition().ColumnAt(i);
+
+        if (tempColumn.Length != column.Length || tempColumn.Type != column.Type)
+        {
+            return this->NoSuchColumnResult(tempColumn.ToString(), m_arg.Table);
+        }
+    }
+
     std::shared_ptr<Osmmd::IndexResult> indexResult = table->Insert(m_arg.Value);
 
     if (!indexResult->IsSuccessful())

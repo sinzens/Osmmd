@@ -40,6 +40,12 @@ namespace Osmmd
             const Row& selectRow
         );
 
+        bool IsIndex(int index) const;
+        bool IsIndex(const std::string& name) const;
+
+        bool IsPrimaryKey(int index) const;
+        bool IsPrimaryKey(const std::string& name);
+
         std::string ToString() const override;
         Bytes ToBytes() const override;
 
@@ -52,6 +58,7 @@ namespace Osmmd
         static std::shared_ptr<Indexer> IndexerFromBytes
         (
             IndexStrategy indexStrategy,
+            int keyIndex,
             const Row& rowDefinition,
             const Bytes& bytes
         );
@@ -69,9 +76,6 @@ namespace Osmmd
         int GetPrimaryKeyIndex() const;
 
         bool UseIndexIndexing(const std::vector<Condition>& conditions);
-
-        bool IsIndex(int index) const;
-        bool IsIndex(const std::string& name) const;
 
         std::string IndexName(int index) const;
 

@@ -365,6 +365,11 @@ int Osmmd::StringHelper::IndexOf(const std::string& str) const
     return m_data.find(str);
 }
 
+int Osmmd::StringHelper::Compare(const StringHelper& other) const
+{
+    return m_data.compare(other.m_data);
+}
+
 bool Osmmd::StringHelper::operator==(const char* str) const
 {
     return m_data == str;

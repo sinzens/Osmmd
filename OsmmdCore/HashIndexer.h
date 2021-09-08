@@ -49,8 +49,8 @@ namespace Osmmd
         std::string ToString() const override;
         Bytes ToBytes() const override;
 
-        static HashIndexer FromBytes(const Row& rowDefinition, const Bytes& bytes);
-        static std::shared_ptr<HashIndexer> PtrFromBytes(const Row& rowDefinition, const Bytes& bytes); 
+        static HashIndexer FromBytes(int keyIndex, const Row& rowDefinition, const Bytes& bytes);
+        static std::shared_ptr<HashIndexer> PtrFromBytes(int keyIndex, const Row& rowDefinition, const Bytes& bytes); 
 
     private:
         static std::string ColumnValueToBytesForHash(std::shared_ptr<ColumnValue> value);

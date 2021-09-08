@@ -49,7 +49,7 @@ namespace Osmmd
         std::string ToString() const override;
         Bytes ToBytes() const override;
 
-        static BpTreeIndexer FromBytes(const Row& rowDefinition, const Bytes& bytes);
-        static std::shared_ptr<BpTreeIndexer> PtrFromBytes(const Row& rowDefinition, const Bytes& bytes);   
+        static BpTreeIndexer FromBytes(int keyIndex, const Row& rowDefinition, const Bytes& bytes);
+        static std::shared_ptr<BpTreeIndexer> PtrFromBytes(int keyIndex, const Row& rowDefinition, const Bytes& bytes);
     };
 }
