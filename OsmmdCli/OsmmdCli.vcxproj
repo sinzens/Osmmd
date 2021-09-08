@@ -148,9 +148,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Cli.cpp" />
-    <ClCompile Include="CommandExecutor.cpp" />
     <ClCompile Include="CommandLineParser.cpp" />
-    <ClCompile Include="CommandParser.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -160,9 +158,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cli.h" />
-    <ClInclude Include="CommandExecutor.h" />
     <ClInclude Include="CommandLineParser.h" />
-    <ClInclude Include="CommandParser.h" />
     <ClInclude Include="Global.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

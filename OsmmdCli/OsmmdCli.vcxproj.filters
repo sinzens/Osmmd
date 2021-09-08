@@ -18,12 +18,6 @@
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="CommandParser.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="CommandExecutor.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Cli.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -33,12 +27,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Global.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="CommandParser.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="CommandExecutor.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Cli.h">
