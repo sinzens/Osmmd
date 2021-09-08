@@ -2,6 +2,7 @@
 * Created by Zeng Yinuo, 2021.09.04
 * Edited by Zeng Yinuo, 2021.09.05
 * Edited by Zeng Yinuo, 2021.09.07
+* Edited by Zeng Yinuo, 2021.09.08
 */
 
 #pragma once
@@ -39,6 +40,8 @@ namespace Osmmd
         Bytes ToBytes() const override;
 
         int Compare(const Value& other) const override;
+
+        Value DeepCopy() const;
 
         DataType GetType() const;
         const Bytes& GetBytes() const;

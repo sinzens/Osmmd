@@ -2,6 +2,7 @@
 * Created by Zeng Yinuo, 2021.09.01
 * Edited by Zeng Yinuo, 2021.09.04
 * Edited by Zeng Yinuo, 2021.09.06
+* Edited by Zeng Yinuo, 2021.09.08
 */
 
 #include "Row.h"
@@ -118,6 +119,46 @@ int Osmmd::Row::ColumnIndex(const Column& column) const
     }
 
     return -1;
+}
+
+Osmmd::Row Osmmd::Row::Sliced(const std::vector<int>& indexes) const
+{
+    Row row;
+
+    for (int index : indexes)
+    {
+        if (index < 0 || index >= this->Columns.size())
+        {
+            continue;
+        }
+
+        row.AddColumn(this->ColumnAt(index));
+    }
+
+    return row;
+}
+
+Osmmd::Row Osmmd::Row::Sliced(const std::vector<std::string>& columnNames) const
+{
+    Row row;
+
+    for (const std::string& columnName : columnNames)
+    {
+        if (columnName == "*")
+        {
+            row = *this;
+            return row;
+        }
+
+        if (!this->HasColumn(columnName))
+        {
+            continue;
+        }
+
+        row.AddColumn(this->ColumnAt(columnName));
+    }
+
+    return row;
 }
 
 std::string Osmmd::Row::ToString() const

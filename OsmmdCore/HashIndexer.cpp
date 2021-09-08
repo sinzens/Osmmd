@@ -2,6 +2,7 @@
 * Created by Zeng Yinuo, 2021.09.04
 * Edited by Zeng Yinuo, 2021.09.05
 * Edited by Zeng Yinuo, 2021.09.06
+* Edited by Zeng Yinuo, 2021.09.08
 */
 
 #include "HashIndexer.h"
@@ -36,7 +37,7 @@ std::shared_ptr<Osmmd::SelectIndexResult> Osmmd::HashIndexer::Delete(const std::
     return result;
 }
 
-std::shared_ptr<Osmmd::IndexResult> Osmmd::HashIndexer::Update
+std::shared_ptr<Osmmd::SelectIndexResult> Osmmd::HashIndexer::Update
 (
     const std::vector<Condition>& conditions,
     const Row& updateRow,
@@ -46,16 +47,22 @@ std::shared_ptr<Osmmd::IndexResult> Osmmd::HashIndexer::Update
 {
     int counter = 0;
 
+    std::shared_ptr<std::vector<std::shared_ptr<RowValue>>> oldValues
+        = std::make_shared<std::vector<std::shared_ptr<RowValue>>>();
+
     for (auto i = m_hashMap.begin(); i != m_hashMap.end(); i++)
     {
         if (i->second->MeetConditions(conditions))
         {
+            std::shared_ptr<RowValue> oldValue = std::make_shared<RowValue>(i->second->DeepCopy());
+            oldValues->emplace_back(oldValue);
+
             i->second->Update(updateRow, originalRow, updateValue);
             counter++;
         }
     }
 
-    return std::make_shared<IndexResult>(counter, updateRow.Columns.size());
+    return std::make_shared<SelectIndexResult>(counter, updateRow.Columns.size(), oldValues);
 }
 
 std::shared_ptr<Osmmd::IndexResult> Osmmd::HashIndexer::UpdateKeyword

@@ -2,6 +2,7 @@
 * Created by Zeng Yinuo, 2021.09.01
 * Edited by Zeng Yinuo, 2021.09.04
 * Edited by Zeng Yinuo, 2021.09.06
+* Edited by Zeng Yinuo, 2021.09.08
 */
 
 #pragma once
@@ -30,6 +31,9 @@ namespace Osmmd
 
         int ColumnIndex(const std::string& name) const;
         int ColumnIndex(const Column& column) const;
+
+        Row Sliced(const std::vector<int>& indexes) const;
+        Row Sliced(const std::vector<std::string>& columnNames) const;
 
         std::string ToString() const override;
         Bytes ToBytes() const override;

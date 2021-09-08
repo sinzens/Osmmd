@@ -2,6 +2,7 @@
 * Created by Zeng Yinuo, 2021.09.04
 * Edited by Zeng Yinuo, 2021.09.05
 * Edited by Zeng Yinuo, 2021.09.06
+* Edited by Zeng Yinuo, 2021.09.08
 */
 
 #include "RowValue.h"
@@ -115,6 +116,18 @@ int Osmmd::RowValue::Update(const Row& updateRow, const Row& originalRow, std::s
     }
 
     return counter;
+}
+
+Osmmd::RowValue Osmmd::RowValue::DeepCopy() const
+{
+    std::vector<std::shared_ptr<ColumnValue>> values;
+
+    for (std::shared_ptr<ColumnValue> value : values)
+    {
+        values.emplace_back(std::make_shared<ColumnValue>(value->Data.DeepCopy()));
+    }
+
+    return RowValue(values);
 }
 
 std::string Osmmd::RowValue::ToString() const

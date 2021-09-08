@@ -32,6 +32,11 @@ std::shared_ptr<Osmmd::CommandResult> Osmmd::InsertCommand::DoExecute()
 
     std::shared_ptr<Osmmd::IndexResult> indexResult = table->Insert(m_arg.Value);
 
+    if (!indexResult->IsSuccessful())
+    {
+        return std::make_shared<CommandResult>(CommandType::Insert, 0, 0, false, indexResult->Message, 0);
+    }
+
     return std::make_shared<CommandResult>
     (
         CommandType::Insert,

@@ -20,6 +20,9 @@ namespace Osmmd
         DataTable(const DataTable& other);
         DataTable(const DataTableConfiguration& config, const Row& rowDefinition);
 
+        const DataTableConfiguration& GetConfiguration() const;
+        const Row& GetRowDefinition() const;
+
         std::shared_ptr<IndexResult> Insert(std::shared_ptr<RowValue> value);
 
         std::shared_ptr<IndexResult> Delete(const std::vector<Condition>& conditions);
@@ -51,6 +54,13 @@ namespace Osmmd
             IndexStrategy indexStrategy,
             const Row& rowDefinition,
             const Bytes& bytes
+        );
+
+        std::shared_ptr<IndexResult> UpdateIndexers
+        (
+            const Row& updateRow,
+            std::shared_ptr<RowValue> updateValue,
+            std::shared_ptr<RowValue> oldValue
         );
 
         std::shared_ptr<Indexer> CreateIndexer() const;

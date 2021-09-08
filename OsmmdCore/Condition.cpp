@@ -54,6 +54,49 @@ bool Osmmd::Condition::IsSimpleEqualCondition() const
     return this->ColumnIndexes.size() == 1 && this->Operator == ConditionOperator::Equal;
 }
 
+bool Osmmd::Condition::FetchColumnIndexes(const Row& rowDefinition)
+{
+    if (this->ColumnIndexes.size() == 0 && this->ColumnNames.size() == 0)
+    {
+        return true;
+    }
+
+    if (this->ColumnIndexes.size() == 0)
+    {
+        for (const std::string& columnName : this->ColumnNames)
+        {
+            int index = rowDefinition.ColumnIndex(columnName);
+
+            if (index == -1)
+            {
+                return false;
+            }
+
+            this->ColumnIndexes.emplace_back(index);
+        }
+
+        return true;
+    }
+
+    if (this->ColumnNames.size() == 0)
+    {
+        for (int index : this->ColumnIndexes)
+        {
+            if (index < 0 || index >= rowDefinition.Columns.size())
+            {
+                return false;
+            }
+
+            std::string columnName = rowDefinition.ColumnAt(index).Name;
+            this->ColumnNames.emplace_back(columnName);
+        }
+
+        return true;
+    }
+
+    return true;
+}
+
 Osmmd::Condition& Osmmd::Condition::operator=(const Condition& other)
 {
     this->Operator = other.Operator;

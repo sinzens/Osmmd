@@ -36,6 +36,16 @@ Osmmd::DataTable::DataTable(const DataTableConfiguration& config, const Row& row
     }
 }
 
+const Osmmd::DataTableConfiguration& Osmmd::DataTable::GetConfiguration() const
+{
+    return m_config;
+}
+
+const Osmmd::Row& Osmmd::DataTable::GetRowDefinition() const
+{
+    return m_rowDefinition;
+}
+
 std::shared_ptr<Osmmd::IndexResult> Osmmd::DataTable::Insert(std::shared_ptr<RowValue> value)
 {
     for (int i = 0; i < value->Values.size(); i++)
@@ -47,7 +57,13 @@ std::shared_ptr<Osmmd::IndexResult> Osmmd::DataTable::Insert(std::shared_ptr<Row
             std::shared_ptr<RowValue> primaryKeyValue = std::make_shared<RowValue>();
             primaryKeyValue->Values.emplace_back(value->Values.at(this->GetPrimaryKeyIndex()));
 
-            m_indexIndexers.at(columnName)->Insert(value->Values.at(i), primaryKeyValue);
+            std::shared_ptr<IndexResult> result
+                = m_indexIndexers.at(columnName)->Insert(value->Values.at(i), primaryKeyValue);
+
+            if (!result->IsSuccessful())
+            {
+                return result;
+            }
         }
     }
 
@@ -57,6 +73,11 @@ std::shared_ptr<Osmmd::IndexResult> Osmmd::DataTable::Insert(std::shared_ptr<Row
 std::shared_ptr<Osmmd::IndexResult> Osmmd::DataTable::Delete(const std::vector<Condition>& conditions)
 {
     std::shared_ptr<SelectIndexResult> deleteResult = m_primaryIndexer->Delete(conditions);
+
+    if (!deleteResult->IsSuccessful())
+    {
+        return deleteResult;
+    }
 
     int primaryKeyIndex = this->GetPrimaryKeyIndex();
 
@@ -75,7 +96,13 @@ std::shared_ptr<Osmmd::IndexResult> Osmmd::DataTable::Delete(const std::vector<C
             {
                 std::vector<int> indexs = { 0 };
                 Condition condition(ConditionOperator::Equal, indexs, deletedValue->Values.at(primaryKeyIndex));
-                m_indexIndexers.at(columnName)->Delete({ condition });
+
+                std::shared_ptr<SelectIndexResult> result = m_indexIndexers.at(columnName)->Delete({ condition });
+
+                if (!result->IsSuccessful())
+                {
+                    return result;
+                }
             }
         }
     }
@@ -97,21 +124,35 @@ std::shared_ptr<Osmmd::IndexResult> Osmmd::DataTable::Update
 
         if (rowResult)
         {
-            for (int i = 0; i < updateRow.Columns.size(); i++)
-            {
-                std::string columnName = updateRow.ColumnAt(i).Name;
+            std::shared_ptr<IndexResult> updateIndexersResult = this->UpdateIndexers(updateRow, updateValue, rowResult);
 
-                if (this->IsIndex(columnName))
-                {
-                    int columnIndex = m_rowDefinition.ColumnIndex(columnName);
-                    m_indexIndexers.at(columnName)->UpdateKeyword(updateValue->Values.at(i), rowResult->Values.at(columnIndex));
-                }
+            if (!updateIndexersResult->IsSuccessful())
+            {
+                return updateIndexersResult;
             }
 
             return std::make_shared<IndexResult>(1, rowResult->Update(updateRow, m_rowDefinition, updateValue));
         }
 
         return std::make_shared<IndexResult>();
+    }
+
+    std::shared_ptr<SelectIndexResult> results
+        = m_primaryIndexer->Update(conditions, updateRow, m_rowDefinition, updateValue);
+
+    if (!results->IsSuccessful())
+    {
+        return results;
+    }
+
+    for (std::shared_ptr<RowValue> result : *(results->Results))
+    {
+        std::shared_ptr<IndexResult> updateIndexersResult = this->UpdateIndexers(updateRow, updateValue, result);
+
+        if (!updateIndexersResult->IsSuccessful())
+        {
+            return updateIndexersResult;
+        }
     }
 
     return m_primaryIndexer->Update(conditions, updateRow, m_rowDefinition, updateValue);
@@ -275,6 +316,38 @@ std::shared_ptr<Osmmd::Indexer> Osmmd::DataTable::IndexerFromBytes
     case IndexStrategy::Hash:
         return HashIndexer::PtrFromBytes(rowDefinition, bytes);
     }
+}
+
+std::shared_ptr<Osmmd::IndexResult> Osmmd::DataTable::UpdateIndexers
+(
+    const Row& updateRow,
+    std::shared_ptr<RowValue> updateValue,
+    std::shared_ptr<RowValue> oldValue
+)
+{
+    for (int i = 0; i < updateRow.Columns.size(); i++)
+    {
+        std::string columnName = updateRow.ColumnAt(i).Name;
+
+        if (this->IsIndex(columnName))
+        {
+            int columnIndex = m_rowDefinition.ColumnIndex(columnName);
+
+            std::shared_ptr<IndexResult> result
+                = m_indexIndexers.at(columnName)->UpdateKeyword
+                (
+                    updateValue->Values.at(i),
+                    oldValue->Values.at(columnIndex)
+                );
+
+            if (!result->IsSuccessful())
+            {
+                return result;
+            }
+        }
+    }
+
+    return std::shared_ptr<IndexResult>();
 }
 
 std::shared_ptr<Osmmd::Indexer> Osmmd::DataTable::CreateIndexer() const

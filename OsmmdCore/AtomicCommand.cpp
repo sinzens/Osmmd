@@ -62,3 +62,33 @@ std::shared_ptr<Osmmd::CommandResult> Osmmd::AtomicCommand::NoSuchTableResult(co
 
     return std::make_shared<CommandResult>(m_type, 0, 0, false, buffer, 0);
 }
+
+std::shared_ptr<Osmmd::CommandResult> Osmmd::AtomicCommand::NoSuchColumnResult
+(
+    const std::string& columnName,
+    const std::string& tableName
+) const
+{
+    char buffer[300]{};
+    sprintf_s(buffer, "No such column '%s' in table '%s'", columnName.c_str(), tableName.c_str());
+
+    return std::make_shared<CommandResult>(m_type, 0, 0, false, buffer, 0);
+}
+
+std::shared_ptr<Osmmd::CommandResult> Osmmd::AtomicCommand::CannotFetchConditionResult
+(
+    const Condition& condition,
+    const Row& rowDefinition
+) const
+{
+    char buffer[300]{};
+    sprintf_s
+    (
+        buffer,
+        "Cannot fetch condition: %s with row %s",
+        condition.ToString().c_str(),
+        rowDefinition.ToString().c_str()
+    );
+
+    return std::make_shared<CommandResult>(m_type, 0, 0, false, buffer, 0);
+}

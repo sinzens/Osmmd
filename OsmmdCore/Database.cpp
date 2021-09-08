@@ -15,6 +15,11 @@ Osmmd::Database::Database(const DatabaseConfiguration& config)
 {
 }
 
+const Osmmd::DatabaseConfiguration& Osmmd::Database::GetConfiguration() const
+{
+    return m_config;
+}
+
 std::shared_ptr<Osmmd::DataTable> Osmmd::Database::GetTable(const std::string& name)
 {
     auto path = m_config.TABLES.find(name);

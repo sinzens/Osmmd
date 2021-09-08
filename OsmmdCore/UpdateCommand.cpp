@@ -30,6 +30,24 @@ std::shared_ptr<Osmmd::CommandResult> Osmmd::UpdateCommand::DoExecute()
         return this->NoSuchTableResult(m_arg.Table);
     }
 
+    for (const Column& column : m_arg.UpdateRow.Columns)
+    {
+        if (!table->GetRowDefinition().HasColumn(column))
+        {
+            return this->NoSuchColumnResult(column.Name, m_arg.Table);
+        }
+    }
+
+    for (Condition& condition : m_arg.Conditions)
+    {
+        bool fetched = condition.FetchColumnIndexes(table->GetRowDefinition());
+
+        if (!fetched)
+        {
+            return this->CannotFetchConditionResult(condition, table->GetRowDefinition());
+        }
+    }
+
     std::shared_ptr<IndexResult> indexResult = table->Update(m_arg.Conditions, m_arg.UpdateRow, m_arg.UpdateValue);
 
     return std::make_shared<CommandResult>

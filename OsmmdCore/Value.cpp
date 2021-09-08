@@ -2,6 +2,7 @@
 * Created by Zeng Yinuo, 2021.09.04
 * Edited by Zeng Yinuo, 2021.09.05
 * Edited by Zeng Yinuo, 2021.09.07
+* Edited by Zeng Yinuo, 2021.09.08
 */
 
 #include "Enum.h"
@@ -190,6 +191,11 @@ int Osmmd::Value::Compare(const Value& other) const
     }
 
     return 0;
+}
+
+Osmmd::Value Osmmd::Value::DeepCopy() const
+{
+    return Value(m_type, std::make_shared<Bytes>(*m_bytes));
 }
 
 Osmmd::DataType Osmmd::Value::GetType() const

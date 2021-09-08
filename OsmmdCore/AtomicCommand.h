@@ -8,6 +8,8 @@
 #pragma once
 
 #include "IExecutable.h"
+#include "Condition.h"
+#include "Row.h"
 
 namespace Osmmd
 {
@@ -24,6 +26,18 @@ namespace Osmmd
         std::shared_ptr<CommandResult> NoCurrentDatabaseResult() const;
         std::shared_ptr<CommandResult> NoSuchDatabaseResult(const std::string& databaseName) const;
         std::shared_ptr<CommandResult> NoSuchTableResult(const std::string& tableName) const;
+
+        std::shared_ptr<CommandResult> NoSuchColumnResult
+        (
+            const std::string& columnName,
+            const std::string& tableName
+        ) const;
+
+        std::shared_ptr<CommandResult> CannotFetchConditionResult
+        (
+            const Condition& condition,
+            const Row& rowDefinition
+        ) const;
 
         CommandType m_type = CommandType::Select;
     };

@@ -2,6 +2,7 @@
 * Created by Zeng Yinuo, 2021.09.04
 * Edited by Zeng Yinuo, 2021.09.05
 * Edited by Zeng Yinuo, 2021.09.06
+* Edited by Zeng Yinuo, 2021.09.08
 */
 
 #pragma once
@@ -22,7 +23,7 @@ namespace Osmmd
 
         std::shared_ptr<SelectIndexResult> Delete(const std::vector<Condition>& conditions) override;
 
-        std::shared_ptr<IndexResult> Update
+        std::shared_ptr<SelectIndexResult> Update
         (
             const std::vector<Condition>& conditions,
             const Row& updateRow,

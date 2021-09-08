@@ -2,6 +2,7 @@
 * Created by Zeng Yinuo, 2021.09.04
 * Edited by Zeng Yinuo, 2021.09.05
 * Edited by Zeng Yinuo, 2021.09.06
+* Edited by Zeng Yinuo, 2021.09.08
 */
 
 #include "BpTreeIndexer.h"
@@ -20,7 +21,7 @@ std::shared_ptr<Osmmd::SelectIndexResult> Osmmd::BpTreeIndexer::Delete(const std
     return std::shared_ptr<SelectIndexResult>();
 }
 
-std::shared_ptr<Osmmd::IndexResult> Osmmd::BpTreeIndexer::Update
+std::shared_ptr<Osmmd::SelectIndexResult> Osmmd::BpTreeIndexer::Update
 (
     const std::vector<Condition>& conditions,
     const Row& updateRow,
@@ -28,7 +29,7 @@ std::shared_ptr<Osmmd::IndexResult> Osmmd::BpTreeIndexer::Update
     std::shared_ptr<RowValue> updateValue
 )
 {
-    return std::shared_ptr<IndexResult>();
+    return std::shared_ptr<SelectIndexResult>();
 }
 
 std::shared_ptr<Osmmd::IndexResult> Osmmd::BpTreeIndexer::UpdateKeyword

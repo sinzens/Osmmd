@@ -7,6 +7,7 @@
 
 #include "ColumnValue.h"
 #include "ConditionOperator.h"
+#include "Row.h"
 
 namespace Osmmd
 {
@@ -37,8 +38,9 @@ namespace Osmmd
         );
 
         bool IsColumnInvolved(int index) const;
-
         bool IsSimpleEqualCondition() const;
+
+        bool FetchColumnIndexes(const Row& rowDefinition);
 
         std::string ToString() const override;
         Bytes ToBytes() const override;

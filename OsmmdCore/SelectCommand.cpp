@@ -31,7 +31,25 @@ std::shared_ptr<Osmmd::CommandResult> Osmmd::SelectCommand::DoExecute()
         return this->NoSuchTableResult(m_arg.Table);
     }
 
-    Row selectRow;
+    for (const std::string& column : m_arg.ColumnNames)
+    {
+        if (!table->GetRowDefinition().HasColumn(column) && column != "*")
+        {
+            return this->NoSuchColumnResult(column, m_arg.Table);
+        }
+    }
+
+    for (Condition& condition : m_arg.Conditions)
+    {
+        bool fetched = condition.FetchColumnIndexes(table->GetRowDefinition());
+
+        if (!fetched)
+        {
+            return this->CannotFetchConditionResult(condition, table->GetRowDefinition());
+        }
+    }
+
+    Row selectRow = table->GetRowDefinition().Sliced(m_arg.ColumnNames);
 
     std::shared_ptr<SelectIndexResult> indexResult = table->Select(m_arg.Conditions, selectRow);
 

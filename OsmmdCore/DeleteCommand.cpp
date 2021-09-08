@@ -30,7 +30,22 @@ std::shared_ptr<Osmmd::CommandResult> Osmmd::DeleteCommand::DoExecute()
         return this->NoSuchTableResult(m_arg.Table);
     }
 
+    for (Condition& condition : m_arg.Conditions)
+    {
+        bool fetched = condition.FetchColumnIndexes(table->GetRowDefinition());
+
+        if (!fetched)
+        {
+            return this->CannotFetchConditionResult(condition, table->GetRowDefinition());
+        }
+    }
+
     std::shared_ptr<Osmmd::IndexResult> indexResult = table->Delete(m_arg.Conditions);
+
+    if (!indexResult->IsSuccessful())
+    {
+        return std::make_shared<CommandResult>(CommandType::Delete, 0, 0, false, indexResult->Message, 0);
+    }
     
     return std::make_shared<CommandResult>
     (

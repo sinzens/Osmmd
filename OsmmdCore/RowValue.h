@@ -2,6 +2,7 @@
 * Created by Zeng Yinuo, 2021.09.04
 * Edited by Zeng Yinuo, 2021.09.05
 * Edited by Zeng Yinuo, 2021.09.06
+* Edited by Zeng Yinuo, 2021.09.08
 */
 
 #pragma once
@@ -29,6 +30,8 @@ namespace Osmmd
         bool MeetCondition(const Condition& condition) const;
 
         int Update(const Row& updateRow, const Row& originalRow, std::shared_ptr<RowValue> updateValue);
+
+        RowValue DeepCopy() const;
 
         std::string ToString() const override;
         Bytes ToBytes() const override;

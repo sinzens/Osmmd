@@ -17,6 +17,8 @@ namespace Osmmd
     public:
         Database(const DatabaseConfiguration& config);
 
+        const DatabaseConfiguration& GetConfiguration() const;
+
         std::shared_ptr<DataTable> GetTable(const std::string& name);
 
         std::string CreateTable(const DataTableConfiguration& config, const Row& rowDefinition);
