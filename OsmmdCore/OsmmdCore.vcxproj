@@ -213,6 +213,8 @@
     <ClInclude Include="Type.h" />
     <ClInclude Include="UpdateCommand.h" />
     <ClInclude Include="UpdateCommandArg.h" />
+    <ClInclude Include="UseDatabaseCommand.h" />
+    <ClInclude Include="UseDatabaseCommandArg.h" />
     <ClInclude Include="Value.h" />
   </ItemGroup>
   <ItemGroup>
@@ -281,6 +283,8 @@
     <ClCompile Include="Type.cpp" />
     <ClCompile Include="UpdateCommand.cpp" />
     <ClCompile Include="UpdateCommandArg.cpp" />
+    <ClCompile Include="UseDatabaseCommand.cpp" />
+    <ClCompile Include="UseDatabaseCommandArg.cpp" />
     <ClCompile Include="Value.cpp" />
   </ItemGroup>
   <ItemGroup>

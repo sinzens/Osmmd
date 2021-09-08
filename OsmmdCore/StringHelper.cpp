@@ -3,6 +3,7 @@
 * Edited by Zeng Yinuo, 2021.08.26
 * Edited by Zeng Yinuo, 2021.09.04
 * Edited by Zeng Yinuo, 2021.09.07
+* Edited by Zeng Yinuo, 2021.09.08
 */
 
 #include "StringHelper.h"
@@ -320,16 +321,37 @@ std::vector<std::string> Osmmd::StringHelper::Split(const std::string& delim) co
 {
     std::vector<std::string> strs;
 
-    size_t lastPos = m_data.find_first_not_of(delim, 0);
-    size_t pos = m_data.find_first_of(delim, lastPos);
-
-    while (std::string::npos != pos || std::string::npos != lastPos)
+    if (delim.size() == 1)
     {
-        strs.emplace_back(m_data.substr(lastPos, pos - lastPos));
-        lastPos = m_data.find_first_not_of(delim, pos);
-        pos = m_data.find_first_of(delim, lastPos);
+        size_t lastPos = m_data.find_first_not_of(delim, 0);
+        size_t pos = m_data.find_first_of(delim, lastPos);
+
+        while (std::string::npos != pos || std::string::npos != lastPos)
+        {
+            strs.emplace_back(m_data.substr(lastPos, pos - lastPos));
+            lastPos = m_data.find_first_not_of(delim, pos);
+            pos = m_data.find_first_of(delim, lastPos);
+        }
+
+        return strs;
     }
 
+    size_t pos1 = 0;
+    size_t pos2 = m_data.find(delim);
+
+    while (std::string::npos != pos2)
+    {
+        strs.emplace_back(m_data.substr(pos1, pos2 - pos1));
+
+        pos1 = pos2 + delim.size();
+        pos2 = m_data.find(delim, pos1);
+    }
+
+    if (pos1 != m_data.length())
+    {
+        strs.emplace_back(m_data.substr(pos1));
+    }
+    
     return strs;
 }
 
@@ -340,7 +362,7 @@ int Osmmd::StringHelper::IndexOf(char ch) const
 
 int Osmmd::StringHelper::IndexOf(const std::string& str) const
 {
-    return m_data.find_first_of(str);
+    return m_data.find(str);
 }
 
 bool Osmmd::StringHelper::operator==(const char* str) const

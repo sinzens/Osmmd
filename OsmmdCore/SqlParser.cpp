@@ -1,5 +1,6 @@
 /*
 * Created by Zeng Yinuo, 2021.09.07
+* Edited by Zeng Yinuo, 2021.09.08
 */
 
 #include "SqlParser.h"
@@ -14,6 +15,8 @@
 #include "DeleteCommand.h"
 #include "UpdateCommand.h"
 #include "SelectCommand.h"
+
+#include "UseDatabaseCommand.h"
 #include "QuitCommand.h"
 
 #include "Enum.h"
@@ -36,6 +39,11 @@ Osmmd::SqlParseResult Osmmd::SqlParser::Parse(const StringHelper& sql)
     if (lowercased.StartsWith("q"))
     {
         return ParseQuitCommand(lowercased);
+    }
+
+    if (lowercased.StartsWith("use"))
+    {
+        return ParseUseDatabaseCommand(simplified);
     }
 
     if (lowercased.StartsWith("create database"))
@@ -360,6 +368,11 @@ Osmmd::SqlParseResult Osmmd::SqlParser::ParseDeleteDatabaseCommand(const StringH
         return SqlParseResult(false, StringConstants::Error.SQL_NO_DATABASE_NAME);
     }
 
+    if (tokens.size() > 3)
+    {
+        return SqlParseResult(false, StringConstants::Error.SQL_TOO_MANY_ARGS);
+    }
+
     StringHelper secondToken = StringHelper(tokens.at(1)).ToLowerCase();
 
     if (secondToken != "database")
@@ -367,10 +380,12 @@ Osmmd::SqlParseResult Osmmd::SqlParser::ParseDeleteDatabaseCommand(const StringH
         return NoSuchCommandResult(StringHelper(std::string("drop ").append(secondToken.GetString())));
     }
 
+    std::string databaseName = StringHelper(tokens.at(2)).Trimmed().GetString();
+
     return SqlParseResult
     (
         true,
-        std::make_shared<DeleteDatabaseCommand>(DeleteDatabaseCommandArg(tokens.at(2)))
+        std::make_shared<DeleteDatabaseCommand>(DeleteDatabaseCommandArg(databaseName))
     );
 }
 
@@ -383,6 +398,11 @@ Osmmd::SqlParseResult Osmmd::SqlParser::ParseDeleteTableCommand(const StringHelp
         return SqlParseResult(false, StringConstants::Error.SQL_NO_DATATABLE_NAME);
     }
 
+    if (tokens.size() > 3)
+    {
+        return SqlParseResult(false, StringConstants::Error.SQL_TOO_MANY_ARGS);
+    }
+
     StringHelper secondToken = StringHelper(tokens.at(1)).ToLowerCase();
 
     if (secondToken != "table")
@@ -390,10 +410,40 @@ Osmmd::SqlParseResult Osmmd::SqlParser::ParseDeleteTableCommand(const StringHelp
         return NoSuchCommandResult(StringHelper(std::string("drop ").append(secondToken.GetString())));
     }
 
+    std::string tableName = StringHelper(tokens.at(2)).Trimmed().GetString();
+
     return SqlParseResult
     (
         true,
-        std::make_shared<DeleteTableCommand>(DeleteTableCommandArg(tokens.at(2)))
+        std::make_shared<DeleteTableCommand>(DeleteTableCommandArg(tableName))
+    );
+}
+
+Osmmd::SqlParseResult Osmmd::SqlParser::ParseUseDatabaseCommand(const StringHelper& sql)
+{
+    std::vector<std::string> tokens = sql.Split(" ");
+
+    if (tokens.size() < 2)
+    {
+        return SqlParseResult(false, StringConstants::Error.SQL_NO_DATABASE_NAME);
+    }
+
+    if (tokens.size() > 2)
+    {
+        return SqlParseResult(false, StringConstants::Error.SQL_TOO_MANY_ARGS);
+    }
+
+    if (StringHelper(tokens.front()).ToLowerCase() != "use")
+    {
+        return NoSuchCommandResult(StringHelper(tokens.front()));
+    }
+
+    std::string databaseName = StringHelper(tokens.at(1)).Trimmed().GetString();
+
+    return SqlParseResult
+    (
+        true,
+        std::make_shared<UseDatabaseCommand>(UseDatabaseCommandArg(databaseName))
     );
 }
 
@@ -431,7 +481,7 @@ Osmmd::SqlParseResult Osmmd::SqlParser::ParseInsertCommand(const StringHelper& s
         return SqlParseResult(false, StringConstants::Error.SQL_NO_INSERT_VALUES_END);
     }
 
-    size_t valueTrueBegin = sql.GetString().find_first_of("(");
+    size_t valueTrueBegin = sql.GetString().find_first_of("(", valueBegin);
 
     if (valueEnd - valueTrueBegin < 2)
     {
@@ -471,17 +521,236 @@ Osmmd::SqlParseResult Osmmd::SqlParser::ParseInsertCommand(const StringHelper& s
 
 Osmmd::SqlParseResult Osmmd::SqlParser::ParseDeleteCommand(const StringHelper& sql)
 {
-    return SqlParseResult();
+    std::vector<std::string> tokens = sql.ToLowerCase().Split(" ");
+
+    if (tokens.at(1) != "from")
+    {
+        return NoSuchCommandResult(StringHelper(std::string("delete ").append(tokens.at(1))));
+    }
+
+    if (tokens.size() < 3)
+    {
+        return SqlParseResult(false, StringConstants::Error.SQL_NO_DATATABLE_NAME);
+    }
+
+    StringHelper tableName = StringHelper(tokens.at(2)).Trimmed();
+
+    if (tableName.GetLength() == 0 || tableName == "where")
+    {
+        return SqlParseResult(false, StringConstants::Error.SQL_NO_DATATABLE_NAME);
+    }
+
+    tableName = StringHelper(sql.Split(" ").at(2)).Trimmed();
+
+    size_t conditionsBegin = sql.ToLowerCase().GetString().find("where");
+    
+    if (conditionsBegin == std::string::npos)
+    {
+        return SqlParseResult(false, std::make_shared<DeleteCommand>(DeleteCommandArg(tableName.GetString(), {})));
+    }
+
+    size_t conditionsTrueBegin = sql.GetString().find_first_not_of(" ", conditionsBegin + 5);
+
+    if (conditionsTrueBegin == std::string::npos)
+    {
+        return SqlParseResult(false, StringConstants::Error.SQL_NO_CONDITIONS);
+    }
+    
+    std::string error;
+    StringHelper conditionsStr = sql.SubString(conditionsTrueBegin).Trimmed();
+
+    std::vector<Condition> conditions = ParseConditions(conditionsStr, error);
+
+    if (!error.empty())
+    {
+        return SqlParseResult(false, error);
+    }
+
+    return SqlParseResult
+    (
+        true,
+        std::make_shared<DeleteCommand>(DeleteCommandArg(tableName.GetString(), conditions))
+    );
 }
 
 Osmmd::SqlParseResult Osmmd::SqlParser::ParseUpdateCommand(const StringHelper& sql)
 {
-    return SqlParseResult();
+    StringHelper lowercased = sql.ToLowerCase();
+    std::vector<std::string> tokens = lowercased.Split(" ");
+
+    if (tokens.at(0) != "update")
+    {
+        return NoSuchCommandResult(StringHelper(tokens.at(0)));
+    }
+
+    if (tokens.size() < 2)
+    {
+        return SqlParseResult(false, StringConstants::Error.SQL_NO_DATATABLE_NAME);
+    }
+
+    StringHelper tableName = StringHelper(tokens.at(1)).Trimmed();
+
+    if (tableName.GetLength() == 0 || tableName == "set")
+    {
+        return SqlParseResult(false, StringConstants::Error.SQL_NO_DATATABLE_NAME);
+    }
+
+    tableName = StringHelper(sql.Split(" ").at(1)).Trimmed();
+
+    if (!lowercased.Contains(" set "))
+    {
+        return SqlParseResult(false, StringConstants::Error.SQL_NO_UPDATE_VALUES);
+    }
+
+    size_t conditionsBegin = lowercased.IndexOf("where");
+    size_t updateValuesBegin = static_cast<size_t>(lowercased.IndexOf(" set ")) + 5;
+    size_t updateValuesEnd = sql.GetLength();
+
+    if (updateValuesBegin >= sql.GetLength())
+    {
+        return SqlParseResult(false, StringConstants::Error.SQL_NO_UPDATE_VALUES);
+    }
+
+    if (conditionsBegin != std::string::npos)
+    {
+        updateValuesEnd = conditionsBegin;
+    }
+
+    Row updateRow;
+    std::shared_ptr<RowValue> updateValue = std::make_shared<RowValue>();
+
+    StringHelper updateValuesStr = sql.SubString(updateValuesBegin, updateValuesEnd);
+    std::vector<std::string> values = SplitUpdateValues(updateValuesStr.GetString());
+
+    for (const std::string& value : values)
+    {
+        std::vector<std::string> columnAndValue = StringHelper(value).Trimmed().Split("=");
+
+        if (columnAndValue.size() != 2)
+        {
+            return SqlParseResult(false, StringConstants::Error.SQL_INVALID_EXPRESSION);
+        }
+
+        StringHelper columnName = StringHelper(columnAndValue.front()).Trimmed();
+        StringHelper valueStr = StringHelper(columnAndValue.back()).Trimmed();
+
+        std::string error = CheckIdentifierValid(columnName);
+
+        if (!error.empty())
+        {
+            return SqlParseResult(false, error);
+        }
+
+        std::shared_ptr<ColumnValue> columnValue = ParseValue(valueStr);
+
+        updateValue->Values.emplace_back(columnValue);
+        updateRow.AddColumn(Column(columnName.GetString(), columnValue->GetLength(), columnValue->GetType()));
+    }
+
+    std::vector<Condition> conditions;
+
+    if (conditionsBegin != std::string::npos)
+    {
+        size_t conditionsTrueBegin = sql.GetString().find_first_not_of(" ", conditionsBegin + 5);
+
+        if (conditionsTrueBegin == std::string::npos)
+        {
+            return SqlParseResult(false, StringConstants::Error.SQL_NO_CONDITIONS);
+        }
+
+        std::string error;
+        StringHelper conditionsStr = sql.SubString(conditionsTrueBegin).Trimmed();
+
+        conditions = ParseConditions(conditionsStr, error);
+
+        if (!error.empty())
+        {
+            return SqlParseResult(false, error);
+        }
+    }
+
+    return SqlParseResult
+    (
+        true,
+        std::make_shared<UpdateCommand>(UpdateCommandArg(tableName.GetString(), conditions, updateRow, updateValue))
+    );
 }
 
 Osmmd::SqlParseResult Osmmd::SqlParser::ParseSelectCommand(const StringHelper& sql)
 {
-    return SqlParseResult();
+    StringHelper lowercased = sql.ToLowerCase();
+    std::vector<std::string> tokens = lowercased.Split(" ");
+
+    if (tokens.at(0) != "select")
+    {
+        return NoSuchCommandResult(StringHelper(tokens.at(0)));
+    }
+
+    size_t fromBegin = lowercased.IndexOf("from");
+
+    if (fromBegin == std::string::npos)
+    {
+        return SqlParseResult(false, StringConstants::Error.SQL_NO_DATATABLE_NAME);
+    }
+
+    size_t fromTrueBegin = fromBegin + 4;
+
+    if (fromTrueBegin >= sql.GetLength())
+    {
+        return SqlParseResult(false, StringConstants::Error.SQL_NO_DATATABLE_NAME);
+    }
+
+    size_t conditionsBegin = lowercased.IndexOf("where");
+    size_t fromEnd = sql.GetLength();
+
+    if (conditionsBegin != std::string::npos)
+    {
+        fromEnd = conditionsBegin;
+    }
+
+    StringHelper tableName = sql.SubString(fromTrueBegin, fromEnd).Trimmed();
+    StringHelper selectRowStr = sql.SubString(6, fromBegin).Trimmed();
+
+    std::vector<std::string> names = selectRowStr.Split(",");
+    std::vector<std::string> columnNames;
+
+    for (const std::string& name : names)
+    {
+        columnNames.emplace_back(StringHelper(name).Trimmed().GetString());
+    }
+
+    for (const std::string& name : columnNames)
+    {
+        std::cout << name << std::endl;
+    }
+
+    std::vector<Condition> conditions;
+
+    if (conditionsBegin != std::string::npos)
+    {
+        size_t conditionsTrueBegin = sql.GetString().find_first_not_of(" ", conditionsBegin + 5);
+
+        if (conditionsTrueBegin == std::string::npos)
+        {
+            return SqlParseResult(false, StringConstants::Error.SQL_NO_CONDITIONS);
+        }
+
+        std::string error;
+        StringHelper conditionsStr = sql.SubString(conditionsTrueBegin).Trimmed();
+
+        conditions = ParseConditions(conditionsStr, error);
+
+        if (!error.empty())
+        {
+            return SqlParseResult(false, error);
+        }
+    }
+
+    return SqlParseResult
+    (
+        true,
+        std::make_shared<SelectCommand>(SelectCommandArg(tableName.GetString(), conditions, columnNames))
+    );
 }
 
 Osmmd::SqlParseResult Osmmd::SqlParser::NoSuchCommandResult(const StringHelper& command)
@@ -542,7 +811,7 @@ std::string Osmmd::SqlParser::CheckIdentifierValid(const StringHelper& identifie
     return std::string();
 }
 
-std::vector<std::string> Osmmd::SqlParser::SplitCreateTableDeclarations(const std::string declaration)
+std::vector<std::string> Osmmd::SqlParser::SplitCreateTableDeclarations(const std::string& declaration)
 {
     std::vector<std::string> results;
 
@@ -583,6 +852,49 @@ std::vector<std::string> Osmmd::SqlParser::SplitCreateTableDeclarations(const st
     if (results.size() == 0)
     {
         results.emplace_back(declaration);
+    }
+
+    return results;
+}
+
+std::vector<std::string> Osmmd::SqlParser::SplitConditions(const std::string& conditions)
+{
+    std::vector<std::string> results;
+
+    StringHelper conditionsStr = StringHelper(conditions).Trimmed();
+    StringHelper lowercased = conditionsStr.ToLowerCase();
+
+    if (!lowercased.Contains(" and "))
+    {
+        results.emplace_back(conditionsStr.GetString());
+        return results;
+    }
+
+    std::vector<std::string> splitted = lowercased.Split(" and ");
+
+    for (const std::string& split : splitted)
+    {
+        size_t matchedStart = lowercased.IndexOf(split);
+        std::string condition = conditionsStr.GetString().substr(matchedStart, split.size());
+
+        results.emplace_back(condition);
+    }
+
+    if (results.size() == 0)
+    {
+        results.emplace_back(conditions);
+    }
+
+    return results;
+}
+
+std::vector<std::string> Osmmd::SqlParser::SplitUpdateValues(const std::string& values)
+{
+    std::vector<std::string> results = StringHelper(values).Split(",");
+
+    if (results.size() == 0)
+    {
+        results.emplace_back(values);
     }
 
     return results;
@@ -643,4 +955,183 @@ std::shared_ptr<Osmmd::ColumnValue> Osmmd::SqlParser::ParseValue(const StringHel
     }
 
     return std::make_shared<ColumnValue>(value);
+}
+
+std::vector<Osmmd::Condition> Osmmd::SqlParser::ParseConditions(const StringHelper& str, std::string& error)
+{
+    std::vector<Condition> conditions;
+
+    if (str.ToLowerCase().Contains(" or "))
+    {
+        error = StringConstants::Error.SQL_OR_NOT_SUPPORTED;
+        return conditions;
+    }
+
+    std::vector<std::string> conditionStrs = SplitConditions(str.GetString());
+
+    for (const std::string& conditionStr : conditionStrs)
+    {
+        std::string conditionError;
+        Condition condition = ParseCondition(StringHelper(conditionStr).Trimmed(), conditionError);
+
+        if (!conditionError.empty())
+        {
+            error = conditionError;
+            return conditions;
+        }
+
+        conditions.emplace_back(condition);
+    }
+
+    return conditions;
+}
+
+Osmmd::Condition Osmmd::SqlParser::ParseCondition(const StringHelper& str, std::string& error)
+{
+    static const std::set<char> operatorBegins = { '=', '!', '<', '>' };
+
+    size_t operatorBegin = -1;
+
+    for (auto i = str.GetString().begin(); i != str.GetString().end(); i++)
+    {
+        char ch = (*i);
+
+        if (operatorBegins.find(ch) != operatorBegins.end())
+        {
+            if (operatorBegin == -1)
+            {
+                operatorBegin = i - str.GetString().begin();
+            }
+
+            continue;
+        }
+
+        if (operatorBegin == -1)
+        {
+            continue;
+        }
+
+        StringHelper left = str.SubString(0, operatorBegin).Trimmed();
+
+        if (left.GetLength() == 0)
+        {
+            error = StringConstants::Error.SQL_INVALID_EXPRESSION;
+            return Condition();
+        }
+
+        size_t operatorEnd = i - str.GetString().begin();
+        StringHelper right = str.SubString(operatorEnd).Trimmed();
+
+        if (right.GetLength() == 0)
+        {
+            error = StringConstants::Error.SQL_INVALID_EXPRESSION;
+            return Condition();
+        }
+
+        std::string optStr = str.SubString(operatorBegin, operatorEnd).GetString();
+
+        if (!IsKnownConditionOperator(optStr))
+        {
+            char buffer[30]{};
+            sprintf_s(buffer, "%s '%s'", StringConstants::Error.SQL_UNKNOWN_OPERATOR, optStr.c_str());
+
+            error = buffer;
+            return Condition();
+        }
+
+        ConditionOperator opt = GetConditionOperator(optStr);
+
+        bool leftIsColumn = IsColumnName(left);
+        bool rightIsColumn = IsColumnName(right);
+
+        if (leftIsColumn && rightIsColumn)
+        {
+            std::string leftError = CheckIdentifierValid(left);
+            std::string rightError = CheckIdentifierValid(right);
+
+            if (!leftError.empty())
+            {
+                error = leftError;
+                return Condition();
+            }
+
+            if (!rightError.empty())
+            {
+                error = rightError;
+                return Condition();
+            }
+
+            return Condition
+            (
+                opt,
+                std::vector<std::string>({ left.GetString(), right.GetString() }),
+                nullptr
+            );
+        }
+        else if (!leftIsColumn && !rightIsColumn)
+        {
+            return Condition(opt, std::vector<std::string>(), nullptr);
+        }
+        else
+        {
+            if (leftIsColumn)
+            {
+                std::string columnError = CheckIdentifierValid(left);
+
+                if (!columnError.empty())
+                {
+                    error = columnError;
+                    return Condition();
+                }
+
+                return Condition
+                (
+                    opt,
+                    std::vector<std::string>({ left.GetString() }),
+                    ParseValue(right)
+                );
+            }
+
+            if (rightIsColumn)
+            {
+                std::string columnError = CheckIdentifierValid(right);
+
+                if (!columnError.empty())
+                {
+                    error = columnError;
+                    return Condition();
+                }
+
+                return Condition
+                (
+                    GetInvertedConditionOperator(opt),
+                    std::vector<std::string>({ right.GetString() }),
+                    ParseValue(left)
+                );
+            }
+        }
+    }
+
+    error = StringConstants::Error.SQL_INVALID_EXPRESSION;
+    return Condition();
+}
+
+bool Osmmd::SqlParser::IsColumnName(const StringHelper& str)
+{
+    if (str.Contains("'"))
+    {
+        return false;
+    }
+
+    if (str.StartsWith("`") && str.EndsWith("`"))
+    {
+        return true;
+    }
+
+    if (!str.IsDouble() && !str.ContainsOnlyNumbers() && str.ContainsOnlyLettersNumbersAndUnderscore() && !str.StartsWithNumber())
+    {
+        return true;
+    }
+
+    return false;
 }

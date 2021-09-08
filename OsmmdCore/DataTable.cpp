@@ -1,5 +1,6 @@
 /*
 * Created by Zeng Yinuo, 2021.09.05
+* Edited by Zeng Yinuo, 2021.09.08
 */
 
 #include "DataTable.h"
@@ -57,7 +58,8 @@ std::shared_ptr<Osmmd::IndexResult> Osmmd::DataTable::Delete(const std::vector<C
 
             for (std::shared_ptr<RowValue> deletedValue : *(deleteResult->Results))
             {
-                Condition condition(ConditionOperator::Equal, { 0 }, deletedValue->Values.at(primaryKeyIndex));
+                std::vector<int> indexs = { 0 };
+                Condition condition(ConditionOperator::Equal, indexs, deletedValue->Values.at(primaryKeyIndex));
                 m_indexIndexers.at(columnName)->Delete({ condition });
             }
         }

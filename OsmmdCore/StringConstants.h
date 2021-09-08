@@ -4,6 +4,7 @@
 * Edited by Zeng Yinuo, 2021.09.05
 * Edited by Zeng Yinuo, 2021.09.06
 * Edited by Zeng Yinuo, 2021.09.07
+* Edited by Zeng Yinuo, 2021.09.08
 */
 
 #pragma once
@@ -40,9 +41,22 @@ namespace Osmmd
             static constexpr const char DELETE[] = "DELETE";
             static constexpr const char UPDATE[] = "UPDATE";
             static constexpr const char SELECT[] = "SELECT";
+            static constexpr const char USE_DATABASE[] = "USE DATABASE";
             static constexpr const char QUIT[] = "QUIT";
             static constexpr const char UNKNOWN[] = "UNKNOWN";
         } CommandType;
+
+        static const struct
+        {
+            static constexpr const char EQUAL[] = "=";
+            static constexpr const char NOT_EQUAL1[] = "!=";
+            static constexpr const char NOT_EQUAL2[] = "<>";
+            static constexpr const char LESS_THAN[] = "<";
+            static constexpr const char GREATER_THAN[] = ">";
+            static constexpr const char LESS_THAN_EQUAL[] = "<=";
+            static constexpr const char GREATER_THAN_EQUAL[] = ">=";
+            static constexpr const char UNKNOWN[] = "Unknown";
+        } ConditionOperator;
 
         static const struct
         {
@@ -83,11 +97,14 @@ namespace Osmmd
             static constexpr const char SQL_NO_COLUMNS[] = "No columns specified for data table";
             static constexpr const char SQL_NO_INSERT_VALUES[] = "No values to insert";
             static constexpr const char SQL_NO_INSERT_VALUES_END[] = "Insert values should end with ')'";
+            static constexpr const char SQL_NO_CONDITIONS[] = "No conditions provided while 'where' is specified";
+            static constexpr const char SQL_NO_UPDATE_VALUES[] = "No values to update";
 
             static constexpr const char SQL_INVALID_COLUMN_DEFINITION[] = "Invalid column definition";
             static constexpr const char SQL_INVALID_PRIMARY_KEY_DECLARATION[] = "Invalid primary key declaration";
             static constexpr const char SQL_INVALID_INDEX_DECLARATION[] = "Invalid index declaration";
             static constexpr const char SQL_INVALID_CHAR_VALUE_FORMAT[] = "Invalid char format";
+            static constexpr const char SQL_INVALID_EXPRESSION[] = "Invalid expression";
 
             static constexpr const char SQL_INVALID_IDENTIFIER_NOT_ALLOWED_CHARACTER[]
                 = "Invalid identifier, only letters, numbers and underscore are allowed";
@@ -100,10 +117,13 @@ namespace Osmmd
 
             static constexpr const char SQL_UNKNOWN_TYPE[] = "Unknown type";
             static constexpr const char SQL_UNKNOWN_INDEX_STRATEGY[] = "Unknown index strategy";
+            static constexpr const char SQL_UNKNOWN_OPERATOR[] = "Unknown operator";
 
             static constexpr const char SQL_CHAR_NO_LENGTH[] = "A length must be specified for type 'char'";
             static constexpr const char SQL_LENGTH_EMPTY[] = "A length cannot be empty";
             static constexpr const char SQL_COLUMN_NOT_EXIST[] = "Column doesn't exist in data table";
+            static constexpr const char SQL_OR_NOT_SUPPORTED[] = "Operator 'or' is not supported";
+            static constexpr const char SQL_TOO_MANY_ARGS[] = "Too many arguments";
 
         } Error;
     };

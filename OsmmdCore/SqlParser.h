@@ -1,5 +1,6 @@
 /*
 * Created by Zeng Yinuo, 2021.09.07
+* Edited by Zeng Yinuo, 2021.09.08
 */
 
 #pragma once
@@ -8,6 +9,7 @@
 #include "StringHelper.h"
 #include "DataType.h"
 #include "ColumnValue.h"
+#include "Condition.h"
 
 namespace Osmmd
 {
@@ -26,6 +28,8 @@ namespace Osmmd
         static SqlParseResult ParseDeleteDatabaseCommand(const StringHelper& sql);
         static SqlParseResult ParseDeleteTableCommand(const StringHelper& sql);
 
+        static SqlParseResult ParseUseDatabaseCommand(const StringHelper& sql);
+
         static SqlParseResult ParseInsertCommand(const StringHelper& sql);
         static SqlParseResult ParseDeleteCommand(const StringHelper& sql);
         static SqlParseResult ParseUpdateCommand(const StringHelper& sql);
@@ -38,9 +42,16 @@ namespace Osmmd
 
         static std::string CheckIdentifierValid(const StringHelper& identifier);
 
-        static std::vector<std::string> SplitCreateTableDeclarations(const std::string declaration);
+        static std::vector<std::string> SplitCreateTableDeclarations(const std::string& declaration);
+        static std::vector<std::string> SplitConditions(const std::string& conditions);
+        static std::vector<std::string> SplitUpdateValues(const std::string& values);
 
         static DataType ParseType(const StringHelper& str);
         static std::shared_ptr<ColumnValue> ParseValue(const StringHelper& str);
+
+        static std::vector<Condition> ParseConditions(const StringHelper& str, std::string& error);
+        static Condition ParseCondition(const StringHelper& str, std::string& error);
+
+        static bool IsColumnName(const StringHelper& str);
     };
 }

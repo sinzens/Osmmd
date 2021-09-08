@@ -1,6 +1,7 @@
 /*
 * Created by Zeng Yinuo, 2021.09.06
 * Edited by Zeng Yinuo, 2021.09.07
+* Edited by Zeng Yinuo, 2021.09.08
 */
 
 #pragma once
@@ -17,6 +18,7 @@ namespace Osmmd
         Delete,
         Update,
         Select,
+        UseDatabase,
         Quit
     };
 }

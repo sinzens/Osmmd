@@ -237,6 +237,12 @@
     <ClInclude Include="InsertCommandArg.h">
       <Filter>Command</Filter>
     </ClInclude>
+    <ClInclude Include="UseDatabaseCommand.h">
+      <Filter>Command</Filter>
+    </ClInclude>
+    <ClInclude Include="UseDatabaseCommandArg.h">
+      <Filter>Command</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Math.cpp">
@@ -436,6 +442,12 @@
     </ClCompile>
     <ClCompile Include="DateTime.cpp">
       <Filter>Type</Filter>
+    </ClCompile>
+    <ClCompile Include="UseDatabaseCommand.cpp">
+      <Filter>Command</Filter>
+    </ClCompile>
+    <ClCompile Include="UseDatabaseCommandArg.cpp">
+      <Filter>Command</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

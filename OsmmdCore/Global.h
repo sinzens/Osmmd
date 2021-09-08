@@ -3,6 +3,7 @@
 * Edited by Zeng Yinuo, 2021.08.26
 * Edited by Zeng Yinuo, 2021.09.04
 * Edited by Zeng Yinuo, 2021.09.06
+* Edited by Zeng Yinuo, 2021.09.08
 */
 
 #pragma once
@@ -15,6 +16,7 @@
 #include <cmath>
 #include <functional>
 #include <random>
+#include <regex>
 
 #include <array>
 #include <vector>

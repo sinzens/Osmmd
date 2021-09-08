@@ -1,10 +1,11 @@
 /*
 * Created by Zeng Yinuo, 2021.09.06
+* Edited by Zeng Yinuo, 2021.09.08
 */
 
 #include "DeleteCommandArg.h"
 
-Osmmd::DeleteCommandArg::DeleteCommandArg(std::shared_ptr<DataTable> table, const std::vector<Condition>& conditions)
+Osmmd::DeleteCommandArg::DeleteCommandArg(const std::string& table, const std::vector<Condition>& conditions)
     : Table(table)
     , Conditions(conditions)
 {

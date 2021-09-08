@@ -2,6 +2,7 @@
 * Created by Zeng Yinuo, 2021.09.04
 * Edited by Zeng Yinuo, 2021.09.05
 * Edited by Zeng Yinuo, 2021.09.06
+* Edited by Zeng Yinuo, 2021.09.08
 */
 
 #include "MockDataGenerator.h"
@@ -152,7 +153,7 @@ Osmmd::Condition Osmmd::MockDataGenerator::MockCondition(const Row& rowDefinitio
     return Condition
     (
         Random::RandomConditionOperator(),
-        { randomColumnIndex },
+        std::vector<int>({ randomColumnIndex }),
         std::make_shared<ColumnValue>(MockColumnValue(rowDefinition.ColumnAt(randomColumnIndex)))
     );
 }
@@ -164,7 +165,7 @@ Osmmd::Condition Osmmd::MockDataGenerator::MockCondition(std::shared_ptr<RowValu
     return Condition
     (
         Random::RandomConditionOperator(),
-        { randomColumnIndex },
+        std::vector<int>({ randomColumnIndex }),
         value->Values.at(randomColumnIndex)
     );
 }

@@ -1,5 +1,6 @@
 /*
 * Created by Zeng Yinuo, 2021.09.06
+* Edited by Zeng Yinuo, 2021.09.08
 */
 
 #pragma once
@@ -11,7 +12,7 @@ namespace Osmmd
 {
     struct OSMMD_CORE_API UpdateCommandArg
     {
-        std::shared_ptr<DataTable> Table;
+        std::string Table;
         std::vector<Condition> Conditions;
 
         Row UpdateRow;
@@ -19,7 +20,7 @@ namespace Osmmd
 
         UpdateCommandArg
         (
-            std::shared_ptr<DataTable> table,
+            const std::string& table,
             const std::vector<Condition>& conditions,
             const Row& updateRow,
             std::shared_ptr<RowValue> updateValue

@@ -2,6 +2,7 @@
 * Created by Zeng Yinuo, 2021.09.01
 * Edited by Zeng Yinuo, 2021.09.04
 * Edited by Zeng Yinuo, 2021.09.05
+* Edited by Zeng Yinuo, 2021.09.08
 */
 
 #include "ColumnValue.h"
@@ -23,6 +24,11 @@ Osmmd::ColumnValue::ColumnValue(const Value& value)
 int Osmmd::ColumnValue::GetLength() const
 {
     return this->Data.GetLength();
+}
+
+Osmmd::DataType Osmmd::ColumnValue::GetType() const
+{
+    return this->Data.GetType();
 }
 
 std::string Osmmd::ColumnValue::ToString() const

@@ -2,6 +2,7 @@
 * Created by Zeng Yinuo, 2021.09.01
 * Edited by Zeng Yinuo, 2021.09.04
 * Edited by Zeng Yinuo, 2021.09.05
+* Edited by Zeng Yinuo, 2021.09.08
 */
 
 #pragma once
@@ -19,6 +20,8 @@ namespace Osmmd
         ColumnValue(const Value& value);
 
         int GetLength() const;
+
+        DataType GetType() const;
 
         std::string ToString() const override;
         Bytes ToBytes() const override;
