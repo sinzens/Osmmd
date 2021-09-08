@@ -43,7 +43,7 @@
 #define OSMMD_CORE_API __declspec(dllimport)
 #endif
 
-#define OSMMD_FUNC_API extern "C" OSMMD_CORE_API
+#define OSMMD_FUNC_API extern OSMMD_CORE_API
 
 #define TIMING_ON Driver::GetInstance().GetPerformance().TIMING
 

@@ -1,6 +1,7 @@
 /*
 * Created by Zeng Yinuo, 2021.08.23
 * Edited by Zeng Yinuo, 2021.08.26
+* Edited by Zeng Yinuo, 2021.09.08
 */
 
 #include "Cli.h"
@@ -8,7 +9,7 @@
 
 #include "../OsmmdCore/Driver.h"
 
-constexpr const char* CLI_INPUT_PREFIX = "Osmmd Cli >> ";
+constexpr const char CLI_INPUT_PREFIX[] = "Osmmd Cli >> ";
 
 Osmmd::Cli::Cli()
     : m_driver(Driver::GetInstance())
@@ -17,11 +18,7 @@ Osmmd::Cli::Cli()
 
 int Osmmd::Cli::Run()
 {
-    if (!this->InitEnvironment())
-    {
-        return 1;
-    }
-
+    this->InitEnvironment();
     return this->RunMessageLoop();
 }
 

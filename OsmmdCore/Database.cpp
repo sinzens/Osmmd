@@ -2,9 +2,13 @@
 * Created by Zeng Yinuo, 2021.08.26
 * Edited by Zeng Yinuo, 2021.09.06
 * Edited by Zeng Yinuo, 2021.09.07
+* Edited by Zeng Yinuo, 2021.09.08
 */
 
 #include "Database.h"
+#include "StringConstants.h"
+#include "Driver.h"
+#include "Memory.h"
 
 Osmmd::Database::Database(const DatabaseConfiguration& config)
     : m_config(config)
@@ -31,6 +35,70 @@ std::shared_ptr<Osmmd::DataTable> Osmmd::Database::GetTable(const std::string& n
     m_tables.insert({ name, table });
 
     return table;
+}
+
+std::string Osmmd::Database::CreateTable(const DataTableConfiguration& config, const Row& rowDefinition)
+{
+    if (m_config.TABLES.find(config.NAME) != m_config.TABLES.end())
+    {
+        return StringConstants::Error.COMMAND_TABLE_EXISTS;
+    }
+
+    char buffer[50]{};
+    sprintf_s(buffer, "osmmd_%s.table", config.NAME.c_str());
+
+    std::filesystem::path path = std::filesystem::path(this->GetWorkingDirectory()).append(std::string(buffer));
+
+    std::shared_ptr<DataTable> table = std::make_shared<DataTable>(config, rowDefinition);
+
+    std::ofstream writer(path, std::ios::out | std::ios::binary);
+    
+    if (writer.is_open())
+    {
+        WriteAllBytesToFile(writer, table->ToBytes());
+    }
+
+    m_config.TABLES.insert({ config.NAME, std::filesystem::absolute(path).u8string() });
+    m_tables.insert({ config.NAME, table });
+
+    this->RefreshConfiguration();
+
+    return std::string();
+}
+
+std::string Osmmd::Database::DeleteTable(const std::string& name)
+{
+    auto target = m_config.TABLES.find(name);
+
+    if (target == m_config.TABLES.end())
+    {
+        return StringConstants::Error.COMMAND_NO_SUCH_TABLE;
+    }
+
+    std::filesystem::remove(target->second);
+
+    m_config.TABLES.erase(target);
+    m_tables.erase(name);
+
+    this->RefreshConfiguration();
+
+    return std::string();
+}
+
+void Osmmd::Database::RefreshConfiguration()
+{
+    std::ofstream writer(this->GetConfigFilePath(), std::ios::out | std::ios::binary);
+
+    if (writer.is_open())
+    {
+        WriteAllBytesToFile(writer, m_config.ToBytes());
+    }
+}
+
+void Osmmd::Database::RefreshConfiguration(const DatabaseConfiguration& config)
+{
+    m_config = config;
+    this->RefreshConfiguration();
 }
 
 std::string Osmmd::Database::ToString() const
@@ -62,19 +130,25 @@ std::shared_ptr<Osmmd::DataTable> Osmmd::Database::ReadTableFromFile(const std::
         return nullptr;
     }
 
-    std::filebuf* buffer = reader.rdbuf();
+    return DataTable::PtrFromBytes(ReadAllBytesFromFile(reader));
+}
 
-    long long size = buffer->pubseekoff(0, std::ios::end, std::ios::in);
-    buffer->pubseekpos(0, std::ios::in);
+void Osmmd::Database::WriteTableToFile(const std::string& path, std::shared_ptr<DataTable> table)
+{
+    std::ofstream writer(path, std::ios::out | std::ios::binary);
 
-    char* data = new char[size];
-    buffer->sgetn(data, size);
+    if (writer.is_open())
+    {
+        WriteAllBytesToFile(writer, table->ToBytes());
+    }
+}
 
-    reader.close();
+std::string Osmmd::Database::GetConfigFilePath() const
+{
+    return Driver::GetInstance().GetConfiguration().DATABASES.at(m_config.NAME);
+}
 
-    std::shared_ptr<DataTable> table = DataTable::PtrFromBytes(Bytes(data, data + size));
-
-    delete[] data;
-
-    return table;
+std::string Osmmd::Database::GetWorkingDirectory() const
+{
+    return std::filesystem::path(this->GetConfigFilePath()).parent_path().u8string();
 }

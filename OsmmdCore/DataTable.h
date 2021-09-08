@@ -1,6 +1,7 @@
 /*
 * Created by Zeng Yinuo, 2021.09.05
 * Edited by Zeng Yinuo, 2021.09.06
+* Edited by Zeng Yinuo, 2021.09.08
 */
 
 #pragma once
@@ -17,6 +18,7 @@ namespace Osmmd
     public:
         DataTable();
         DataTable(const DataTable& other);
+        DataTable(const DataTableConfiguration& config, const Row& rowDefinition);
 
         std::shared_ptr<IndexResult> Insert(std::shared_ptr<RowValue> value);
 
@@ -41,6 +43,8 @@ namespace Osmmd
         static DataTable FromBytes(const Bytes& bytes);
         static std::shared_ptr<DataTable> PtrFromBytes(const Bytes& bytes);
 
+        DataTable& operator=(const DataTable& other);
+
     private:
         static std::shared_ptr<Indexer> IndexerFromBytes
         (
@@ -48,6 +52,9 @@ namespace Osmmd
             const Row& rowDefinition,
             const Bytes& bytes
         );
+
+        std::shared_ptr<Indexer> CreateIndexer() const;
+        std::shared_ptr<Indexer> CreateIndexer(IndexStrategy indexStrategy) const;
 
         int GetPrimaryKeyIndex() const;
 

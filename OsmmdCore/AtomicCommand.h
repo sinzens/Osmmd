@@ -22,6 +22,7 @@ namespace Osmmd
         virtual std::shared_ptr<CommandResult> DoExecute() = 0;
 
         std::shared_ptr<CommandResult> NoCurrentDatabaseResult() const;
+        std::shared_ptr<CommandResult> NoSuchDatabaseResult(const std::string& databaseName) const;
         std::shared_ptr<CommandResult> NoSuchTableResult(const std::string& tableName) const;
 
         CommandType m_type = CommandType::Select;

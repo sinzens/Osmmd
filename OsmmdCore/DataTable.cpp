@@ -9,8 +9,12 @@
 #include "Math.h"
 
 Osmmd::DataTable::DataTable()
-    : m_primaryIndexer(nullptr)
+    : m_primaryIndexer(this->CreateIndexer())
 {
+    for (const std::string& indexName : m_config.INDEXES)
+    {
+        m_indexIndexers.insert({ indexName, this->CreateIndexer() });
+    }
 }
 
 Osmmd::DataTable::DataTable(const DataTable& other)
@@ -19,6 +23,17 @@ Osmmd::DataTable::DataTable(const DataTable& other)
     , m_primaryIndexer(other.m_primaryIndexer)
     , m_indexIndexers(other.m_indexIndexers)
 {
+}
+
+Osmmd::DataTable::DataTable(const DataTableConfiguration& config, const Row& rowDefinition)
+    : m_config(config)
+    , m_rowDefinition(rowDefinition)
+    , m_primaryIndexer(this->CreateIndexer())
+{
+    for (const std::string& indexName : m_config.INDEXES)
+    {
+        m_indexIndexers.insert({ indexName, this->CreateIndexer() });
+    }
 }
 
 std::shared_ptr<Osmmd::IndexResult> Osmmd::DataTable::Insert(std::shared_ptr<RowValue> value)
@@ -236,6 +251,16 @@ std::shared_ptr<Osmmd::DataTable> Osmmd::DataTable::PtrFromBytes(const Bytes& by
     return std::make_shared<DataTable>(DataTable::FromBytes(bytes));
 }
 
+Osmmd::DataTable& Osmmd::DataTable::operator=(const DataTable& other)
+{
+    m_config = other.m_config;
+    m_rowDefinition = other.m_rowDefinition;
+    m_primaryIndexer = other.m_primaryIndexer;
+    m_indexIndexers = other.m_indexIndexers;
+
+    return *this;
+}
+
 std::shared_ptr<Osmmd::Indexer> Osmmd::DataTable::IndexerFromBytes
 (
     IndexStrategy indexStrategy,
@@ -250,6 +275,24 @@ std::shared_ptr<Osmmd::Indexer> Osmmd::DataTable::IndexerFromBytes
     case IndexStrategy::Hash:
         return HashIndexer::PtrFromBytes(rowDefinition, bytes);
     }
+}
+
+std::shared_ptr<Osmmd::Indexer> Osmmd::DataTable::CreateIndexer() const
+{
+    return this->CreateIndexer(m_config.INDEX_STRATEGY);
+}
+
+std::shared_ptr<Osmmd::Indexer> Osmmd::DataTable::CreateIndexer(IndexStrategy indexStrategy) const
+{
+    switch (indexStrategy)
+    {
+    case IndexStrategy::BpTree:
+        return std::make_shared<BpTreeIndexer>();
+    case IndexStrategy::Hash:
+        return std::make_shared<HashIndexer>();
+    }
+
+    return std::make_shared<HashIndexer>();
 }
 
 int Osmmd::DataTable::GetPrimaryKeyIndex() const

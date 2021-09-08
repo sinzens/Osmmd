@@ -2,6 +2,7 @@
 * Created by Zeng Yinuo, 2021.08.26
 * Edited by Zeng Yinuo, 2021.09.06
 * Edited by Zeng Yinuo, 2021.09.07
+* Edited by Zeng Yinuo, 2021.09.08
 */
 
 #pragma once
@@ -18,6 +19,12 @@ namespace Osmmd
 
         std::shared_ptr<DataTable> GetTable(const std::string& name);
 
+        std::string CreateTable(const DataTableConfiguration& config, const Row& rowDefinition);
+        std::string DeleteTable(const std::string& name);
+
+        void RefreshConfiguration();
+        void RefreshConfiguration(const DatabaseConfiguration& config);
+
         std::string ToString() const override;
         Bytes ToBytes() const override;
 
@@ -25,8 +32,12 @@ namespace Osmmd
         static std::shared_ptr<Database> PtrFromBytes(const Bytes& bytes);
 
         static std::shared_ptr<DataTable> ReadTableFromFile(const std::string& path);
+        static void WriteTableToFile(const std::string& path, std::shared_ptr<DataTable> table);
 
     private:
+        std::string GetConfigFilePath() const;
+        std::string GetWorkingDirectory() const;
+
         DatabaseConfiguration m_config;
 
         std::map<std::string, std::shared_ptr<DataTable>> m_tables;

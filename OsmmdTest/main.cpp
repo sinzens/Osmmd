@@ -3,6 +3,7 @@
 * Edited by Zeng Yinuo, 2021.09.05
 * Edited by Zeng Yinuo, 2021.09.06
 * Edited by Zeng Yinuo, 2021.09.07
+* Edited by Zeng Yinuo, 2021.09.08
 */
 
 #include "ColumnByteConvertionTest.h"
@@ -30,7 +31,7 @@ int main()
         //std::async(DataTableConfigurationByteConvertionTest::Test),
         //std::async(BpTreeIndexerTest::Test),
         //std::async(HashIndexerTest::Test),
-        std::async(SqlParsingTest::Test),
+        //std::async(SqlParsingTest::Test),
     };
 
     for (const std::shared_future<void>& thread : testThreads)

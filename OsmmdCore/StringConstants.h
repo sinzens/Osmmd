@@ -78,13 +78,24 @@ namespace Osmmd
 
         static const struct
         {
+            static constexpr const char NAME[] = "NAME";
+            static constexpr const char PATH[] = "PATH";
+            static constexpr const char TABLES[] = "TABLES";
+        } DatabaseConfiguration;
+
+        static const struct
+        {
             static constexpr const char VALUE_NOT_INTEGER[] = "Failed to convert non-integer value to integer.";
             static constexpr const char VALUE_NOT_CHAR[] = "Failed to convert non-char value to char.";
             static constexpr const char VALUE_NOT_DOUBLE[] = "Failed to convert non-double value to double.";
             static constexpr const char VALUE_NOT_DATETIME[] = "Failed to convert non-datetime value to datetime.";
 
             static constexpr const char COMMAND_NO_CURRENT_DATABASE[] = "No database set, try 'use <DATABASE>'";
+            static constexpr const char COMMAND_NO_SUCH_DATABASE[] = "No such database";
             static constexpr const char COMMAND_NO_SUCH_TABLE[] = "No such table";
+
+            static constexpr const char COMMAND_DATABASE_EXISTS[] = "Database already exists";
+            static constexpr const char COMMAND_TABLE_EXISTS[] = "Data table already exists";
 
             static constexpr const char SQL_NO_COMMAND[] = "No command given";
             static constexpr const char SQL_NO_SUCH_COMMAND[] = "No such command";
