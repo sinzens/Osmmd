@@ -2,6 +2,7 @@
 * Created by Zeng Yinuo, 2021.09.06
 * Edited by Zeng Yinuo, 2021.09.07
 * Edited by Zeng Yinuo, 2021.09.08
+* Edited by Zeng Yinuo, 2021.09.09
 */
 
 #include "InsertCommand.h"
@@ -52,7 +53,27 @@ std::shared_ptr<Osmmd::CommandResult> Osmmd::InsertCommand::DoExecute()
 
         if (tempColumn.Length != column.Length || tempColumn.Type != column.Type)
         {
-            return this->NoSuchColumnResult(tempColumn.ToString(), m_arg.Table);
+            if
+            (
+                (tempColumn.Type == DataType::Integer && column.Type == DataType::Double) ||
+                (tempColumn.Type == DataType::Double && column.Type == DataType::Integer)
+            )
+            {
+                if (tempColumn.Type == DataType::Integer && column.Type == DataType::Double)
+                {
+                    std::shared_ptr<ColumnValue> value = m_arg.Value->Values.at(i);
+                    value->Data = Value::FromDouble(static_cast<double>(value->Data.ToInteger()));
+                }
+                else
+                {
+                    std::shared_ptr<ColumnValue> value = m_arg.Value->Values.at(i);
+                    value->Data = Value::FromInteger(static_cast<int32_t>(value->Data.ToDouble()));
+                }
+            }
+            else
+            {
+                return this->NoSuchColumnResult(tempColumn.ToString(), m_arg.Table);
+            }
         }
     }
 

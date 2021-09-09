@@ -2,6 +2,7 @@
 * Created by Zeng Yinuo, 2021.08.23
 * Edited by Zeng Yinuo, 2021.08.26
 * Edited by Zeng Yinuo, 2021.09.08
+* Edited by Zeng Yinuo, 2021.09.09
 */
 
 #include "Cli.h"
@@ -13,6 +14,8 @@
 static constexpr const char CLI_INPUT_PREFIX[] = "Osmmd Cli >> ";
 static constexpr const char HELLO[] = "Osmmd -------------------------------------------------------------------------------------------- Start";
 static constexpr const char BYE[] = "Osmmd -------------------------------------------------------------------------------------------- End";
+
+static constexpr int MAX_DISPLAY_RESULT = 100;
 
 Osmmd::Cli::Cli()
     : m_driver(Driver::GetInstance())
@@ -76,17 +79,22 @@ void Osmmd::Cli::PrintBye()
     std::cout << std::endl << BYE << std::endl;
 }
 
-void Osmmd::Cli::PrintSelectResults(const std::vector<std::shared_ptr<RowValue>>& results)
+void Osmmd::Cli::PrintSelectResults(const Row& rowDefinition, const std::vector<std::shared_ptr<RowValue>>& results)
 {
+    std::string row = this->GetTableHeaderDisplayString
+    (
+        rowDefinition, results.size() == 0 ? nullptr : results.front()
+    );
+
     if (results.size() == 0)
     {
-        std::cout << std::endl <<
+        std::cout << std::endl << row << std::endl <<
             std::string("* --------------------- *\n") +
             std::string("|       No Results      |\n") +
             std::string("* --------------------- *")
         << std::endl << std::endl;
 
-        m_logger << std::endl <<
+        m_logger << std::endl << row << std::endl <<
             std::string("* --------------------- *\n") +
             std::string("|       No Results      |\n") +
             std::string("* --------------------- *")
@@ -95,22 +103,57 @@ void Osmmd::Cli::PrintSelectResults(const std::vector<std::shared_ptr<RowValue>>
         return;
     }
 
-    int length = GetDisplayLength(results.front());
+    int length = GetDisplayLength(rowDefinition, results.front());
 
     std::string border = std::string("*") + std::string(length - 2, '-') + std::string("*");
 
-    std::cout << std::endl;
+    std::cout << std::endl << row << std::endl;
     std::cout << border << std::endl;
 
-    m_logger << std::endl;
+    m_logger << std::endl << row << std::endl;
     m_logger << border << std::endl;
 
-    for (std::shared_ptr<RowValue> row : results)
+    if (results.size() <= MAX_DISPLAY_RESULT)
     {
-        std::string str = this->GetDisplayString(row);
+        for (std::shared_ptr<RowValue> row : results)
+        {
+            std::string str = this->GetDisplayString(rowDefinition, row);
 
-        std::cout << str << std::endl;
-        m_logger << str << std::endl;
+            std::cout << str << std::endl;
+            m_logger << str << std::endl;
+        }
+    }
+    else
+    {
+        int firstElide = MAX_DISPLAY_RESULT;
+
+        if (results.size() - 2 < firstElide)
+        {
+            firstElide = results.size() - 2;
+        }
+
+        for (int i = 0; i < firstElide; i++)
+        {
+            std::shared_ptr<RowValue> row = results.at(i);
+            std::string str = this->GetDisplayString(rowDefinition, row);
+
+            std::cout << str << std::endl;
+            m_logger << str << std::endl;
+        }
+
+        std::string elide = this->GetDisplayString(rowDefinition, results.at(firstElide), true);
+
+        std::cout << border << std::endl;
+        std::cout << elide << std::endl;
+        std::cout << border << std::endl;
+
+        m_logger << border << std::endl;
+        m_logger << elide << std::endl;
+        m_logger << border << std::endl;
+
+        std::string last = this->GetDisplayString(rowDefinition, results.back());
+        std::cout << last << std::endl;
+        m_logger << last << std::endl;
     }
 
     std::cout << border << std::endl;
@@ -201,18 +244,18 @@ void Osmmd::Cli::HandleInput(const std::string& input)
 
             if (selectResult && selectResult->Results)
             {
-                this->PrintSelectResults(*(selectResult->Results));
+                this->PrintSelectResults(selectResult->RowDefinition, *(selectResult->Results));
             }
         }
     }
 }
 
-int Osmmd::Cli::GetDisplayLength(std::shared_ptr<RowValue> row) const
+int Osmmd::Cli::GetDisplayLength(const Row& rowDefinition, std::shared_ptr<RowValue> row) const
 {
-    return GetDisplayString(row).size();
+    return GetDisplayString(rowDefinition, row).size();
 }
 
-std::string Osmmd::Cli::GetDisplayString(std::shared_ptr<RowValue> row) const
+std::string Osmmd::Cli::GetDisplayString(const Row& rowDefinition, std::shared_ptr<RowValue> row, bool elide) const
 {
     std::string str;
 
@@ -226,7 +269,19 @@ std::string Osmmd::Cli::GetDisplayString(std::shared_ptr<RowValue> row) const
             length = 10;
         }
 
-        char buffer[100]{};
+        if (value->GetType() == DataType::DateTime)
+        {
+            length = 21;
+        }
+
+        int columnNameLength = rowDefinition.ColumnAt(i - row->Values.begin()).Name.size();
+        
+        if (length <= columnNameLength)
+        {
+            length = columnNameLength + 2;
+        }
+
+        char buffer[1000]{};
         sprintf_s(buffer, "| %*s ", length, value->ToString().c_str());
 
         str.append(buffer);
@@ -237,5 +292,61 @@ std::string Osmmd::Cli::GetDisplayString(std::shared_ptr<RowValue> row) const
         }
     }
 
+    if (elide)
+    {
+        int leftBlankLength = (str.size() - 5) / 2;
+        int rightBlankLength = ((str.size() - 5) & 1) ? leftBlankLength + 1 : leftBlankLength;
+
+        return std::string("|") + std::string(leftBlankLength, ' ') + "..." + std::string(rightBlankLength, ' ') + "|";
+    }
+
     return str;
+}
+
+std::string Osmmd::Cli::GetTableHeaderDisplayString(const Row& rowDefinition, std::shared_ptr<RowValue> row) const
+{
+    if (!row)
+    {
+        return "* --------------------- *\n|                       |";
+    }
+
+    int length = this->GetDisplayLength(rowDefinition, row);
+    std::string border = std::string("*") + std::string(length - 2, '-') + std::string("*");
+    std::string result = border.append("\n");
+
+    for (int i = 0; i < rowDefinition.Columns.size(); i++)
+    {
+        const Column& column = rowDefinition.ColumnAt(i);
+        std::shared_ptr<ColumnValue> value = row->Values.at(i);
+
+        int nameLength = value->GetLength();
+        if (value->GetType() == DataType::Integer || value->GetType() == DataType::Double)
+        {
+            nameLength = 10;
+        }
+
+        if (value->GetType() == DataType::DateTime)
+        {
+            nameLength = 21;
+        }
+
+        int columnNameLength = column.Name.size();
+
+        if (nameLength <= columnNameLength)
+        {
+            nameLength = columnNameLength + 2;
+        }
+
+        char buffer[1000]{};
+        sprintf_s(buffer, "| %*s ", nameLength, column.Name.c_str());
+
+        result.append(buffer);
+
+        if (i == rowDefinition.Columns.size() - 1)
+        {
+            result.append("|");
+        }
+    }
+
+    return result;
 }

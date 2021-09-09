@@ -1,12 +1,14 @@
 /*
 * Created by Zeng Yinuo, 2021.09.06
 * Edited by Zeng Yinuo, 2021.09.08
+* Edited by Zeng Yinuo, 2021.09.09
 */
 
 #include "SelectCommandResult.h"
 
 Osmmd::SelectCommandResult::SelectCommandResult(const SelectCommandResult& other)
     : CommandResult(other)
+    , RowDefinition(other.RowDefinition)
     , Results(other.Results)
 {
 }
@@ -19,28 +21,17 @@ Osmmd::SelectCommandResult::SelectCommandResult
     bool successful,
     const std::string& message,
     double time,
+    const Row& rowDefinition,
     std::shared_ptr<std::vector<std::shared_ptr<RowValue>>> results
 )
     : CommandResult(type, row, col, successful, message, time)
+    , RowDefinition(rowDefinition)
     , Results(results)
 {
 }
 
 std::string Osmmd::SelectCommandResult::ToString() const
 {
-    /*static constexpr const char SPLIT_LINE[] = "-------------------------------------------------------------";
-
-    std::string result = SPLIT_LINE;
-    result.append("\n");
-
-    for (std::shared_ptr<RowValue> value : *(this->Results))
-    {
-        result.append("\t").append(value->ToString()).append("\n");
-    }
-
-    result.append(SPLIT_LINE).append("\n").append(CommandResult::ToString());
-
-    return result;*/
     return CommandResult::ToString();
 }
 
@@ -52,6 +43,7 @@ Osmmd::SelectCommandResult& Osmmd::SelectCommandResult::operator=(const SelectCo
     this->Successful = other.Successful;
     this->Message = other.Message;
     this->TimeElapse = other.TimeElapse;
+    this->RowDefinition = other.RowDefinition;
     this->Results = other.Results;
 
     return *this;

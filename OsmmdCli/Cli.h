@@ -2,11 +2,13 @@
 * Created by Zeng Yinuo, 2021.08.23
 * Edited by Zeng Yinuo, 2021.08.26
 * Edited by Zeng Yinuo, 2021.09.08
+* Edited by Zeng Yinuo, 2021.09.09
 */
 
 #pragma once
 
 #include "Global.h"
+#include "../OsmmdCore/Row.h"
 
 namespace Osmmd
 {
@@ -35,14 +37,16 @@ namespace Osmmd
 
         void PrintHello();
         void PrintBye();
-        void PrintSelectResults(const std::vector<std::shared_ptr<RowValue>>& results);
+        void PrintSelectResults(const Row& rowDefinition, const std::vector<std::shared_ptr<RowValue>>& results);
 
         int RunMessageLoop();
 
         void HandleInput(const std::string& input);
 
-        int GetDisplayLength(std::shared_ptr<RowValue> row) const;
-        std::string GetDisplayString(std::shared_ptr<RowValue> row) const;
+        int GetDisplayLength(const Row& rowDefinition, std::shared_ptr<RowValue> row) const;
+
+        std::string GetDisplayString(const Row& rowDefinition, std::shared_ptr<RowValue> row, bool elide = false) const;
+        std::string GetTableHeaderDisplayString(const Row& rowDefinition, std::shared_ptr<RowValue> row) const;
 
         std::vector<std::string> m_commandLineArgs;
         std::string m_workingDirectory;

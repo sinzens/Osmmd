@@ -2,6 +2,7 @@
 * Created by Zeng Yinuo, 2021.09.06
 * Edited by Zeng Yinuo, 2021.09.07
 * Edited by Zeng Yinuo, 2021.09.08
+* Edited by Zeng Yinuo, 2021.09.09
 */
 
 #include "SelectCommand.h"
@@ -61,6 +62,7 @@ std::shared_ptr<Osmmd::CommandResult> Osmmd::SelectCommand::DoExecute()
         true,
         std::string(),
         0,
+        selectRow,
         indexResult->Results
     );
 }

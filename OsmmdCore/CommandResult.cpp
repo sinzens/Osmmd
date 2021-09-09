@@ -3,6 +3,7 @@
 * Edited by Zeng Yinuo, 2021.09.04
 * Edited by Zeng Yinuo, 2021.09.06
 * Edited by Zeng Yinuo, 2021.09.08
+* Edited by Zeng Yinuo, 2021.09.09
 */
 
 #include "CommandResult.h"
@@ -88,7 +89,7 @@ std::string Osmmd::CommandResult::ToString() const
         if (Driver::GetInstance().GetPerformance().TIMING)
         {
             char timeBuffer[50]{};
-            sprintf_s(timeBuffer, "\nTime cost: %fms", this->TimeElapse);
+            sprintf_s(timeBuffer, "\nTime cost: %gms", this->TimeElapse);
 
             result.append(timeBuffer);
         }
