@@ -81,7 +81,7 @@ std::shared_ptr<Osmmd::CommandResult> Osmmd::AtomicCommand::CannotFetchCondition
     const Row& rowDefinition
 ) const
 {
-    char buffer[300]{};
+    char buffer[1500]{};
     sprintf_s
     (
         buffer,
